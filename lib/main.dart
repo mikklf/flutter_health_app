@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/home.dart';
-import 'package:provider/provider.dart';
-import 'providers.dart';
-import 'routes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
 
 void main() {
   runApp(const MainApp());
@@ -13,12 +12,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: Providers.providers,
-      child: MaterialApp(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => TabManagerCubit(),
+        ),
+      ],
+      child: const MaterialApp(
         title: 'Mobile Health Application',
-        home: const HomeScreen(),
-        routes: Routes.routes,
+        home: HomeScreen(),
       ),
     );
   }
