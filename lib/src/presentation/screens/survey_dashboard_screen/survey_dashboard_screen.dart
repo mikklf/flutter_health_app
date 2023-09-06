@@ -37,7 +37,7 @@ class SurveyCard extends StatelessWidget {
         onTap: () {
           Navigator.of(context)
               .push(MaterialPageRoute(
-                  builder: (_) => SurveyScreen(survey: survey.task)))
+                  builder: (_) => SurveyScreen(survey: survey)))
               .then((_) =>
                   // Refresh survey list upon return to dashboard
                   BlocProvider.of<SurveysBloc>(context).add(LoadSurveys()));
