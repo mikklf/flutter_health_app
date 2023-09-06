@@ -30,7 +30,7 @@ class SurveyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card (
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         color: Colors.blueGrey,
         elevation: 10,
         child: InkWell(

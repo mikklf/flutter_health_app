@@ -9,6 +9,7 @@ enum SurveyEnum { who5 }
 class SurveyRepository {
   final List<Survey> _surveylist = [
     Survey("who5", "WHO-5", "WHO-5 Well-being Index", SurveyFrequency.daily, _who5),
+    Survey("kellner", "Kellner", "Kellner Symptom Questionnaire", SurveyFrequency.daily, _kellner),
   ];
 
   Future<Survey> get(SurveyEnum survey) async {
