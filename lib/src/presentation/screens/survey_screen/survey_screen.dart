@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:research_package/research_package.dart';
 import 'dart:convert';
 
 class SurveyScreen extends StatelessWidget {
-  final RPOrderedTask survey;
+  final Survey survey;
 
   const SurveyScreen({
     super.key,
@@ -32,7 +33,7 @@ class SurveyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RPUITask(
-      task: survey,
+      task: survey.task,
       onSubmit: resultCallback,
       onCancel: (RPTaskResult? result) {
         if (result == null) {
