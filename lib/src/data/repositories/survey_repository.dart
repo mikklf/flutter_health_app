@@ -21,7 +21,7 @@ class SurveyRepository {
 
   Future<List<Survey>> getActiveSurveys() async {
     return [
-      Survey("WHO-5", "WHO-5 Well-being Index", who5)
+      Survey("WHO-5", "WHO-5 Well-being Index", who5),
     ];
   }
 
