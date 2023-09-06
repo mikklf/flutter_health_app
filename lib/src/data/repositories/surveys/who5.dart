@@ -1,6 +1,6 @@
-import 'package:research_package/research_package.dart';
+part of '../survey_repository.dart';
 
-List<RPChoice> choices = [
+List<RPChoice> _choices = [
     RPChoice(text: "All the time", value: 5),
     RPChoice(text: "Most of the time", value: 4),
     RPChoice(text: "More than half of the time", value: 3),
@@ -9,7 +9,7 @@ List<RPChoice> choices = [
     RPChoice(text: "At no time", value: 0),
   ];
 
-final who5 = RPNavigableOrderedTask(
+final _who5 = RPNavigableOrderedTask(
         identifier: "who5",
         steps: [
           RPQuestionStep(
@@ -18,7 +18,7 @@ final who5 = RPNavigableOrderedTask(
                 "Over the last 2 weeks, i have felt cheerful and in good spirits?",
             answerFormat: RPChoiceAnswerFormat(
               answerStyle: RPChoiceAnswerStyle.SingleChoice,
-              choices: choices,
+              choices: _choices,
             ),
           ),
           RPQuestionStep(
@@ -26,7 +26,7 @@ final who5 = RPNavigableOrderedTask(
             title: "Over the last 2 weeks, i have felt calm and relaxed?",
             answerFormat: RPChoiceAnswerFormat(
               answerStyle: RPChoiceAnswerStyle.SingleChoice,
-              choices: choices,
+              choices: _choices,
             ),
           ),
           RPFormStep(
@@ -39,7 +39,7 @@ final who5 = RPNavigableOrderedTask(
                       "Over the last 2 weeks, i have felt active and vigorous?",
                   answerFormat: RPChoiceAnswerFormat(
                     answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                    choices: choices,
+                    choices: _choices,
                   ),
                 ),
                 RPQuestionStep(
@@ -48,7 +48,7 @@ final who5 = RPNavigableOrderedTask(
                       "Over the last 2 weeks, i woke up feeling fresh and rested?",
                   answerFormat: RPChoiceAnswerFormat(
                     answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                    choices: choices,
+                    choices: _choices,
                   ),
                 ),
                 RPQuestionStep(
@@ -57,7 +57,7 @@ final who5 = RPNavigableOrderedTask(
                       "Over the last 2 weeks, my daily life has been filled with things that interest me?",
                   answerFormat: RPChoiceAnswerFormat(
                     answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                    choices: choices,
+                    choices: _choices,
                   ),
                 )
               ]),

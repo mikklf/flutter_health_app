@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../data/models/survery.dart';
+import '../../data/models/survey.dart';
 import '../../data/repositories/survey_repository.dart';
 
 part 'surveys_event.dart';
@@ -19,7 +19,7 @@ class SurveysBloc extends Bloc<SurveysEvent, SurveysState> {
 
   Future<void> _onLoadSurvey(LoadSurveys event, Emitter<SurveysState> emit) async {
     
-    final surveys = await _surveyRepository.getActiveSurveys();
+    final surveys = await _surveyRepository.getActive();
     emit(SurveysInitial(surveys));
 
   }
