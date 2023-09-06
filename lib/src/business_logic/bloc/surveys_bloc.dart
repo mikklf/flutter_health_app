@@ -18,9 +18,7 @@ class SurveysBloc extends Bloc<SurveysEvent, SurveysState> {
   }
 
   Future<void> _onLoadSurvey(LoadSurveys event, Emitter<SurveysState> emit) async {
-    
     final surveys = await _surveyRepository.getActive();
     emit(SurveysInitial(surveys));
-
   }
 }

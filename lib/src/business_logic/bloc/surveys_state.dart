@@ -6,7 +6,8 @@ sealed class SurveysState extends Equatable {
   const SurveysState(this.surveys);
   
   @override
-  List<Object> get props => [];
+  List<Object> get props => [surveys];
+
 }
 
 final class SurveysInitial extends SurveysState {

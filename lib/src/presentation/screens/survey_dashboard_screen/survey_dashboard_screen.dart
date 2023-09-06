@@ -29,32 +29,35 @@ class SurveyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card (
-        margin: const EdgeInsets.all(10),
-        color: Colors.blueGrey,
-        elevation: 10,
-        child: InkWell(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => SurveyScreen(survey: survey.task)));            
-          },
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                leading: const Icon (
-                    Icons.list_alt,
-                    color: Colors.white,
-                    size: 45
-                ),
-                title: Text(
-                  survey.title,
-                  style: const TextStyle(fontSize: 20, color: Colors.white),
-                ),
-                subtitle: Text(survey.description, style: const TextStyle(color: Colors.white)),
+    return Card(
+      margin: const EdgeInsets.all(10),
+      color: Colors.blueGrey,
+      elevation: 10,
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(
+                  builder: (_) => SurveyScreen(survey: survey.task)))
+              .then((_) =>
+                  // Refresh survey list upon return to dashboard
+                  BlocProvider.of<SurveysBloc>(context).add(LoadSurveys()));
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading:
+                  const Icon(Icons.list_alt, color: Colors.white, size: 45),
+              title: Text(
+                survey.title,
+                style: const TextStyle(fontSize: 20, color: Colors.white),
               ),
-            ],
-          ),
+              subtitle: Text(survey.description,
+                  style: const TextStyle(color: Colors.white)),
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
 }
