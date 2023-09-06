@@ -22,7 +22,9 @@ Don't think much before answering. Thank you.""",
     text:
         "For the upcoming questions choose the answer closest to how you felt during the past week.",
   ),
-  RPQuestionStep(
+  RPFormStep(identifier: "kellnerQuestions", title: "The Symtom Questionnaire by R. Kellner", questions: 
+  [
+    RPQuestionStep(
     identifier: "kellnerStep1",
     title: "Nervous",
     answerFormat: RPChoiceAnswerFormat(
@@ -45,5 +47,83 @@ Don't think much before answering. Thank you.""",
       answerStyle: RPChoiceAnswerStyle.SingleChoice,
       choices: _yesNo,
     ),
+  ),
+  RPQuestionStep(
+    identifier: "kellnerStep4",
+    title: "Cheerful",
+    answerFormat: RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: _yesNo,
+    ),
+  ),
+  RPQuestionStep(
+    identifier: "kellnerStep5",
+    title: "Tense, Tensed up",
+    answerFormat: RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: _yesNo,
+    ),
+  ),
+  RPQuestionStep(
+    identifier: "kellnerStep6",
+    title: "Sad, blue",
+    answerFormat: RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: _yesNo,
+    ),
+  ),
+  RPQuestionStep(
+    identifier: "kellnerStep7",
+    title: "Happy",
+    answerFormat: RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: _yesNo,
+    ),
+  ),
+  RPQuestionStep(
+    identifier: "kellnerStep8",
+    title: "Frightened",
+    answerFormat: RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: _yesNo,
+    ),
+  ),
+  RPQuestionStep(
+    identifier: "kellnerStep9",
+    title: "Feeling calm",
+    answerFormat: RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: _yesNo,
+    ),
+  ),
+  RPQuestionStep(
+    identifier: "kellnerStep10",
+    title: "Feeling healthy",
+    answerFormat: RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: _yesNo,
+    ),
+  ),
+  RPQuestionStep(
+    identifier: "kellnerStep11",
+    title: "Losing temper easily",
+    answerFormat: RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: _yesNo,
+    ),
+  ),
+  RPQuestionStep(
+    identifier: "kellnerStep12",
+    title: "Feeling of not enough air",
+    answerFormat: RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: _trueFalse,
+    ),
+  ),
+  ]),
+  RPCompletionStep(
+    identifier: "kellnerCompletion",
+    title: "Finished",
+    text: "Thank you for completing the survey!",
   ),
 ]);
