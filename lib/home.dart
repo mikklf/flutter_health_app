@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_health_app/src/providers/tab_manager.dart';
-import 'package:flutter_health_app/src/screens/overview_screen/overview_screen.dart';
-import 'package:flutter_health_app/src/screens/survey_screen/survey_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
+import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
 
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({
-    super.key,
-  });
+  const HomeScreen({super.key,});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -17,32 +15,32 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   static List<Widget> pages = <Widget>[
     const OverviewScreen(),
-    const SurveyScreen(),
+    const SurveyDashboardScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TabManager>(
-      builder: (context, tabManager, child) {
+    return BlocBuilder<TabManagerCubit, TabManagerState>(
+      builder: (context, state) {
         return Scaffold(
           appBar: _appBar(context),
           body: IndexedStack(
-            index: tabManager.selectedTab,
+            index: state.selectedTab,
             children: pages,
           ),
-          bottomNavigationBar: _bottomNavigationBar(context, tabManager),
+          bottomNavigationBar: _bottomNavigationBar(context, state),
         );
       },
     );
   }
 
-  BottomNavigationBar _bottomNavigationBar(BuildContext context, TabManager tabManager) {
+  BottomNavigationBar _bottomNavigationBar(BuildContext context, TabManagerState state) {
     return BottomNavigationBar(
           selectedItemColor:
               Theme.of(context).textSelectionTheme.selectionColor,
-          currentIndex: tabManager.selectedTab,
+          currentIndex: state.selectedTab,
           onTap: (index) {
-            tabManager.goToTab(index);
+            context.read<TabManagerCubit>().changeTab(index);
           },
           items: const [
             BottomNavigationBarItem(
