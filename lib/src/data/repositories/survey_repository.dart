@@ -1,33 +1,20 @@
-import 'package:research_package/research_package.dart';
-import 'package:flutter_health_app/src/data/models/survey.dart';
+import 'package:flutter_health_app/src/data/dataproviders/survey_provider.dart';
 
-part 'surveys/who5.dart';
-part 'surveys/kellner.dart';
-
-enum SurveyEnum { who5 }
+import '../models/survey.dart';
 
 class SurveyRepository {
-  final List<Survey> _surveylist = [
-    Survey("who5", "WHO-5", "WHO-5 Well-being Index", SurveyFrequency.daily, _who5),
-    Survey("kellner", "Kellner", "Kellner Symptom Questionnaire", SurveyFrequency.daily, _kellner),
-  ];
+  late final SurveyProvider _surveyProvider;
 
-  Future<Survey> get(SurveyEnum survey) async {
-    switch (survey) {
-      case SurveyEnum.who5:
-        return _surveylist.firstWhere((element) => element.id == "who5");
-      default:
-        throw Exception("Survey not found");
-    }
+  SurveyRepository() {
+    // TODO: Use dependency injection
+    _surveyProvider = SurveyProvider();
   }
 
   Future<List<Survey>> getActive() async {
-    // TODO: Remove survey from list that is not active
-
-    return _surveylist;
+    return _surveyProvider.getActive();
   }
 
   Future<List<Survey>> getAll() async {
-    return _surveylist;
+    return _surveyProvider.getAll();
   }
 }

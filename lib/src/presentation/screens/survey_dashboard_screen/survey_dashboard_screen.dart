@@ -11,6 +11,7 @@ class SurveyDashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Make list scrollable
     return BlocBuilder<SurveysBloc, SurveysState>(builder: (context, state) {
       return Column(
           children: state.surveys
