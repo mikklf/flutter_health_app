@@ -6,8 +6,8 @@ import 'surveys/who5.dart';
 class SurveyProvider {
 
   final List<Survey> _surveylist = [
-    Survey.fromRPSurvey(WHO5Survey(), SurveyFrequency.daily),
-    Survey.fromRPSurvey(KellnerSurvey(), SurveyFrequency.weekly),
+    Survey.fromRPSurvey(WHO5Survey(), const Duration(days: 14)),
+    Survey.fromRPSurvey(KellnerSurvey(), const Duration(minutes: 1)),
   ];
 
   /// Returns the survey with the given id or [StateError] if no survey with the given id exists.

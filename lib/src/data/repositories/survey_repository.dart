@@ -28,7 +28,7 @@ class SurveyRepository {
 
       DateTime now = DateTime.now();
 
-      DateTime nextTime = entry.date.add(const Duration(minutes: 1));
+      DateTime nextTime = entry.date.add(survey.frequency);
       
       if (now.isAfter(nextTime)) {
         activeSurveys.add(survey);
