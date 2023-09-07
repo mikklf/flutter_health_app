@@ -19,7 +19,23 @@ class SurveyEntryProvider {
       newSurvey.toMap(),
       conflictAlgorithm: ConflictAlgorithm.fail,
     );
-    
   }
 
+  Future<SurveyEntry?> getLastEntryOfType(final String surveyId) async {
+    final Database db = await _databaseHelper.getDatabase();
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      _tableName,
+      where: "survey_id = ?",
+      whereArgs: [surveyId],
+      orderBy: "id DESC",
+      limit: 1,
+    );
+
+    if (maps.isEmpty) {
+      return null;
+    }
+
+    return SurveyEntry.fromMap(maps.first);
+  }
 }

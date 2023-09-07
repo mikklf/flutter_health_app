@@ -3,26 +3,32 @@ import 'dart:convert';
 import 'package:research_package/research_package.dart';
 
 class SurveyEntry {
+  final int? id;
+  final String surveyId;
+  final DateTime date;
+  final RPTaskResult result;
 
-  int? id;
-  String surveyId;
-  DateTime? startDate;
-  DateTime? endDate;
-  Map<String, RPResult> result;
+  SurveyEntry(this.surveyId, this.date, this.result, [this.id]);
 
-  SurveyEntry.fromRPTaskResult(RPTaskResult result, this.surveyId)
-      : startDate = result.startDate,
-        endDate = result.endDate,
-        result = result.results;
-
-  
-    Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     return {
       'survey_id': surveyId,
-      'start_date': startDate.toString(),
-      'end_date': endDate.toString(),
+      'date': DateTime.now().toString(),
       'result': jsonEncode(result),
     };
   }
+
+  factory SurveyEntry.fromMap(Map<String, dynamic> map) {
+    return SurveyEntry(
+      map['survey_id'] as String,
+      DateTime.parse(map['date']),
+      RPTaskResult.fromJson(jsonDecode(map['result'])),
+      map['id'] as int?
+    );
+  }
+
+
   
+  
+
 }
