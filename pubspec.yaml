@@ -14,6 +14,7 @@ dependencies:
   bloc: ^8.1.2
   research_package : ^1.4.0
   equatable: ^2.0.5
+  sqflite: ^2.3.0
 
 dev_dependencies:
   flutter_test:
