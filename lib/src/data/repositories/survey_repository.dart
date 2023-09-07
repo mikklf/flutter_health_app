@@ -4,18 +4,13 @@ import '../dataproviders/survey_entry_provider.dart';
 import '../models/survey.dart';
 
 class SurveyRepository {
-  late final SurveyProvider _surveyProvider;
-  late final SurveyEntryProvider _entryProvider;
+  final SurveyProvider _surveyProvider;
+  final SurveyEntryProvider _entryProvider;
 
-  SurveyRepository() {
-    // TODO: Use dependency injection
-    _surveyProvider = SurveyProvider();
-    _entryProvider = SurveyEntryProvider();
-  }
+  SurveyRepository(this._surveyProvider, this._entryProvider);
 
   Future<List<Survey>> getActive() async {
     var surveys = await _surveyProvider.getAll();
-
     var activeSurveys = <Survey>[];
 
     for (var survey in surveys) {
@@ -27,7 +22,6 @@ class SurveyRepository {
       }
 
       DateTime now = DateTime.now();
-
       DateTime nextTime = entry.date.add(survey.frequency);
       
       if (now.isAfter(nextTime)) {

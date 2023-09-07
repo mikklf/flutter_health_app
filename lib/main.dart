@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/bloc/surveys_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/survey_manager_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
+import 'package:flutter_health_app/src/data/dataproviders/survey_entry_provider.dart';
+import 'package:flutter_health_app/src/data/dataproviders/survey_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_repository.dart';
 
@@ -19,10 +21,15 @@ class MainApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
-          create: (context) => SurveyRepository(),
+          create: (context) => SurveyRepository(
+            SurveyProvider(),
+            SurveyEntryProvider(),
+          ),
         ),
         RepositoryProvider(
-          create: (context) => SurveyEntryRepository(),
+          create: (context) => SurveyEntryRepository(
+            SurveyEntryProvider(),
+          ),
         ),
       ],
       child: MultiBlocProvider(

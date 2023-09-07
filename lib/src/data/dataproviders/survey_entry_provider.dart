@@ -4,12 +4,8 @@ import 'package:sqflite/sqflite.dart';
 import 'helpers/sqlite_database_helper.dart';
 
 class SurveyEntryProvider {
-
   final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
-  
   final String _tableName = "survey_entries";
-
-  // Use jsonEncode() to convert the survey entry to a JSON string
 
   Future<void> insert(final SurveyEntry newSurvey) async {
     final Database db = await _databaseHelper.getDatabase();

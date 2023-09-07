@@ -12,13 +12,25 @@ class SurveyDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SurveysBloc, SurveysState>(builder: (context, state) {
-      return ListView(
-          children: state.surveys
-              .map((survey) => SurveyCard(
-                    survey: survey,
-                  ))
-              .toList());
+      return state.surveys.isNotEmpty ? _buildSurveyListView(state) : _buildNoSurveys(state);
     });
+  }
+
+  Center _buildNoSurveys(SurveysState state) {
+    return const Center(
+      child: Text(
+        'No surveys available',
+        style: TextStyle(fontSize: 20),
+      ));
+  }
+
+  ListView _buildSurveyListView(SurveysState state) {
+    return ListView(
+        children: state.surveys
+            .map((survey) => SurveyCard(
+                  survey: survey,
+                ))
+            .toList());
   }
 }
 
