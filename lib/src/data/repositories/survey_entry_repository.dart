@@ -1,4 +1,5 @@
 import 'package:flutter_health_app/src/data/dataproviders/survey_entry_provider.dart';
+import 'package:research_package/research_package.dart';
 
 import '../models/survery_entry.dart';
 
@@ -10,7 +11,8 @@ class SurveyEntryRepository {
     _entryProvider = SurveyEntryProvider();
   }
 
-  Future<void> insert(final SurveyEntry newSurvey) async {
+  Future<void> save(RPTaskResult result, String surveyId) async {
+    final newSurvey = SurveyEntry.fromRPTaskResult(result, surveyId);
     return _entryProvider.insert(newSurvey);
   }
 

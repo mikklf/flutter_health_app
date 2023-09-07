@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/survey_manager_cubit.dart';
 import 'package:flutter_health_app/src/data/models/survery_entry.dart';
 import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_entry_repository.dart';
@@ -26,14 +28,11 @@ class SurveyScreen extends StatelessWidget {
     pattern.allMatches(text).forEach((match) => print(match.group(0)));
   }
 
-  void resultCallback(RPTaskResult result) {
+  void resultCallback(RPTaskResult result, BuildContext context) {
     // Do anything with the result
     // print(_encode(result));
     //printWrapped(_encode(result));
-
-    SurveyEntry entry = SurveyEntry.fromRPTaskResult(result, survey.id);
-    
-    SurveyEntryRepository().insert(entry);
+    context.read<SurveyManagerCubit>().saveEntry(result, survey.id);    
 
   }
 
@@ -44,15 +43,21 @@ class SurveyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RPUITask(
-      task: survey.task,
-      onSubmit: resultCallback,
-      onCancel: (RPTaskResult? result) {
-        if (result == null) {
-          print("No result");
-        } else {
-          cancelCallBack(result);
-        }
+    return BlocBuilder<SurveyManagerCubit, SurveyManagerState>(
+      builder: (context, state) {
+        return RPUITask(
+          task: survey.task,
+          onSubmit: (RPTaskResult result) async {
+            resultCallback(result, context);
+          },
+          onCancel: (RPTaskResult? result) {
+            if (result == null) {
+              print("No result");
+            } else {
+              cancelCallBack(result);
+            }
+          },
+        );
       },
     );
   }

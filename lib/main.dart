@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_health_app/home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/bloc/surveys_bloc.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/survey_manager_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
+import 'package:flutter_health_app/src/data/repositories/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_repository.dart';
 
 void main() {
@@ -19,11 +21,19 @@ class MainApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) => SurveyRepository(),
         ),
+        RepositoryProvider(
+          create: (context) => SurveyEntryRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) => TabManagerCubit(),
+          ),
+          BlocProvider(
+            create: (context) => SurveyManagerCubit(
+              RepositoryProvider.of<SurveyEntryRepository>(context)
+            ),
           ),
           BlocProvider(
             create: (context) => SurveysBloc(
