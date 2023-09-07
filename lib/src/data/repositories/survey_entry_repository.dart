@@ -12,7 +12,7 @@ class SurveyEntryRepository {
   }
 
   Future<void> save(RPTaskResult result, String surveyId) async {
-    final newSurvey = SurveyEntry.fromRPTaskResult(result, surveyId);
+    final newSurvey = SurveyEntry(surveyId, DateTime.now(), result);
     return _entryProvider.insert(newSurvey);
   }
 

@@ -15,7 +15,7 @@ class SqliteDatabaseHelper {
   Future<void> _onDatabaseCreate(Database db, int version) {
     return db.execute(
       """
-      CREATE TABLE survey_entries(id INTEGER PRIMARY KEY AUTOINCREMENT, survey_id TEXT, start_date TEXT, end_date TEXT, result TEXT)
+      CREATE TABLE survey_entries(id INTEGER PRIMARY KEY AUTOINCREMENT, survey_id TEXT, date TEXT, result TEXT)
       """,
     );
   }

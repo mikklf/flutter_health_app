@@ -11,6 +11,8 @@ class Survey {
   SurveyFrequency frequency;
   RPOrderedTask task;
 
+  Survey(this.id, this.title, this.description, this.frequency, this.task);
+
   Survey.fromRPSurvey(RPSurvey survey, this.frequency)
       : id = survey.id,
         title = survey.title,
