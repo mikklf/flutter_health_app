@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/survey_manager_cubit.dart';
-import 'package:flutter_health_app/src/data/models/survery_entry.dart';
 import 'package:flutter_health_app/src/data/models/survey.dart';
-import 'package:flutter_health_app/src/data/repositories/survey_entry_repository.dart';
-import 'package:path/path.dart';
 import 'package:research_package/research_package.dart';
 import 'dart:convert';
-
-import 'package:sqflite/sqflite.dart';
-
-import '../../../data/dataproviders/survey_entry_provider.dart';
 
 class SurveyScreen extends StatelessWidget {
   final Survey survey;
