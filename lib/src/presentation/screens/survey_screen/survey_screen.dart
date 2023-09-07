@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_health_app/src/data/models/survery_entry.dart';
 import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:research_package/research_package.dart';
 import 'dart:convert';
@@ -22,7 +23,11 @@ class SurveyScreen extends StatelessWidget {
   void resultCallback(RPTaskResult result) {
     // Do anything with the result
     // print(_encode(result));
-    printWrapped(_encode(result));
+    //printWrapped(_encode(result));
+
+    SurveyEntry entry = SurveyEntry.fromRPTaskResult(result, survey.id);
+    printWrapped(jsonEncode(entry.result));
+
   }
 
   void cancelCallBack(RPTaskResult result) {
