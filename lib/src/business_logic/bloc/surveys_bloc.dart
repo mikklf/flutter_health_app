@@ -10,12 +10,14 @@ part 'surveys_state.dart';
 class SurveysBloc extends Bloc<SurveysEvent, SurveysState> {
   final ISurveyRepository _surveyRepository;
 
-  SurveysBloc(this._surveyRepository) : super(const SurveysInitial(<Survey>[])) {
+  SurveysBloc(this._surveyRepository)
+      : super(const SurveysInitial(<Survey>[])) {
     on<SurveysEvent>((event, emit) {});
     on<LoadSurveys>(_onLoadSurvey);
   }
 
-  Future<void> _onLoadSurvey(LoadSurveys event, Emitter<SurveysState> emit) async {
+  Future<void> _onLoadSurvey(
+      LoadSurveys event, Emitter<SurveysState> emit) async {
     final surveys = await _surveyRepository.getActive();
     emit(SurveysInitial(surveys));
   }
