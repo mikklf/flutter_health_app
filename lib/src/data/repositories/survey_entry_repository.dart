@@ -12,6 +12,4 @@ class SurveyEntryRepository {
     final newSurvey = SurveyEntry(surveyId, DateTime.now(), result);
     return _entryProvider.insert(newSurvey);
   }
-
-  
 }

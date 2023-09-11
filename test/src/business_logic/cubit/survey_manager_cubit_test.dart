@@ -1,21 +1,39 @@
 import 'package:flutter_health_app/src/business_logic/cubit/survey_manager_cubit.dart';
-import 'package:flutter_health_app/src/data/dataproviders/survey_entry_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_entry_repository.dart';
-import 'package:research_package/research_package.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:research_package/model.dart';
+
+class MockSurveyEntryRepository extends Mock implements SurveyEntryRepository {}
 
 void main() {
-  test('survey manager cubit ...', () async {
-      final SurveyEntryRepository surveyEntryRepository =
-          SurveyEntryRepository(SurveyEntryProvider());
+  late MockSurveyEntryRepository mockSurveyEntryRepository;
+  late SurveyManagerCubit surveyManagerCubit;
 
-      final SurveyManagerCubit surveyManagerCubit =
-          SurveyManagerCubit(surveyEntryRepository);
+  setUp(() {
+    mockSurveyEntryRepository = MockSurveyEntryRepository();
+    surveyManagerCubit = SurveyManagerCubit(mockSurveyEntryRepository);
+  });
 
-      await surveyManagerCubit.saveEntry(
-          RPTaskResult(identifier: "test_survey"), "test_survey");
+  tearDown(() {
+    surveyManagerCubit.close();
+  });
 
+  group('SurveyManagerCubit', () {
+    test('initial state is SurveyManagerInitial', () {
       expect(surveyManagerCubit.state, SurveyManagerInitial());
     });
-  }
+    test('saveEntry emits SurveyManagerInitial when called', () async {
+      final result = RPTaskResult(identifier: 'test_survey');
+      const surveyId = 'test_survey';
+
+      when(() => mockSurveyEntryRepository.save(result, surveyId))
+          .thenAnswer((_) async {});
+
+      await surveyManagerCubit.saveEntry(result, surveyId);
+
+      expect(surveyManagerCubit.state, SurveyManagerInitial());
+      verify(() => mockSurveyEntryRepository.save(result, surveyId)).called(1);
+    });
+  });
+}

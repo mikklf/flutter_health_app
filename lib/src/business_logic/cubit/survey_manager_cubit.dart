@@ -15,5 +15,4 @@ class SurveyManagerCubit extends Cubit<SurveyManagerState> {
     await _entryRepository.save(result, surveyId);
     emit(SurveyManagerInitial());
   }
-
 }
