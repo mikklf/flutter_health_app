@@ -39,8 +39,6 @@ class SurveyEntryProvider implements ISurveyEntryProvider {
 }
 
 abstract class ISurveyEntryProvider {
-  Future<void> insert(final SurveyEntry newSurvey) async {}
-  Future<SurveyEntry?> getLastEntryOfType(final String surveyId) async {
-    throw UnimplementedError();
-  }
+  Future<void> insert(final SurveyEntry newSurvey);
+  Future<SurveyEntry?> getLastEntryOfType(final String surveyId);
 }

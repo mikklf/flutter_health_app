@@ -25,10 +25,6 @@ class SurveyProvider implements ISurveyProvider {
 }
 
 abstract class ISurveyProvider {
-  Future<Survey> getById(String id) async {
-    throw UnimplementedError();
-  }
-  Future<List<Survey>> getAll() async {
-    throw UnimplementedError();
-  }
+  Future<Survey> getById(String id);
+  Future<List<Survey>> getAll();
 }

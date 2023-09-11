@@ -40,10 +40,6 @@ class SurveyRepository implements ISurveyRepository {
 }
 
 abstract class ISurveyRepository {
-  Future<List<Survey>> getActive() async {
-    throw UnimplementedError();
-  }
-  Future<List<Survey>> getAll() async {
-    throw UnimplementedError();
-  }
+  Future<List<Survey>> getActive();
+  Future<List<Survey>> getAll();
 }

@@ -19,5 +19,5 @@ class SurveyEntryRepository implements ISurveyEntryRepository{
 
 
 abstract class ISurveyEntryRepository {
-  Future<void> save(RPTaskResult result, String surveyId) async {}
+  Future<void> save(RPTaskResult result, String surveyId);
 }

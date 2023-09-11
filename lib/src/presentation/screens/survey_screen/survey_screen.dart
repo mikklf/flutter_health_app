@@ -43,13 +43,13 @@ class SurveyScreen extends StatelessWidget {
           SurveyManagerCubit(services.get<ISurveyEntryRepository>()),
       child: BlocBuilder<SurveyManagerCubit, SurveyManagerState>(
         builder: (context, state) {
-          return _buildRPUITask(context);
+          return _buildSurveyPage(context);
         },
       ),
     );
   }
 
-  RPUITask _buildRPUITask(BuildContext context) {
+  RPUITask _buildSurveyPage(BuildContext context) {
     return RPUITask(
       task: survey.task,
       onSubmit: (RPTaskResult result) async {
