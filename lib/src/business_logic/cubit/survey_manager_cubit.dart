@@ -6,7 +6,7 @@ import 'package:research_package/research_package.dart';
 part 'survey_manager_state.dart';
 
 class SurveyManagerCubit extends Cubit<SurveyManagerState> {
-  final SurveyEntryRepository _entryRepository;
+  final ISurveyEntryRepository _entryRepository;
 
   SurveyManagerCubit(this._entryRepository) : super(SurveyManagerInitial());
 

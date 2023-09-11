@@ -3,12 +3,13 @@ import 'package:flutter_health_app/src/data/dataproviders/survey_provider.dart';
 import '../dataproviders/survey_entry_provider.dart';
 import '../models/survey.dart';
 
-class SurveyRepository {
-  final SurveyProvider _surveyProvider;
-  final SurveyEntryProvider _entryProvider;
+class SurveyRepository implements ISurveyRepository {
+  final ISurveyProvider _surveyProvider;
+  final ISurveyEntryProvider _entryProvider;
 
   SurveyRepository(this._surveyProvider, this._entryProvider);
 
+  @override
   Future<List<Survey>> getActive() async {
     var surveys = await _surveyProvider.getAll();
     var activeSurveys = <Survey>[];
@@ -32,7 +33,17 @@ class SurveyRepository {
     return activeSurveys;
   }
 
+  @override
   Future<List<Survey>> getAll() async {
     return _surveyProvider.getAll();
+  }
+}
+
+abstract class ISurveyRepository {
+  Future<List<Survey>> getActive() async {
+    throw UnimplementedError();
+  }
+  Future<List<Survey>> getAll() async {
+    throw UnimplementedError();
   }
 }

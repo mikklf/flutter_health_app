@@ -8,7 +8,7 @@ part 'surveys_event.dart';
 part 'surveys_state.dart';
 
 class SurveysBloc extends Bloc<SurveysEvent, SurveysState> {
-  final SurveyRepository _surveyRepository;
+  final ISurveyRepository _surveyRepository;
 
   SurveysBloc(this._surveyRepository) : super(const SurveysInitial(<Survey>[])) {
     on<SurveysEvent>((event, emit) {});

@@ -5,6 +5,9 @@ import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:research_package/research_package.dart';
 import 'dart:convert';
 
+import '../../../../main.dart';
+import '../../../data/repositories/survey_entry_repository.dart';
+
 class SurveyScreen extends StatelessWidget {
   final Survey survey;
 
@@ -25,8 +28,7 @@ class SurveyScreen extends StatelessWidget {
     // Do anything with the result
     // print(_encode(result));
     //printWrapped(_encode(result));
-    context.read<SurveyManagerCubit>().saveEntry(result, survey.id);    
-
+    context.read<SurveyManagerCubit>().saveEntry(result, survey.id);
   }
 
   void cancelCallBack(RPTaskResult result) {
@@ -36,21 +38,29 @@ class SurveyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SurveyManagerCubit, SurveyManagerState>(
-      builder: (context, state) {
-        return RPUITask(
-          task: survey.task,
-          onSubmit: (RPTaskResult result) async {
-            resultCallback(result, context);
-          },
-          onCancel: (RPTaskResult? result) {
-            if (result == null) {
-              print("No result");
-            } else {
-              cancelCallBack(result);
-            }
-          },
-        );
+    return BlocProvider(
+      create: (context) =>
+          SurveyManagerCubit(services.get<ISurveyEntryRepository>()),
+      child: BlocBuilder<SurveyManagerCubit, SurveyManagerState>(
+        builder: (context, state) {
+          return _buildRPUITask(context);
+        },
+      ),
+    );
+  }
+
+  RPUITask _buildRPUITask(BuildContext context) {
+    return RPUITask(
+      task: survey.task,
+      onSubmit: (RPTaskResult result) async {
+        resultCallback(result, context);
+      },
+      onCancel: (RPTaskResult? result) {
+        if (result == null) {
+          print("No result");
+        } else {
+          cancelCallBack(result);
+        }
       },
     );
   }

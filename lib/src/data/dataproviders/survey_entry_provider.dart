@@ -3,10 +3,11 @@ import 'package:sqflite/sqflite.dart';
 
 import 'helpers/sqlite_database_helper.dart';
 
-class SurveyEntryProvider {
+class SurveyEntryProvider implements ISurveyEntryProvider {
   final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
   final String _tableName = "survey_entries";
 
+  @override
   Future<void> insert(final SurveyEntry newSurvey) async {
     final Database db = await _databaseHelper.getDatabase();
     
@@ -17,6 +18,7 @@ class SurveyEntryProvider {
     );
   }
 
+  @override
   Future<SurveyEntry?> getLastEntryOfType(final String surveyId) async {
     final Database db = await _databaseHelper.getDatabase();
 
@@ -33,5 +35,12 @@ class SurveyEntryProvider {
     }
 
     return SurveyEntry.fromMap(maps.first);
+  }
+}
+
+abstract class ISurveyEntryProvider {
+  Future<void> insert(final SurveyEntry newSurvey) async {}
+  Future<SurveyEntry?> getLastEntryOfType(final String surveyId) async {
+    throw UnimplementedError();
   }
 }

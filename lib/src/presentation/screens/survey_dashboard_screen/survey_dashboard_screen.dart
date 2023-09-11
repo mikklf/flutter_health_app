@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/main.dart';
 import 'package:flutter_health_app/src/business_logic/bloc/surveys_bloc.dart';
 import 'package:flutter_health_app/src/data/models/survey.dart';
+import 'package:flutter_health_app/src/data/repositories/survey_repository.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_screen/survey_screen.dart';
 
 class SurveyDashboardScreen extends StatelessWidget {
@@ -11,17 +13,24 @@ class SurveyDashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SurveysBloc, SurveysState>(builder: (context, state) {
-      return state.surveys.isNotEmpty ? _buildSurveyListView(state) : _buildNoSurveys(state);
-    });
+    return BlocProvider(
+      create: (context) => SurveysBloc(
+        services.get<ISurveyRepository>(),
+      )..add(LoadSurveys()),
+      child: BlocBuilder<SurveysBloc, SurveysState>(builder: (context, state) {
+        return state.surveys.isNotEmpty
+            ? _buildSurveyListView(state)
+            : _buildNoSurveys(state);
+      }),
+    );
   }
 
   Center _buildNoSurveys(SurveysState state) {
     return const Center(
-      child: Text(
-        'No surveys available',
-        style: TextStyle(fontSize: 20),
-      ));
+        child: Text(
+      'No surveys available',
+      style: TextStyle(fontSize: 20),
+    ));
   }
 
   ListView _buildSurveyListView(SurveysState state) {
