@@ -14,7 +14,7 @@ class SurveyEntry extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'survey_id': surveyId,
-      'date': DateTime.now().toString(),
+      'date': date.toString(),
       'result': jsonEncode(result),
     };
   }
