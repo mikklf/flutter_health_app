@@ -1,14 +1,15 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:research_package/research_package.dart';
 
-class SurveyEntry {
+class SurveyEntry extends Equatable {
   final int? id;
   final String surveyId;
   final DateTime date;
   final RPTaskResult result;
 
-  SurveyEntry(this.surveyId, this.date, this.result, [this.id]);
+  const SurveyEntry(this.surveyId, this.date, this.result, [this.id]);
 
   Map<String, dynamic> toMap() {
     return {
@@ -26,6 +27,9 @@ class SurveyEntry {
       map['id'] as int?
     );
   }
+  
+  @override
+  List<Object?> get props => [id];
 
 
   
