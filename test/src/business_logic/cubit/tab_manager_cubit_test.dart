@@ -14,12 +14,12 @@ void main() {
       tabManagerCubit.close();
     });
 
-    test('initial state is 0', () {
+    test('initial state has [selectedTab] set to 0', () {
       expect(tabManagerCubit.state, const TabManagerInitial(0));
     });
 
     blocTest<TabManagerCubit, TabManagerState>(
-      'emits [TabManagerInitial(1)] when changeTab is called',
+      'selectedTab is changed to 1 when changeTab is called',
       build: () => tabManagerCubit,
       act: (cubit) => cubit.changeTab(1),
       expect: () => [const TabManagerInitial(1)],

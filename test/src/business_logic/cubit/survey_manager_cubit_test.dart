@@ -4,7 +4,7 @@ import 'package:flutter_health_app/src/data/repositories/survey_entry_repository
 import 'package:mocktail/mocktail.dart';
 import 'package:research_package/model.dart';
 
-class MockSurveyEntryRepository extends Mock implements SurveyEntryRepository {}
+class MockSurveyEntryRepository extends Mock implements ISurveyEntryRepository {}
 
 void main() {
   late MockSurveyEntryRepository mockSurveyEntryRepository;
