@@ -4,7 +4,7 @@ import 'rp_survey.dart';
 
 class KellnerSurvey implements RPSurvey {
   @override
-  String get id => "keller";
+  String get id => "kellner";
 
   @override
   String get title => "Kellner's Symptom Questionnaire";
