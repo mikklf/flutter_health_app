@@ -43,5 +43,25 @@ void main() {
       expect(entry.result.identifier, "test_task");
       expect(entry.id, 1);
     });
+
+    test("Equatable test", () {
+
+      // Arrange
+      SurveyEntry entry1 = SurveyEntry(
+          "kellner", moonLanding, RPTaskResult(identifier: "test_task"), 1);
+      SurveyEntry entry2 = SurveyEntry(
+          "kellner", moonLanding, RPTaskResult(identifier: "test_task"), 1);
+      SurveyEntry entry3 = SurveyEntry(
+          "kellner", moonLanding, RPTaskResult(identifier: "test_task2"), 2);
+
+      // Act
+      bool result1 = entry1 == entry2;
+      bool result2 = entry1 == entry3;
+
+      // Assert
+      expect(result1, true);
+      expect(result2, false);
+    });
+
   });
 }
