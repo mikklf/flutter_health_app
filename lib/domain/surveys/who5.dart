@@ -1,5 +1,6 @@
-import 'package:flutter_health_app/src/data/dataproviders/surveys/surveys.dart';
 import 'package:research_package/research_package.dart';
+
+import 'surveys.dart';
 
 class WHO5Survey implements RPSurvey {
   @override

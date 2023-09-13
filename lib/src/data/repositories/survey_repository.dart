@@ -1,7 +1,8 @@
-import 'package:flutter_health_app/src/data/dataproviders/survey_provider.dart';
-
-import '../dataproviders/survey_entry_provider.dart';
-import '../models/survey.dart';
+import 'package:flutter_health_app/domain/interfaces/survey_entry_provider.dart';
+import 'package:flutter_health_app/domain/interfaces/survey_provider.dart';
+import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
+import 'package:flutter_health_app/src/data/models/survery_entry.dart';
+import 'package:flutter_health_app/src/data/models/survey.dart';
 
 class SurveyRepository implements ISurveyRepository {
   final ISurveyProvider _surveyProvider;
@@ -15,12 +16,15 @@ class SurveyRepository implements ISurveyRepository {
     var activeSurveys = <Survey>[];
 
     for (var survey in surveys) {
-      var entry = await _entryProvider.getLastEntryOfType(survey.id);
+      var result = await _entryProvider.getLastEntryOfType(survey.id);
 
-      if (entry == null) {
+      // If no entry exists, the survey has never been answered.
+      if (result == null) {
         activeSurveys.add(survey);
         continue;
       }
+
+      var entry = SurveyEntry.fromMap(result);
 
       DateTime now = DateTime.now();
       DateTime nextTime = entry.date.add(survey.frequency);
@@ -37,9 +41,4 @@ class SurveyRepository implements ISurveyRepository {
   Future<List<Survey>> getAll() async {
     return _surveyProvider.getAll();
   }
-}
-
-abstract class ISurveyRepository {
-  Future<List<Survey>> getActive();
-  Future<List<Survey>> getAll();
 }

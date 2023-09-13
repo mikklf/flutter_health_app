@@ -1,6 +1,7 @@
-import 'package:flutter_health_app/src/data/dataproviders/surveys/kellner.dart';
-import 'package:flutter_health_app/src/data/dataproviders/surveys/who5.dart';
 import 'package:research_package/research_package.dart';
+
+import 'kellner.dart';
+import 'who5.dart';
 
 /// Wrapper for an [RPOrderedTask] survey from reseach_package.
 abstract class RPSurvey {

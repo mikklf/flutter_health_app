@@ -1,9 +1,8 @@
-import 'package:flutter_health_app/src/data/dataproviders/surveys/surveys.dart';
+import 'package:flutter_health_app/domain/interfaces/survey_provider.dart';
+import 'package:flutter_health_app/domain/surveys/surveys.dart';
+import 'package:flutter_health_app/src/data/models/survey.dart';
 
-import '../models/survey.dart';
-
-class SurveyProvider implements ISurveyProvider {
-
+class InMemorySurveyProvider implements ISurveyProvider {
   final List<Survey> _surveylist = [
     Survey.fromRPSurvey(Surveys.kellner),
     Survey.fromRPSurvey(Surveys.who5),
@@ -20,10 +19,4 @@ class SurveyProvider implements ISurveyProvider {
   Future<List<Survey>> getAll() async {
     return _surveylist;
   }
-
-}
-
-abstract class ISurveyProvider {
-  Future<Survey> getById(String id);
-  Future<List<Survey>> getAll();
 }

@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
 import 'package:flutter_health_app/src/business_logic/bloc/surveys_bloc.dart';
 import 'package:flutter_health_app/src/data/models/survey.dart';
-import 'package:flutter_health_app/src/data/repositories/survey_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:research_package/research_package.dart';

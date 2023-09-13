@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../data/models/survey.dart';
-import '../../data/repositories/survey_repository.dart';
+import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
+import 'package:flutter_health_app/src/data/models/survey.dart';
 
 part 'surveys_event.dart';
 part 'surveys_state.dart';

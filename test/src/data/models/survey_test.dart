@@ -1,4 +1,4 @@
-import 'package:flutter_health_app/src/data/dataproviders/surveys/surveys.dart';
+import 'package:flutter_health_app/domain/surveys/surveys.dart';
 import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:research_package/research_package.dart';

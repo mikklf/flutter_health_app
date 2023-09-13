@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:research_package/research_package.dart';
-import 'package:flutter_health_app/src/data/dataproviders/surveys/surveys.dart';
+import 'package:flutter_health_app/domain/surveys/surveys.dart';
 
 
 class Survey extends Equatable {

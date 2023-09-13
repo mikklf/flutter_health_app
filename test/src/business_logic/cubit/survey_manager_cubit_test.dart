@@ -1,6 +1,6 @@
+import 'package:flutter_health_app/domain/interfaces/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/survey_manager_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_health_app/src/data/repositories/survey_entry_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:research_package/model.dart';
 

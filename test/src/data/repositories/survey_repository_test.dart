@@ -1,5 +1,5 @@
-import 'package:flutter_health_app/src/data/dataproviders/survey_entry_provider.dart';
-import 'package:flutter_health_app/src/data/dataproviders/survey_provider.dart';
+import 'package:flutter_health_app/domain/interfaces/survey_entry_provider.dart';
+import 'package:flutter_health_app/domain/interfaces/survey_provider.dart';
 import 'package:flutter_health_app/src/data/models/survery_entry.dart';
 import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_repository.dart';
@@ -42,7 +42,7 @@ void main() {
 
     test("GetActive should only return surveys with older entries", () async {
       // Arrange
-      var entries = [];
+      List<SurveyEntry> entries = [];
 
       entries.add(SurveyEntry(
           surveyId: "kellner",
@@ -56,9 +56,9 @@ void main() {
 
       when(() => mockSurveyProvider.getAll()).thenAnswer((_) async => surveys);
       when(() => mockSurveyEntryProvider.getLastEntryOfType("kellner"))
-          .thenAnswer((_) async => entries[0]);
+          .thenAnswer((_) async => entries[0].toMap());
       when(() => mockSurveyEntryProvider.getLastEntryOfType("who5"))
-          .thenAnswer((_) async => entries[1]);
+          .thenAnswer((_) async => entries[1].toMap());
 
       // Act
       final result = await surveyRepository.getActive();
@@ -70,7 +70,7 @@ void main() {
 
     test("GetActive should include surveys with no entries", () async {
       // Arrange
-      var entries = [];
+      List<SurveyEntry> entries = [];
       entries.add(SurveyEntry(
           surveyId: "kellner",
           date: DateTime.now().subtract(const Duration(days: 12)),
@@ -78,7 +78,7 @@ void main() {
 
       when(() => mockSurveyProvider.getAll()).thenAnswer((_) async => surveys);
       when(() => mockSurveyEntryProvider.getLastEntryOfType("kellner"))
-          .thenAnswer((_) async => entries[0]);
+          .thenAnswer((_) async => entries[0].toMap());
       when(() => mockSurveyEntryProvider.getLastEntryOfType("who5"))
           .thenAnswer((_) async => null);
 
@@ -92,7 +92,7 @@ void main() {
 
     test("GetAll should return all entries", () async {
       // Arrange
-      var entries = [];
+      List<SurveyEntry>  entries = [];
 
       entries.add(SurveyEntry(
           surveyId: "kellner",

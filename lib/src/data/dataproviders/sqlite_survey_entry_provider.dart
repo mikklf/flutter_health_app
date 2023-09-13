@@ -1,25 +1,24 @@
-import 'package:flutter_health_app/src/data/models/survery_entry.dart';
+import 'package:flutter_health_app/domain/interfaces/survey_entry_provider.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'helpers/sqlite_database_helper.dart';
 
-class SurveyEntryProvider implements ISurveyEntryProvider {
+class SQLiteSurveyEntryProvider implements ISurveyEntryProvider {
   final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
   final String _tableName = "survey_entries";
 
   @override
-  Future<void> insert(final SurveyEntry newSurvey) async {
+  Future<void> insert(Map<String, Object?> values) async {
     final Database db = await _databaseHelper.getDatabase();
     
     await db.insert(
       _tableName,
-      newSurvey.toMap(),
+      values,
       conflictAlgorithm: ConflictAlgorithm.fail,
     );
   }
 
   @override
-  Future<SurveyEntry?> getLastEntryOfType(final String surveyId) async {
+  Future<Map<String, dynamic>?> getLastEntryOfType(final String surveyId) async {
     final Database db = await _databaseHelper.getDatabase();
 
     final List<Map<String, dynamic>> maps = await db.query(
@@ -34,11 +33,6 @@ class SurveyEntryProvider implements ISurveyEntryProvider {
       return null;
     }
 
-    return SurveyEntry.fromMap(maps.first);
+    return maps.first;
   }
-}
-
-abstract class ISurveyEntryProvider {
-  Future<void> insert(final SurveyEntry newSurvey);
-  Future<SurveyEntry?> getLastEntryOfType(final String surveyId);
 }
