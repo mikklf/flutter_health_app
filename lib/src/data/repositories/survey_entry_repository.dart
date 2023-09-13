@@ -10,11 +10,9 @@ class SurveyEntryRepository implements ISurveyEntryRepository{
 
   @override
   Future<void> save(RPTaskResult result, String surveyId) async {
-    final newSurvey = SurveyEntry(surveyId, DateTime.now(), result);
+    final newSurvey = SurveyEntry(surveyId: surveyId, date: DateTime.now(), result: result);
     return _entryProvider.insert(newSurvey);
   }
-
-  
 }
 
 

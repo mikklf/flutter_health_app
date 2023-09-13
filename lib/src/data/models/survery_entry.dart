@@ -4,12 +4,16 @@ import 'package:equatable/equatable.dart';
 import 'package:research_package/research_package.dart';
 
 class SurveyEntry extends Equatable {
-  final int? id;
   final String surveyId;
   final DateTime date;
   final RPTaskResult result;
+  final int? id;
 
-  const SurveyEntry(this.surveyId, this.date, this.result, [this.id]);
+  const SurveyEntry(
+      {required this.surveyId,
+      required this.date,
+      required this.result,
+      this.id});
 
   Map<String, dynamic> toMap() {
     return {
@@ -21,13 +25,13 @@ class SurveyEntry extends Equatable {
 
   factory SurveyEntry.fromMap(Map<String, dynamic> map) {
     return SurveyEntry(
-      map['survey_id'] as String,
-      DateTime.parse(map['date']),
-      RPTaskResult.fromJson(jsonDecode(map['result'])),
-      map['id'] as int?
+      surveyId: map['survey_id'] as String,
+      date: DateTime.parse(map['date']),
+      result: RPTaskResult.fromJson(jsonDecode(map['result'])),
+      id: map['id'] as int?
     );
   }
-  
+
   @override
   List<Object?> get props => [id];
 }

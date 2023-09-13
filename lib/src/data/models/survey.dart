@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_health_app/src/data/dataproviders/surveys/rp_survey.dart';
 import 'package:research_package/research_package.dart';
+import 'package:flutter_health_app/src/data/dataproviders/surveys/surveys.dart';
+
 
 class Survey extends Equatable {
 
@@ -10,12 +11,19 @@ class Survey extends Equatable {
   final Duration frequency;
   final RPOrderedTask task;
 
-  const Survey(this.id, this.title, this.description, this.frequency, this.task);
+  const Survey({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.frequency,
+    required this.task
+  });
 
-  Survey.fromRPSurvey(RPSurvey survey, this.frequency)
+  Survey.fromRPSurvey(RPSurvey survey)
       : id = survey.id,
         title = survey.title,
         description = survey.description,
+        frequency = survey.frequency,
         task = survey.task;
         
   @override

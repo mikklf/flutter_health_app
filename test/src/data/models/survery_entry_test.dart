@@ -14,7 +14,9 @@ void main() {
     test('returns correct SurveyEntry from toMap method', () {
       // Arrange
       SurveyEntry entry = SurveyEntry(
-          "test_id", moonLanding, RPTaskResult(identifier: "test_task"));
+          surveyId: "test_id",
+          date: moonLanding,
+          result: RPTaskResult(identifier: "test_task"));
 
       // Act
       Map<String, dynamic> map = entry.toMap();
@@ -32,7 +34,7 @@ void main() {
         'date': moonLanding.toString(),
         'result': jsonEncode(RPTaskResult(identifier: "test_task")),
         'id': 1
-      };      
+      };
 
       // Act
       SurveyEntry entry = SurveyEntry.fromMap(map);
@@ -45,14 +47,24 @@ void main() {
     });
 
     test("Equatable test", () {
-
       // Arrange
       SurveyEntry entry1 = SurveyEntry(
-          "kellner", moonLanding, RPTaskResult(identifier: "test_task"), 1);
+          surveyId: "kellner",
+          date: moonLanding,
+          result: RPTaskResult(identifier: "test_task"),
+          id: 1);
+
       SurveyEntry entry2 = SurveyEntry(
-          "kellner", moonLanding, RPTaskResult(identifier: "test_task"), 1);
+          surveyId: "kellner",
+          date: moonLanding,
+          result: RPTaskResult(identifier: "test_task"),
+          id: 1);
+
       SurveyEntry entry3 = SurveyEntry(
-          "kellner", moonLanding, RPTaskResult(identifier: "test_task2"), 2);
+          surveyId: "kellner",
+          date: moonLanding,
+          result: RPTaskResult(identifier: "test_task2"),
+          id: 2);
 
       // Act
       bool result1 = entry1 == entry2;
@@ -62,6 +74,5 @@ void main() {
       expect(result1, true);
       expect(result2, false);
     });
-
   });
 }

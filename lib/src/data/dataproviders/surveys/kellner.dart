@@ -1,6 +1,5 @@
+import 'package:flutter_health_app/src/data/dataproviders/surveys/surveys.dart';
 import 'package:research_package/research_package.dart';
-
-import 'rp_survey.dart';
 
 class KellnerSurvey implements RPSurvey {
   @override
@@ -12,6 +11,9 @@ class KellnerSurvey implements RPSurvey {
   @override
   String get description =>
       "A simple, self-rated assessment of both symptoms and well-being.";
+
+  @override
+  Duration get frequency => const Duration(minutes: 1);
 
   final List<RPChoice> _yesNo = [
     RPChoice(text: "Yes", value: 1),

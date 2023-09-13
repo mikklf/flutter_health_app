@@ -20,16 +20,36 @@ void main() {
       surveysBloc = SurveysBloc(mockSurveyRepository);
 
       surveys = [];
-      surveys.add(Survey("who5", "who5_title", "description1", Duration.zero,
-          RPOrderedTask(identifier: "1", steps: [])));
-      surveys.add(Survey("kellner", "kellner_title", "description2",
-          Duration.zero, RPOrderedTask(identifier: "1", steps: [])));
 
-       surveysExpected = [];
-       surveysExpected.add(Survey("who5", "who5_title", "description1", Duration.zero,
-          RPOrderedTask(identifier: "1", steps: [])));
-      surveysExpected.add(Survey("kellner", "kellner_title", "description2",
-          Duration.zero, RPOrderedTask(identifier: "1", steps: [])));
+      surveys.add(Survey(
+          id: "who5",
+          title: "who5_title",
+          description: "description1",
+          frequency: Duration.zero,
+          task: RPOrderedTask(identifier: "1", steps: [])));
+
+      surveys.add(Survey(
+          id: "kellner",
+          title: "kellner_title",
+          description: "description2",
+          frequency: Duration.zero,
+          task: RPOrderedTask(identifier: "1", steps: [])));
+
+      surveysExpected = [];
+
+      surveysExpected.add(Survey(
+          id: "who5",
+          title: "who5_title",
+          description: "description1",
+          frequency: Duration.zero,
+          task: RPOrderedTask(identifier: "1", steps: [])));
+
+      surveysExpected.add(Survey(
+          id: "kellner",
+          title: "kellner_title",
+          description: "description2",
+          frequency: Duration.zero,
+          task: RPOrderedTask(identifier: "1", steps: [])));
     });
 
     tearDown(() {

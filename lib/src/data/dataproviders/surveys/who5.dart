@@ -1,6 +1,5 @@
+import 'package:flutter_health_app/src/data/dataproviders/surveys/surveys.dart';
 import 'package:research_package/research_package.dart';
-
-import 'rp_survey.dart';
 
 class WHO5Survey implements RPSurvey {
   @override
@@ -11,6 +10,9 @@ class WHO5Survey implements RPSurvey {
   
   @override
   String get description => "A short 5-item survey on your well-being.";
+
+  @override
+  Duration get frequency => const Duration(minutes: 1);
 
   final RPChoiceAnswerFormat _choiceAnswerFormat = RPChoiceAnswerFormat(
     answerStyle: RPChoiceAnswerStyle.SingleChoice,
