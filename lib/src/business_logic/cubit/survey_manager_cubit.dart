@@ -8,12 +8,11 @@ part 'survey_manager_state.dart';
 class SurveyManagerCubit extends Cubit<SurveyManagerState> {
   final ISurveyEntryRepository _entryRepository;
 
-  SurveyManagerCubit(this._entryRepository) : super(SurveyManagerInitial());
+  SurveyManagerCubit(this._entryRepository) : super(const SurveyManagerState());
 
-  // save entry
+  /// Calls the [ISurveyEntryRepository] to save the [RPTaskResult] to the database.
   Future<void> saveEntry(RPTaskResult result, String surveyId) async {
     await _entryRepository.save(result, surveyId);
-    emit(SurveyManagerInitial());
   }
 
 }

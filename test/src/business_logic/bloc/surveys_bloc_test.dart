@@ -57,7 +57,7 @@ void main() {
     });
 
     test('initial state has [surveys] set to []', () {
-      expect(surveysBloc.state, const SurveysInitial([]));
+      expect(surveysBloc.state, const SurveysState());
     });
 
     blocTest<SurveysBloc, SurveysState>(
@@ -69,7 +69,12 @@ void main() {
         return surveysBloc;
       },
       act: (bloc) => bloc.add(LoadSurveys()),
-      expect: () => [SurveysInitial(surveysExpected)],
+      expect: () {
+        return [
+          const SurveysState(surveys: [], isLoading: true),
+          SurveysState(isLoading: false, surveys: surveysExpected)
+        ];
+      },
     );
   });
 }

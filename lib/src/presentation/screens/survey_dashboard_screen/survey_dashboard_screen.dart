@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/main.dart';
 import 'package:flutter_health_app/src/business_logic/bloc/surveys_bloc.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
 import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_repository.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_screen/survey_screen.dart';
@@ -16,12 +17,25 @@ class SurveyDashboardScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => SurveysBloc(
         services.get<ISurveyRepository>(),
-      )..add(LoadSurveys()),
-      child: BlocBuilder<SurveysBloc, SurveysState>(builder: (context, state) {
-        return state.surveys.isNotEmpty
-            ? _buildSurveyListView(state)
-            : _buildNoSurveys(state);
-      }),
+      ),
+      child: BlocConsumer<TabManagerCubit, TabManagerState>(
+        listenWhen: (previous, current) => current.selectedTab == 1,
+        listener: (context, state) => context.read<SurveysBloc>().add(LoadSurveys()),
+        buildWhen: (previous, current) => current.selectedTab == 1,
+        builder: (context, state) {
+          return BlocBuilder<SurveysBloc, SurveysState>(
+              builder: (context, state) {
+
+            if (state.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            return state.surveys.isNotEmpty
+                ? _buildSurveyListView(state)
+                : _buildNoSurveys(state);
+          });
+        },
+      ),
     );
   }
 

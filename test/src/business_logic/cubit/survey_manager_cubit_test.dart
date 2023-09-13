@@ -21,7 +21,7 @@ void main() {
 
   group('SurveyManagerCubit', () {
     test('initial state is SurveyManagerInitial', () {
-      expect(surveyManagerCubit.state, SurveyManagerInitial());
+      expect(surveyManagerCubit.state, const SurveyManagerState());
     });
     test('saveEntry emits SurveyManagerInitial when called', () async {
       final result = RPTaskResult(identifier: 'test_survey');
@@ -32,7 +32,7 @@ void main() {
 
       await surveyManagerCubit.saveEntry(result, surveyId);
 
-      expect(surveyManagerCubit.state, SurveyManagerInitial());
+      expect(surveyManagerCubit.state, const SurveyManagerState());
       verify(() => mockSurveyEntryRepository.save(result, surveyId)).called(1);
     });
   });

@@ -4,9 +4,10 @@ import 'package:equatable/equatable.dart';
 part 'tab_manager_state.dart';
 
 class TabManagerCubit extends Cubit<TabManagerState> {
-  TabManagerCubit() : super(const TabManagerInitial(0));
+  TabManagerCubit() : super(const TabManagerState(0));
 
+  /// Changes the selected tab.
   void changeTab(int index) {
-    emit(TabManagerInitial(index));
+    emit(state.copyWith(selectedTab: index));
   }
 }
