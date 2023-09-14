@@ -25,4 +25,5 @@ class ServiceLocator {
       services<ISurveyEntryProvider>(),
     ));
   }
+
 }
