@@ -1,3 +1,4 @@
+import 'package:flutter_health_app/domain/surveys/dummy.dart';
 import 'package:research_package/research_package.dart';
 
 import 'kellner.dart';
@@ -26,10 +27,13 @@ abstract class RPSurvey {
 /// A class that provides access to all surveys.
 class Surveys {
 
-  /// Returns a instance of a kellner survey
+  /// Returns a instance of a [KellnerSurvey]
   static RPSurvey get kellner => KellnerSurvey();
 
-  /// Returns a instance of a WHO5 survey
+  /// Returns a instance of a [WHO5Survey]
   static RPSurvey get who5 => WHO5Survey();
+
+  /// Returns a instance of a [DummySurvey]
+  static RPSurvey get dummy => DummySurvey();
 
 }
