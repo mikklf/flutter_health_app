@@ -15,7 +15,7 @@ class SurveyDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SurveysBloc(
+      create: (_) => SurveysBloc(
         services.get<ISurveyRepository>(),
       ),
       child: BlocConsumer<TabManagerCubit, TabManagerState>(
@@ -25,14 +25,21 @@ class SurveyDashboardScreen extends StatelessWidget {
         builder: (context, state) {
           return BlocBuilder<SurveysBloc, SurveysState>(
               builder: (context, state) {
-
+              
             if (state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-
-            return state.surveys.isNotEmpty
-                ? _buildSurveyListView(state)
-                : _buildNoSurveys(state);
+              
+            return RefreshIndicator(
+              onRefresh: () {
+                print("Refresh triggered");
+                context.read<SurveysBloc>().add(LoadSurveys());
+                return Future.delayed(const Duration(seconds: 1));
+              },
+              child: state.surveys.isNotEmpty
+                  ? _buildSurveyListView(state)
+                  : _buildNoSurveys(state),
+            );
           });
         },
       ),
