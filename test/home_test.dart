@@ -96,6 +96,8 @@ void main() {
     expect(find.byType(OverviewScreen), findsNothing);
     expect(find.byType(SurveyDashboardScreen), findsOneWidget);
 
+    verify(() => services<ISurveyRepository>().getActive()).called(1);
+
     final BottomNavigationBar bottomNavBar =
         tester.widget(find.byType(BottomNavigationBar));
     expect(bottomNavBar.currentIndex, 1);

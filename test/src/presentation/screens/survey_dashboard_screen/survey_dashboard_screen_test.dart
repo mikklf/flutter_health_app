@@ -29,7 +29,7 @@ void main() {
       return MaterialApp(
           title: 'survey dashboard test',
           home: BlocProvider(
-            create: (context) => TabManagerCubit()..changeTab(1),
+            create: (context) => TabManagerCubit(),
             child: const SurveyDashboardScreen(),
           ));
     }
@@ -56,7 +56,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(RefreshProgressIndicator), findsOneWidget);
-
     });
   });
 }
