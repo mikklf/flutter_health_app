@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_health_app/home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
-import 'package:flutter_health_app/src/di.dart';
+import 'package:flutter_health_app/di.dart';
 
 void main() {
   // Register services

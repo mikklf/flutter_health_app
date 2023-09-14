@@ -4,7 +4,7 @@ import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
 import 'package:flutter_health_app/src/business_logic/bloc/surveys_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
 import 'package:flutter_health_app/src/data/models/survey.dart';
-import 'package:flutter_health_app/src/di.dart';
+import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_screen/survey_screen.dart';
 
 class SurveyDashboardScreen extends StatelessWidget {
