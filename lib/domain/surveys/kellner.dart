@@ -14,7 +14,7 @@ class KellnerSurvey implements RPSurvey {
       "A simple, self-rated assessment of both symptoms and well-being.";
 
   @override
-  Duration get frequency => const Duration(minutes: 1);
+  Duration get frequency => const Duration(seconds: 30);
 
   final List<RPChoice> _yesNo = [
     RPChoice(text: "Yes", value: 1),

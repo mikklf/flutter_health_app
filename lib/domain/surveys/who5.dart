@@ -13,7 +13,7 @@ class WHO5Survey implements RPSurvey {
   String get description => "A short 5-item survey on your well-being.";
 
   @override
-  Duration get frequency => const Duration(minutes: 1);
+  Duration get frequency => const Duration(seconds: 15);
 
   final RPChoiceAnswerFormat _choiceAnswerFormat = RPChoiceAnswerFormat(
     answerStyle: RPChoiceAnswerStyle.SingleChoice,
