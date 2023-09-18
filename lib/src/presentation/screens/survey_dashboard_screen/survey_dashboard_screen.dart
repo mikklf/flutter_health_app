@@ -26,19 +26,18 @@ class SurveyDashboardScreen extends StatelessWidget {
           return BlocBuilder<SurveysBloc, SurveysState>(
               builder: (context, state) {
               
-            if (state.isLoading) {
+            if (state.isLoading && state.surveys.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             }
               
             return RefreshIndicator(
               onRefresh: () {
-                print("Refresh triggered");
                 context.read<SurveysBloc>().add(LoadSurveys());
                 return Future.delayed(const Duration(seconds: 1));
               },
-              child: state.surveys.isNotEmpty
-                  ? _buildSurveyListView(state)
-                  : _buildNoSurveys(state),
+              child: state.surveys.isEmpty
+                  ? _buildNoSurveys(state)
+                  : _buildSurveyListView(state),
             );
           });
         },
@@ -46,21 +45,34 @@ class SurveyDashboardScreen extends StatelessWidget {
     );
   }
 
-  Center _buildNoSurveys(SurveysState state) {
-    return const Center(
-        child: Text(
-      'No surveys available',
-      style: TextStyle(fontSize: 20),
-    ));
+  ListView _buildNoSurveys(SurveysState state) {
+    return ListView.builder(
+              physics:const AlwaysScrollableScrollPhysics(),
+              itemCount: 1,
+              itemBuilder: (context, index) {
+                return const Column(
+                  children: [
+                    SizedBox(height: 20,),
+                    Center(
+                      child: Text(
+                        "No surveys available",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
   }
 
   ListView _buildSurveyListView(SurveysState state) {
-    return ListView(
-        children: state.surveys
-            .map((survey) => SurveyCard(
-                  survey: survey,
-                ))
-            .toList());
+    var builder = ListView.builder(
+      itemCount: state.surveys.length,
+      itemBuilder: (context, index) {
+        return SurveyCard(survey: state.surveys[index]);
+      },
+    );
+    return builder;
   }
 }
 
