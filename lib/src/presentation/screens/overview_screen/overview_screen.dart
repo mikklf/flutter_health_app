@@ -1,55 +1,143 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:health/health.dart';
+import 'package:community_charts_flutter/community_charts_flutter.dart'
+    as charts;
 
 class OverviewScreen extends StatelessWidget {
   const OverviewScreen({
     super.key,
-    this.color = const Color(0xFF2DBD3A),
     this.child,
   });
 
-  final Color color;
   final Widget? child;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-          onPressed: () async {
-            HealthFactory health =
-                HealthFactory(useHealthConnectIfAvailable: true);
-
-            var types = [
-              HealthDataType.STEPS,
-            ];
-
-            bool requested = await health.requestAuthorization(types);
-
-            var now = DateTime.now();
-
-            // fetch health data from the last 24 hours
-            List<HealthDataPoint> healthData =
-                await health.getHealthDataFromTypes(
-                    now.subtract(Duration(days: 1)), now, types);
-
-            // request permissions to write steps and blood glucose
-            types = [HealthDataType.STEPS];
-            var permissions = [
-              HealthDataAccess.READ_WRITE
-            ];
-            await health.requestAuthorization(types, permissions: permissions);
-
-            // write steps and blood glucose
-            bool success = await health.writeHealthData(
-                10, HealthDataType.STEPS, now, now);
-
-            // get the number of steps for today
-            var midnight = DateTime(now.year, now.month, now.day);
-            int? steps = await health.getTotalStepsInInterval(midnight, now);
-
-            print("Steps: $steps");
-          },
-          child: const Text("Press me")),
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        SizedBox(
+            height: 250,
+            child: Card(
+              margin: const EdgeInsets.only(bottom: 16),
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Steps", style: Theme.of(context).textTheme.titleLarge),
+                      Text("10320 steps today", style: Theme.of(context).textTheme.bodyLarge),
+                      const Icon(Icons.directions_walk),
+                    ],
+                  ),
+                  Expanded(
+                    child: SimpleBarChart.withRandomData(),
+                  ),
+                
+                ]),
+              ),
+            )),
+        SizedBox(
+            height: 250,
+            child: Card(
+              margin: const EdgeInsets.only(bottom: 16),
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Heatbeat", style: Theme.of(context).textTheme.titleLarge),
+                      Text("87 bpm", style: Theme.of(context).textTheme.bodyLarge),
+                      const Icon(Icons.heart_broken),
+                    ],
+                  ),
+                  Expanded(
+                    child: SimpleBarChart.withRandomData(),
+                  ),
+                
+                ]),
+              ),
+            )),
+        SizedBox(
+            height: 250,
+            child: Card(
+              margin: const EdgeInsets.only(bottom: 16),
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Weight", style: Theme.of(context).textTheme.titleLarge),
+                      Text("81 kg", style: Theme.of(context).textTheme.bodyLarge),
+                      const Icon(Icons.scale),
+                    ],
+                  ),
+                  Expanded(
+                    child: SimpleBarChart.withRandomData(),
+                  ),
+                
+                ]),
+              ),
+            )),
+      ],
     );
   }
+}
+
+class SimpleBarChart extends StatelessWidget {
+  final List<charts.Series<dynamic, String>> seriesList;
+  final bool animate;
+
+  const SimpleBarChart(this.seriesList, {super.key, this.animate = false});
+
+  factory SimpleBarChart.withRandomData() {
+    return SimpleBarChart(_createRandomData());
+  }
+
+  /// Returns random data for demonstration.
+  static List<charts.Series<SensorEntry, String>> _createRandomData() {
+    final random = Random();
+
+    final data = [
+      SensorEntry('Man', random.nextInt(10000)),
+      SensorEntry('Tir', random.nextInt(10000)),
+      SensorEntry('Ons', random.nextInt(10000)),
+      SensorEntry('Tor', random.nextInt(10000)),
+      SensorEntry('Fre', random.nextInt(10000)),
+      SensorEntry('Lør', random.nextInt(10000)),
+      SensorEntry('Søn', random.nextInt(10000)),
+    ];
+
+    return [
+      charts.Series<SensorEntry, String>(
+        id: 'Data',
+        domainFn: (SensorEntry sales, _) => sales.day,
+        measureFn: (SensorEntry sales, _) => sales.value,
+        data: data,
+      )
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return charts.BarChart(
+      seriesList,
+      animate: animate,
+    );
+  }
+
+}
+
+/// Demonstration data class.
+class SensorEntry {
+  final String day;
+  final int value;
+
+  SensorEntry(this.day, this.value);
 }

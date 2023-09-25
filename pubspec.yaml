@@ -19,6 +19,7 @@ dependencies:
   get_it: ^7.6.4
   mocktail: ^1.0.0
   health: ^8.0.0
+  community_charts_flutter: ^1.0.1
 
 dev_dependencies:
   flutter_test:
