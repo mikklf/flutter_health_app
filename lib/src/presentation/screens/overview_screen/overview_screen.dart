@@ -4,6 +4,8 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:community_charts_flutter/community_charts_flutter.dart'
     as charts;
+import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/src/business_logic/services/health_service.dart';
 import 'package:health/health.dart';
 
 class OverviewScreen extends StatelessWidget {
@@ -21,43 +23,12 @@ class OverviewScreen extends StatelessWidget {
       children: [
         ElevatedButton(
             onPressed: () async {
-              
-              HealthFactory health;
-              
-              // Due to a bug using Health Connect on Andriod SDK 34+ is not possible
-              // See https://github.com/cph-cachet/flutter-plugins/issues/800
-              // We therefore use Health Connect on Android SDK 33 and below
-              // and use soon-to-be-deprecated Google Fit API on SDK 34 and above
-              if (Platform.isIOS) {
-                health = HealthFactory();
-              } else {
-                final deviceInfo = DeviceInfoPlugin();
-                final androidInfo = await deviceInfo.androidInfo;
+              var healthService = services.get<HealthService>();
 
-                if (androidInfo.version.sdkInt >= 34) {
-                  health = HealthFactory();
-                } else {
-                  health = HealthFactory(useHealthConnectIfAvailable: true);
-                }
-              }
-
-              var types = [
-                HealthDataType.STEPS,
-              ];
-
-              var permission = [HealthDataAccess.READ_WRITE];
-
-              bool requested = await health.requestAuthorization(types,
-                  permissions: permission);
-
-              var earlier = DateTime.now().subtract(Duration(minutes: 20));
               var now = DateTime.now();
-
-              bool success = await health.writeHealthData(
-                  150, HealthDataType.STEPS, earlier, now);
-
               var midnight = DateTime(now.year, now.month, now.day);
-              int? steps = await health.getTotalStepsInInterval(midnight, now);
+
+              var steps = healthService.getSteps(midnight, now);
 
               print("Steps: $steps");
             },
