@@ -1,12 +1,10 @@
-import 'dart:io';
-import 'dart:math';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:community_charts_flutter/community_charts_flutter.dart'
-    as charts;
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/business_logic/services/health_service.dart';
-import 'package:health/health.dart';
+import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
+
+import 'widgets/heartbeat_widget.dart';
+import 'widgets/steps_widget.dart';
+import 'widgets/weight_widget.dart';
 
 class OverviewScreen extends StatelessWidget {
   const OverviewScreen({
@@ -22,141 +20,20 @@ class OverviewScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       children: [
         ElevatedButton(
-            onPressed: () async {
-              var healthService = services.get<HealthService>();
-
-              var now = DateTime.now();
-              var midnight = DateTime(now.year, now.month, now.day);
-
-              var steps = healthService.getSteps(midnight, now);
-
-              print("Steps: $steps");
-            },
+            onPressed: _healthButtonPressed,
             child: const Text("Press me for health data")),
-        SizedBox(
-            height: 250,
-            child: Card(
-              margin: const EdgeInsets.only(bottom: 16),
-              elevation: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Steps",
-                          style: Theme.of(context).textTheme.titleLarge),
-                      Text("10320 steps today",
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      const Icon(Icons.directions_walk),
-                    ],
-                  ),
-                  Expanded(
-                    child: SimpleBarChart.withRandomData(),
-                  ),
-                ]),
-              ),
-            )),
-        SizedBox(
-            height: 250,
-            child: Card(
-              margin: const EdgeInsets.only(bottom: 16),
-              elevation: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Heatbeat",
-                          style: Theme.of(context).textTheme.titleLarge),
-                      Text("87 bpm",
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      const Icon(Icons.heart_broken),
-                    ],
-                  ),
-                  Expanded(
-                    child: SimpleBarChart.withRandomData(),
-                  ),
-                ]),
-              ),
-            )),
-        SizedBox(
-            height: 250,
-            child: Card(
-              margin: const EdgeInsets.only(bottom: 16),
-              elevation: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Weight",
-                          style: Theme.of(context).textTheme.titleLarge),
-                      Text("81 kg",
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      const Icon(Icons.scale),
-                    ],
-                  ),
-                  Expanded(
-                    child: SimpleBarChart.withRandomData(),
-                  ),
-                ]),
-              ),
-            )),
+        const StepsWidget(),
+        const HeartbeatWidget(),
+        const WeightWidget(),
       ],
     );
   }
-}
 
-class SimpleBarChart extends StatelessWidget {
-  final List<charts.Series<dynamic, String>> seriesList;
-  final bool animate;
+  void _healthButtonPressed() async {
+    var _stepRepository = services.get<StepRepository>();
 
-  const SimpleBarChart(this.seriesList, {super.key, this.animate = false});
+    var steps = await _stepRepository.getStepsForDay(DateTime.now());
 
-  factory SimpleBarChart.withRandomData() {
-    return SimpleBarChart(_createRandomData());
+    print("Steps: $steps");
   }
-
-  /// Returns random data for demonstration.
-  static List<charts.Series<SensorEntry, String>> _createRandomData() {
-    final random = Random();
-
-    final data = [
-      SensorEntry('Man', random.nextInt(10000)),
-      SensorEntry('Tir', random.nextInt(10000)),
-      SensorEntry('Ons', random.nextInt(10000)),
-      SensorEntry('Tor', random.nextInt(10000)),
-      SensorEntry('Fre', random.nextInt(10000)),
-      SensorEntry('Lør', random.nextInt(10000)),
-      SensorEntry('Søn', random.nextInt(10000)),
-    ];
-
-    return [
-      charts.Series<SensorEntry, String>(
-        id: 'Data',
-        domainFn: (SensorEntry sales, _) => sales.day,
-        measureFn: (SensorEntry sales, _) => sales.value,
-        data: data,
-      )
-    ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return charts.BarChart(
-      seriesList,
-      animate: animate,
-    );
-  }
-}
-
-/// Demonstration data class.
-class SensorEntry {
-  final String day;
-  final int value;
-
-  SensorEntry(this.day, this.value);
 }
