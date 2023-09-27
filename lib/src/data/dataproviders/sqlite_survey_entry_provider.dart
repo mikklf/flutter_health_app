@@ -17,6 +17,7 @@ class SQLiteSurveyEntryProvider implements ISurveyEntryProvider {
     );
   }
 
+  /// Get the last entry of a survey with the given [surveyId]. Returns null if no entry is found.
   @override
   Future<Map<String, dynamic>?> getLastEntryOfType(final String surveyId) async {
     final Database db = await _databaseHelper.getDatabase();
