@@ -12,12 +12,13 @@ class SqliteDatabaseHelper {
     );
   }
 
-  Future<void> _onDatabaseCreate(Database db, int version) {
-    return db.execute(
-      """
-      CREATE TABLE survey_entries(id INTEGER PRIMARY KEY AUTOINCREMENT, survey_id TEXT, date TEXT, result TEXT)
-      """,
-    );
+  void _onDatabaseCreate(Database db, int version) {
+    var batch = db.batch();
+    batch.execute("CREATE TABLE survey_entries(id INTEGER PRIMARY KEY AUTOINCREMENT, survey_id TEXT, date TEXT, result TEXT);");
+    batch.execute("CREATE TABLE steps(id INTEGER PRIMARY KEY AUTOINCREMENT, steps INTEGER, date TEXT);");
+    batch.commit();
+
+    return;
   }
 
   Future<String> _getSqliteDatabasePath() async {
