@@ -3,7 +3,7 @@ import 'package:flutter_health_app/domain/interfaces/survey_entry_repository.dar
 import 'package:flutter_health_app/src/data/models/survery_entry.dart';
 import 'package:research_package/research_package.dart';
 
-class SurveyEntryRepository implements ISurveyEntryRepository{
+class SurveyEntryRepository implements ISurveyEntryRepository {
   final ISurveyEntryProvider _entryProvider;
 
   SurveyEntryRepository(this._entryProvider);
