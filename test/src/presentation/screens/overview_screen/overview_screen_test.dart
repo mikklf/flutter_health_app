@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/steps_widget.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -12,6 +13,6 @@ void main() {
 
   testWidgets('Overview Screen has a text', (tester) async {
     await tester.pumpWidget(createWidgetUnderTest());
-    expect(find.text('Overview Screen'), findsOneWidget);
+    expect(find.widgetWithText(StepsWidget, "Steps"), findsOneWidget);
   });
 }
