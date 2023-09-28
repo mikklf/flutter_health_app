@@ -1,8 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
-
+import 'package:community_charts_flutter/community_charts_flutter.dart'
+    as charts;
+import 'package:flutter_health_app/src/data/models/steps.dart';
 
 class StepsWidget extends StatelessWidget {
   const StepsWidget({
@@ -19,72 +20,54 @@ class StepsWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Steps",
-                      style: Theme.of(context).textTheme.titleLarge),
-                  Text("10320 steps today",
-                      style: Theme.of(context).textTheme.bodyLarge),
-                  const Icon(Icons.directions_walk),
-                ],
-              ),
-              Expanded(
-                child: SimpleBarChart.withRandomData(),
-              ),
+              _buildHeader(context, 6400),
+              _buildChart(context),
             ]),
           ),
         ));
   }
-}
 
-
-class SimpleBarChart extends StatelessWidget {
-  final List<charts.Series<dynamic, String>> seriesList;
-  final bool animate;
-
-  const SimpleBarChart(this.seriesList, {super.key, this.animate = false});
-
-  factory SimpleBarChart.withRandomData() {
-    return SimpleBarChart(_createRandomData());
+  Widget _buildHeader(BuildContext context, int steps) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("Steps", style: Theme.of(context).textTheme.titleLarge),
+        Text("$steps steps today",
+            style: Theme.of(context).textTheme.bodyLarge),
+        const Icon(Icons.directions_walk),
+      ],
+    );
   }
 
-  /// Returns random data for demonstration.
-  static List<charts.Series<SensorEntry, String>> _createRandomData() {
+  Widget _buildChart(BuildContext context) {
     final random = Random();
 
     final data = [
-      SensorEntry('Man', random.nextInt(10000)),
-      SensorEntry('Tir', random.nextInt(10000)),
-      SensorEntry('Ons', random.nextInt(10000)),
-      SensorEntry('Tor', random.nextInt(10000)),
-      SensorEntry('Fre', random.nextInt(10000)),
-      SensorEntry('Lør', random.nextInt(10000)),
-      SensorEntry('Søn', random.nextInt(10000)),
+      Steps(steps: 10000, date: DateTime.now().subtract(Duration(days: 6))),
+      Steps(steps: 7000, date: DateTime.now().subtract(Duration(days: 5))),
+      Steps(steps: 8000, date: DateTime.now().subtract(Duration(days: 4))),
+      Steps(steps: 2030, date: DateTime.now().subtract(Duration(days: 3))),
+      Steps(steps: 12000, date: DateTime.now().subtract(Duration(days: 2))),
+      Steps(steps: 552, date: DateTime.now().subtract(Duration(days: 1))),
+      Steps(steps: 1440, date: DateTime.now()),
     ];
 
-    return [
-      charts.Series<SensorEntry, String>(
+    List<String> weekNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    var chartData = [
+      charts.Series<Steps, String>(
         id: 'Data',
-        domainFn: (SensorEntry sales, _) => sales.day,
-        measureFn: (SensorEntry sales, _) => sales.value,
+        domainFn: (Steps x, _) => weekNames[x.date.weekday - 1],
+        measureFn: (Steps x, _) => x.steps,
         data: data,
       )
     ];
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return charts.BarChart(
-      seriesList,
-      animate: animate,
+    return Expanded(
+      child: charts.BarChart(
+        chartData,
+        animate: false,
+      ),
     );
   }
-}
-
-class SensorEntry {
-  final String day;
-  final int value;
-
-  SensorEntry(this.day, this.value);
 }
