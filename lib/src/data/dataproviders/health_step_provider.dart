@@ -27,7 +27,8 @@ class HealthStepProvider implements IStepProvider {
       throw ArgumentError("Values must contain an id field");
     }
 
-    await db.update(_tableName, values, where: "id = ?", whereArgs: [values["id"]]);
+    await db
+        .update(_tableName, values, where: "id = ?", whereArgs: [values["id"]]);
   }
 
   @override
@@ -38,7 +39,7 @@ class HealthStepProvider implements IStepProvider {
     //  DateTime dt = DateTime.now();
     //  final result = '${dt.year}-${dt.month}-${dt.day}';
     //  print(result);
-    //  result = 2023-09-27 
+    //  result = 2023-09-27
 
     var startOfDay = DateTime(date.year, date.month, date.day, 0, 0, 0);
     var endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
@@ -56,11 +57,25 @@ class HealthStepProvider implements IStepProvider {
     return maps.first;
   }
 
-  /// Returns the total number of steps between [startTime] and [endTime]. Returns 0 if no steps are found.
   @override
-  Future<int> getSteps(DateTime startTime, DateTime endTime) async {
-    // TODO: implement getSteps
-    throw UnimplementedError();
+  Future<List<Map<String, dynamic>>?> getSteps(
+      DateTime startTime, DateTime endTime) async {
+    final Database db = await _databaseHelper.getDatabase();
+
+    var start = 
+      DateTime(startTime.year, startTime.month, startTime.day, 0, 0, 0);
+    var end = DateTime(endTime.year, endTime.month, endTime.day, 23, 59, 59);
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      _tableName,
+      where: "date BETWEEN ? AND ?",
+      whereArgs: [start.toString(), end.toString()],
+    );
+
+    if (maps.isEmpty) {
+      return null;
+    }
+
+    return maps;
   }
 }
-
