@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/step_provider.dart';
+import 'package:flutter_health_app/src/data/dataproviders/health_step_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
 
 import 'widgets/heartbeat_widget.dart';
@@ -31,6 +35,8 @@ class OverviewScreen extends StatelessWidget {
 
   void _healthButtonPressed() async {
     var _stepRepository = services.get<StepRepository>();
+
+    await _stepRepository.updateStepsForDay(DateTime.now(), Random().nextInt(1000));
 
     var steps = await _stepRepository.getStepsForDay(DateTime.now());
 

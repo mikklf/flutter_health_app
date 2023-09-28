@@ -15,7 +15,6 @@ class StepRepository {
     var stepsEntry = Steps.fromMap(entry);
 
     return stepsEntry.steps;
-    
   }
 
   Future<void> updateStepsForDay(DateTime date, int steps) async {
@@ -24,16 +23,20 @@ class StepRepository {
 
     if (entry == null) {
       _stepProvider.insert(Steps(steps: steps, date: date).toMap());
-
       return;
     }
 
+    var updatedEntry = Steps.fromMap(entry).copyWith(steps: steps);
 
-    var stepsEntry = Steps.fromMap(entry);
+    _stepProvider.update(updatedEntry.toMap());
+  }
 
-    var updatedEntry = stepsEntry.copyWith(steps: steps).toMap();
+  Future<List<Steps>> getStepsInRange(
+      DateTime startDate, DateTime endDate) async {
+    var mapSteps = await _stepProvider.getSteps(startDate, endDate);
 
-    _stepProvider.update(updatedEntry);
+    if (mapSteps == null) return [];
 
+    return mapSteps.map((e) => Steps.fromMap(e)).toList();
   }
 }

@@ -1,9 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:community_charts_flutter/community_charts_flutter.dart'
     as charts;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/steps_cubit.dart';
 import 'package:flutter_health_app/src/data/models/steps.dart';
+import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
 
 class StepsWidget extends StatelessWidget {
   const StepsWidget({
@@ -12,54 +14,49 @@ class StepsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 250,
-        child: Card(
-          margin: const EdgeInsets.only(bottom: 16),
-          elevation: 2,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(children: [
-              _buildHeader(context, 6400),
-              _buildChart(context),
-            ]),
-          ),
-        ));
+    return BlocProvider(
+      create: (_) => StepsCubit(
+        services.get<StepRepository>(),
+      )..getLastestSteps(7),
+      child: BlocBuilder<StepsCubit, StepsCubitState>(
+        builder: (context, state) {
+          return SizedBox(
+              height: 250,
+              child: Card(
+                margin: const EdgeInsets.only(bottom: 16),
+                elevation: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(children: [
+                    _buildHeader(context, state),
+                    _buildChart(context, state),
+                  ]),
+                ),
+              ));
+        },
+      ),
+    );
   }
 
-  Widget _buildHeader(BuildContext context, int steps) {
+  Widget _buildHeader(BuildContext context, StepsCubitState state) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Steps", style: Theme.of(context).textTheme.titleLarge),
-        Text("$steps steps today",
+        Text("${state.stepsToday} steps today",
             style: Theme.of(context).textTheme.bodyLarge),
         const Icon(Icons.directions_walk),
       ],
     );
   }
 
-  Widget _buildChart(BuildContext context) {
-    final random = Random();
-
-    final data = [
-      Steps(steps: 10000, date: DateTime.now().subtract(Duration(days: 6))),
-      Steps(steps: 7000, date: DateTime.now().subtract(Duration(days: 5))),
-      Steps(steps: 8000, date: DateTime.now().subtract(Duration(days: 4))),
-      Steps(steps: 2030, date: DateTime.now().subtract(Duration(days: 3))),
-      Steps(steps: 12000, date: DateTime.now().subtract(Duration(days: 2))),
-      Steps(steps: 552, date: DateTime.now().subtract(Duration(days: 1))),
-      Steps(steps: 1440, date: DateTime.now()),
-    ];
-
-    List<String> weekNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
+  Widget _buildChart(BuildContext context, StepsCubitState state) {
     var chartData = [
       charts.Series<Steps, String>(
         id: 'Data',
-        domainFn: (Steps x, _) => weekNames[x.date.weekday - 1],
+        domainFn: (Steps x, _) => "${x.date.day}/${x.date.month}",
         measureFn: (Steps x, _) => x.steps,
-        data: data,
+        data: state.steps,
       )
     ];
 
