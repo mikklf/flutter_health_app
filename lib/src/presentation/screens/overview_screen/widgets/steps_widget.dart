@@ -56,7 +56,7 @@ class StepsWidget extends StatelessWidget {
         id: 'Data',
         domainFn: (Steps x, _) => "${x.date.day}/${x.date.month}",
         measureFn: (Steps x, _) => x.steps,
-        data: state.steps,
+        data: state.stepsList,
       )
     ];
 

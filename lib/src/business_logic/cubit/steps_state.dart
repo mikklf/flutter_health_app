@@ -2,23 +2,23 @@ part of 'steps_cubit.dart';
 
 final class StepsCubitState extends Equatable {
   
-  final List<Steps> steps;
+  final List<Steps> stepsList;
   final int stepsToday;
 
   const StepsCubitState({
-    this.steps = const [],
+    this.stepsList = const [],
     this.stepsToday = 0,
   });
 
   @override
-  List<Object> get props => [steps, stepsToday];
+  List<Object> get props => [stepsList, stepsToday];
 
   StepsCubitState copyWith({
-    List<Steps>? steps,
+    List<Steps>? stepsList,
     int? stepsToday,
   }) {
     return StepsCubitState(
-      steps: steps ?? this.steps,
+      stepsList: stepsList ?? this.stepsList,
       stepsToday: stepsToday ?? this.stepsToday,
     );
   }

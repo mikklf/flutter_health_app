@@ -12,16 +12,32 @@ class StepsCubit extends Cubit<StepsCubitState> {
 
   /// Calls the [StepRepository] to get the steps for the current day.
   Future<void> getLastestSteps(int numOfDays) async {
-    var steps = await _stepRepository.getStepsInRange(
-        DateTime.now().subtract(Duration(days: numOfDays - 1)), DateTime.now());
+    var startDate = DateTime.now().subtract(Duration(days: numOfDays - 1));
+    var endDate = DateTime.now();
 
-    steps.sort((a, b) => a.date.compareTo(b.date));
+    var data = await _stepRepository.getStepsInRange(
+        startDate, endDate);
 
-    var stepsToday = 0;
-    if (steps.isNotEmpty) {
-      stepsToday = steps.last.steps;
+    // Sort by earliest date first
+    data.sort((a, b) => a.date.compareTo(b.date));
+
+    // Generate a list of all days in the range
+    var lastestStepsList = <Steps>[];
+    for (var i = 0; i < numOfDays; i++) {
+      lastestStepsList.add(Steps(date: startDate.add(Duration(days: i)), steps: 0));
     }
 
-    emit(state.copyWith(steps: steps, stepsToday: stepsToday));
+    // Fill in steps count for days that have data
+    for (var element in data) {
+      // Search for by using date only, neglecting time
+      var index = lastestStepsList.indexWhere((x) =>
+          x.date.day == element.date.day &&
+          x.date.month == element.date.month &&
+          x.date.year == element.date.year);
+
+      lastestStepsList[index] = element;
+    }
+
+    emit(state.copyWith(stepsList: lastestStepsList, stepsToday: lastestStepsList.last.steps));
   }
 }
