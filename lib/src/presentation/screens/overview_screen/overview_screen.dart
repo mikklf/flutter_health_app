@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
+import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:health/health.dart';
 
 import 'widgets/heartbeat_widget.dart';
@@ -36,21 +34,28 @@ class OverviewScreen extends StatelessWidget {
   }
 
   void _healthButtonPressed() async {
-    var stepRepository = services.get<StepRepository>();
+    var stepRepository = services.get<IStepRepository>();
 
-    await stepRepository.updateStepsForDay(
-        DateTime.now(), Random().nextInt(1000));
+    //await stepRepository.updateStepsForDay(
+    //    DateTime.now(), Random().nextInt(1000));
 
-    HealthFactory health = await HealthHelper.getHealthFactory();
+    HealthFactory healthFactory = await HealthHelper.getHealthFactory();
 
     var now = DateTime.now();
-    var earlier = now.subtract(Duration(minutes: 20));
+    var earlier = now.subtract(const Duration(minutes: 5));
 
-    health.writeHealthData(
-      1000, HealthDataType.STEPS, earlier, now);
+    healthFactory.writeHealthData(500, HealthDataType.STEPS, earlier, now);
 
-    var steps = await stepRepository.getStepsForDay(DateTime.now());
+    var startOfDay = DateTime(now.year, now.month, now.day, 0, 0, 0);
+    var endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
-    debugPrint("Steps: $steps");
+    var databaseSteps = await stepRepository.getStepsInRange(startOfDay, endOfDay);
+
+    var healthSteps = await HealthHelper.getSteps(startOfDay, endOfDay);
+
+
+
+    debugPrint("Steps in DB for day: $databaseSteps");
+    debugPrint("Steps in Health for day: $healthSteps");
   }
 }

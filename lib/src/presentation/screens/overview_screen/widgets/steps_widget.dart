@@ -3,9 +3,9 @@ import 'package:community_charts_flutter/community_charts_flutter.dart'
     as charts;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/steps_cubit.dart';
 import 'package:flutter_health_app/src/data/models/steps.dart';
-import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
 
 class StepsWidget extends StatelessWidget {
   const StepsWidget({
@@ -16,10 +16,9 @@ class StepsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => StepsCubit(
-        services.get<StepRepository>(),
+        services.get<IStepRepository>(),
       )
-        ..getLastestSteps(7)
-        ..syncSteps(),
+        ..getLastestSteps(7),
       child: BlocBuilder<StepsCubit, StepsCubitState>(
         builder: (context, state) {
           return SizedBox(

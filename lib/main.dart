@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
 import 'package:flutter_health_app/di.dart';
 
@@ -21,6 +23,9 @@ class MainApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => TabManagerCubit(),
+          ),
+          BlocProvider(
+            create: (context) => SyncCubit(services.get<IStepRepository>()),
           ),
         ],
         child: const MaterialApp(

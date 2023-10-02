@@ -1,4 +1,5 @@
 import 'package:flutter_health_app/domain/interfaces/step_provider.dart';
+import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_entry_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_entry_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_provider.dart';
@@ -30,7 +31,7 @@ class ServiceLocator {
 
     services.registerSingleton<IStepProvider>(HealthStepProvider());
 
-    services.registerSingleton(StepRepository(
+    services.registerSingleton<IStepRepository>(StepRepository(
       services<IStepProvider>(),
     ));
 

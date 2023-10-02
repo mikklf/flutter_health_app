@@ -10,6 +10,7 @@ class SurveysBloc extends Bloc<SurveysEvent, SurveysState> {
   final ISurveyRepository _surveyRepository;
 
   SurveysBloc(this._surveyRepository) : super(const SurveysState()) {
+    // Register event handlers
     on<SurveysEvent>((event, emit) {});
     on<LoadSurveys>(_onLoadSurvey);
   }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
 import 'package:flutter_health_app/home.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
-import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,7 +12,7 @@ import 'package:mocktail/mocktail.dart';
 
 class MockSurveyRepository extends Mock implements ISurveyRepository {}
 
-class MockStepRepository extends Mock implements StepRepository {}
+class MockStepRepository extends Mock implements IStepRepository {}
 
 class DateTimeFake extends Fake implements DateTime {}
 
@@ -25,14 +25,14 @@ void main() {
     services.unregister<ISurveyRepository>();
     services.registerSingleton<ISurveyRepository>(MockSurveyRepository());
     // Replace StepRepository with a mock
-    services.unregister<StepRepository>();
-    services.registerSingleton<StepRepository>(MockStepRepository());
+    services.unregister<IStepRepository>();
+    services.registerSingleton<IStepRepository>(MockStepRepository());
 
     // Register fallback value for SurveyEntry
     registerFallbackValue(DateTimeFake());
 
     // Setup mock behaviour
-    when(() => services<StepRepository>().getStepsInRange(any(), any()))
+    when(() => services<IStepRepository>().getStepsInRange(any(), any()))
         .thenAnswer((_) async {
       return [];
     });
