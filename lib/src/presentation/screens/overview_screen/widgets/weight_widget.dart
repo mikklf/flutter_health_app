@@ -1,14 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:community_charts_flutter/community_charts_flutter.dart'
     as charts;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/steps_cubit.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
-import 'package:flutter_health_app/src/data/models/steps.dart';
+import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/weights_cubit.dart';
+import 'package:flutter_health_app/src/data/models/weight.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/data_card_box_widget.dart';
 import 'package:research_package/research_package.dart';
 
@@ -20,29 +17,22 @@ class WeightWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => StepsCubit(
-        services.get<IStepRepository>(),
-      ),
-      child: BlocListener<SyncCubit, SyncState>(
-        listener: (context, state) {
-          if (state.isSyncing == false) {
-            context.read<StepsCubit>().getLastestSteps(7);
-          }
+      create: (_) => WeightsCubit(
+        services.get<IWeightRepository>(),
+      )..getLastestWeights(),
+      child: BlocBuilder<WeightsCubit, WeightsCubitState>(
+        builder: (context, state) {
+          return DataCardBoxWidget(
+              child: Column(children: [
+            _buildHeader(context, state),
+            _buildChart(context, state),
+          ]));
         },
-        child: BlocBuilder<StepsCubit, StepsCubitState>(
-          builder: (context, state) {
-            return DataCardBoxWidget(
-                child: Column(children: [
-              _buildHeader(context, state),
-              _buildChart(context, state),
-            ]));
-          },
-        ),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context, StepsCubitState state) {
+  Widget _buildHeader(BuildContext context, WeightsCubitState state) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -69,23 +59,20 @@ class WeightWidget extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => RPUITask(
+                builder: (_) => RPUITask(
                   task: task,
                   onSubmit: (RPTaskResult result) async {
-                    String _encode(Object object) =>
-                        const JsonEncoder.withIndent(' ').convert(object);
-                    void printWrapped(String text) {
-                      final pattern =
-                          RegExp('.{1,800}'); // 800 is the size of each chunk
-                      pattern
-                          .allMatches(text)
-                          .forEach((match) => print(match.group(0)));
-                    }
+                    var stepResult = result.results["weight"] as RPStepResult;
+                    var weight = double.parse(stepResult.results["answer"]);
 
-                    printWrapped(_encode(result));
-                  },
-                  onCancel: (RPTaskResult? result) {
-                    // Do cancellation logic here
+                    // Round to 1 decimal place
+                    weight = double.parse(weight.toStringAsFixed(1));
+
+                    context
+                        .read<WeightsCubit>()
+                        .updateWeight(DateTime.now(), weight);
+
+                    // Call Bloc with weight
                   },
                 ),
               ),
@@ -99,19 +86,19 @@ class WeightWidget extends StatelessWidget {
             ],
           ),
         ),
-        Text("${state.stepsToday} kg",
+        Text("${state.currentWeight} kg",
             style: Theme.of(context).textTheme.bodyLarge),
       ],
     );
   }
 
-  Widget _buildChart(BuildContext context, StepsCubitState state) {
+  Widget _buildChart(BuildContext context, WeightsCubitState state) {
     var chartData = [
-      charts.Series<Steps, DateTime>(
+      charts.Series<Weight, DateTime>(
         id: 'Data',
-        domainFn: (Steps x, _) => x.date,
-        measureFn: (Steps x, _) => x.steps,
-        data: state.stepsList,
+        domainFn: (Weight x, _) => x.date,
+        measureFn: (Weight x, _) => x.weight,
+        data: state.weightList,
       )
     ];
 
