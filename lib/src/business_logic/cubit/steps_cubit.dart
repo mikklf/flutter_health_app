@@ -15,11 +15,11 @@ class StepsCubit extends Cubit<StepsCubitState> {
     var startDate = DateTime.now().subtract(Duration(days: numOfDays - 1));
     var endDate = DateTime.now();
 
-    var data = await _stepRepository.getStepsInRange(
+    var stepsData = await _stepRepository.getStepsInRange(
         startDate, endDate);
 
     // Sort by earliest date first
-    data.sort((a, b) => a.date.compareTo(b.date));
+    stepsData.sort((a, b) => a.date.compareTo(b.date));
 
     // Generate a list of all days in the range
     var lastestStepsList = <Steps>[];
@@ -28,7 +28,7 @@ class StepsCubit extends Cubit<StepsCubitState> {
     }
 
     // Fill in steps count for days that have data
-    for (var element in data) {
+    for (var element in stepsData) {
       // Search for by using date only, neglecting time
       var index = lastestStepsList.indexWhere((x) =>
           x.date.day == element.date.day &&
@@ -38,6 +38,6 @@ class StepsCubit extends Cubit<StepsCubitState> {
       lastestStepsList[index] = element;
     }
 
-    emit(state.copyWith(stepsList: lastestStepsList, stepsToday: lastestStepsList.last.steps));
+    emit(state.copyWith(stepsList: lastestStepsList));
   }
 }
