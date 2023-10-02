@@ -27,8 +27,8 @@ class OverviewScreen extends StatelessWidget {
             onPressed: _healthButtonPressed,
             child: const Text("Press me for health data")),
         const StepsWidget(),
-        const HeartbeatWidget(),
         const WeightWidget(),
+        const HeartbeatWidget(),
       ],
     );
   }

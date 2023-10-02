@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
+import 'package:community_charts_flutter/community_charts_flutter.dart'
+    as charts;
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/data_card_box_widget.dart';
 
 class HeartbeatWidget extends StatelessWidget {
   const HeartbeatWidget({
@@ -10,30 +12,20 @@ class HeartbeatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 250,
-        child: Card(
-          margin: const EdgeInsets.only(bottom: 16),
-          elevation: 2,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Heatbeat",
-                      style: Theme.of(context).textTheme.titleLarge),
-                  Text("87 bpm",
-                      style: Theme.of(context).textTheme.bodyLarge),
-                  const Icon(Icons.heart_broken),
-                ],
-              ),
-              Expanded(
-                child: SimpleBarChart.withRandomData(),
-              ),
-            ]),
-          ),
-        ));
+    return DataCardBoxWidget(
+        child: Column(children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Heatbeat", style: Theme.of(context).textTheme.titleLarge),
+          Text("87 bpm", style: Theme.of(context).textTheme.bodyLarge),
+          const Icon(Icons.heart_broken),
+        ],
+      ),
+      Expanded(
+        child: SimpleBarChart.withRandomData(),
+      ),
+    ]));
   }
 }
 

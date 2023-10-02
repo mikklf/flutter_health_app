@@ -1,8 +1,16 @@
-import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
-
+import 'package:community_charts_flutter/community_charts_flutter.dart'
+    as charts;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/steps_cubit.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
+import 'package:flutter_health_app/src/data/models/steps.dart';
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/data_card_box_widget.dart';
+import 'package:research_package/research_package.dart';
 
 class WeightWidget extends StatelessWidget {
   const WeightWidget({
@@ -11,80 +19,107 @@ class WeightWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 250,
-        child: Card(
-          margin: const EdgeInsets.only(bottom: 16),
-          elevation: 2,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Weight",
-                      style: Theme.of(context).textTheme.titleLarge),
-                  Text("81 kg",
-                      style: Theme.of(context).textTheme.bodyLarge),
-                  const Icon(Icons.scale),
-                ],
-              ),
-              Expanded(
-                child: SimpleBarChart.withRandomData(),
-              ),
-            ]),
-          ),
-        ));
-  }
-}
-
-
-class SimpleBarChart extends StatelessWidget {
-  final List<charts.Series<dynamic, String>> seriesList;
-  final bool animate;
-
-  const SimpleBarChart(this.seriesList, {super.key, this.animate = false});
-
-  factory SimpleBarChart.withRandomData() {
-    return SimpleBarChart(_createRandomData());
-  }
-
-  /// Returns random data for demonstration.
-  static List<charts.Series<SensorEntry, String>> _createRandomData() {
-    final random = Random();
-
-    final data = [
-      SensorEntry('Man', random.nextInt(10000)),
-      SensorEntry('Tir', random.nextInt(10000)),
-      SensorEntry('Ons', random.nextInt(10000)),
-      SensorEntry('Tor', random.nextInt(10000)),
-      SensorEntry('Fre', random.nextInt(10000)),
-      SensorEntry('Lør', random.nextInt(10000)),
-      SensorEntry('Søn', random.nextInt(10000)),
-    ];
-
-    return [
-      charts.Series<SensorEntry, String>(
-        id: 'Data',
-        domainFn: (SensorEntry sales, _) => sales.day,
-        measureFn: (SensorEntry sales, _) => sales.value,
-        data: data,
-      )
-    ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return charts.BarChart(
-      seriesList,
-      animate: animate,
+    return BlocProvider(
+      create: (_) => StepsCubit(
+        services.get<IStepRepository>(),
+      ),
+      child: BlocListener<SyncCubit, SyncState>(
+        listener: (context, state) {
+          if (state.isSyncing == false) {
+            context.read<StepsCubit>().getLastestSteps(7);
+          }
+        },
+        child: BlocBuilder<StepsCubit, StepsCubitState>(
+          builder: (context, state) {
+            return DataCardBoxWidget(
+                child: Column(children: [
+              _buildHeader(context, state),
+              _buildChart(context, state),
+            ]));
+          },
+        ),
+      ),
     );
   }
-}
 
-class SensorEntry {
-  final String day;
-  final int value;
+  Widget _buildHeader(BuildContext context, StepsCubitState state) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            const Icon(Icons.directions_walk),
+            const SizedBox(width: 8),
+            Text("Weight", style: Theme.of(context).textTheme.titleLarge),
+          ],
+        ),
+        ElevatedButton(
+          onPressed: () {
+            var task = RPOrderedTask(
+              identifier: "weight",
+              steps: [
+                RPQuestionStep(
+                    identifier: "weight",
+                    title: "Update weight for today",
+                    answerFormat: RPDoubleAnswerFormat(
+                        minValue: 25, maxValue: 500, suffix: "kg"))
+              ],
+            );
 
-  SensorEntry(this.day, this.value);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RPUITask(
+                  task: task,
+                  onSubmit: (RPTaskResult result) async {
+                    String _encode(Object object) =>
+                        const JsonEncoder.withIndent(' ').convert(object);
+                    void printWrapped(String text) {
+                      final pattern =
+                          RegExp('.{1,800}'); // 800 is the size of each chunk
+                      pattern
+                          .allMatches(text)
+                          .forEach((match) => print(match.group(0)));
+                    }
+
+                    printWrapped(_encode(result));
+                  },
+                  onCancel: (RPTaskResult? result) {
+                    // Do cancellation logic here
+                  },
+                ),
+              ),
+            );
+          },
+          child: const Row(
+            children: [
+              Icon(Icons.add_circle_outline),
+              SizedBox(width: 8),
+              Text("Update"),
+            ],
+          ),
+        ),
+        Text("${state.stepsToday} kg",
+            style: Theme.of(context).textTheme.bodyLarge),
+      ],
+    );
+  }
+
+  Widget _buildChart(BuildContext context, StepsCubitState state) {
+    var chartData = [
+      charts.Series<Steps, DateTime>(
+        id: 'Data',
+        domainFn: (Steps x, _) => x.date,
+        measureFn: (Steps x, _) => x.steps,
+        data: state.stepsList,
+      )
+    ];
+
+    return Expanded(
+      child: charts.TimeSeriesChart(
+        chartData,
+        animate: false,
+      ),
+    );
+  }
 }

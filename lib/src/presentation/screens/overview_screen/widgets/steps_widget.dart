@@ -7,6 +7,7 @@ import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/steps_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/data/models/steps.dart';
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/data_card_box_widget.dart';
 
 class StepsWidget extends StatelessWidget {
   const StepsWidget({
@@ -27,19 +28,14 @@ class StepsWidget extends StatelessWidget {
         },
         child: BlocBuilder<StepsCubit, StepsCubitState>(
           builder: (context, state) {
-            return SizedBox(
-                height: 250,
-                child: Card(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(children: [
-                      _buildHeader(context, state),
-                      _buildChart(context, state),
-                    ]),
-                  ),
-                ));
+            return DataCardBoxWidget(
+              child: Column(
+                children: [
+                  _buildHeader(context, state),
+                  _buildChart(context, state),
+                ],
+              ),
+            );
           },
         ),
       ),
@@ -50,10 +46,15 @@ class StepsWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Steps", style: Theme.of(context).textTheme.titleLarge),
+        Row(
+          children: [
+            const Icon(Icons.directions_walk),
+            const SizedBox(width: 8),
+            Text("Steps", style: Theme.of(context).textTheme.titleLarge),
+          ],
+        ),
         Text("${state.stepsToday} steps today",
             style: Theme.of(context).textTheme.bodyLarge),
-        const Icon(Icons.directions_walk),
       ],
     );
   }
