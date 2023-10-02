@@ -5,18 +5,14 @@ import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_scr
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
 
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key,});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+  
   static List<Widget> pages = <Widget>[
     const OverviewScreen(),
     const SurveyDashboardScreen(),
   ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,33 +30,33 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  BottomNavigationBar _bottomNavigationBar(BuildContext context, TabManagerState state) {
+  BottomNavigationBar _bottomNavigationBar(
+      BuildContext context, TabManagerState state) {
     return BottomNavigationBar(
-          selectedItemColor:
-              Theme.of(context).textSelectionTheme.selectionColor,
-          currentIndex: state.selectedTab,
-          onTap: (index) {
-            context.read<TabManagerCubit>().changeTab(index);
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.explore),
-              label: 'Overview',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              label: 'Surveys',
-            )
-          ],
-        );
+      selectedItemColor: Theme.of(context).textSelectionTheme.selectionColor,
+      currentIndex: state.selectedTab,
+      onTap: (index) {
+        context.read<TabManagerCubit>().changeTab(index);
+      },
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.explore),
+          label: 'Overview',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.book),
+          label: 'Surveys',
+        )
+      ],
+    );
   }
 
   AppBar _appBar(BuildContext context) {
     return AppBar(
-          title: Text(
-            'Mobile Health App',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        );
+      title: Text(
+        'Mobile Health App',
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+    );
   }
 }
