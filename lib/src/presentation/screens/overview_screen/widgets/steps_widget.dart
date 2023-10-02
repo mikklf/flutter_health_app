@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/steps_cubit.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/data/models/steps.dart';
 
 class StepsWidget extends StatelessWidget {
@@ -17,24 +18,30 @@ class StepsWidget extends StatelessWidget {
     return BlocProvider(
       create: (_) => StepsCubit(
         services.get<IStepRepository>(),
-      )
-        ..getLastestSteps(7),
-      child: BlocBuilder<StepsCubit, StepsCubitState>(
-        builder: (context, state) {
-          return SizedBox(
-              height: 250,
-              child: Card(
-                margin: const EdgeInsets.only(bottom: 16),
-                elevation: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(children: [
-                    _buildHeader(context, state),
-                    _buildChart(context, state),
-                  ]),
-                ),
-              ));
+      ),
+      child: BlocListener<SyncCubit, SyncState>(
+        listener: (context, state) {
+          if (state.isSyncing == false) {
+            context.read<StepsCubit>().getLastestSteps(7);
+          }
         },
+        child: BlocBuilder<StepsCubit, StepsCubitState>(
+          builder: (context, state) {
+            return SizedBox(
+                height: 250,
+                child: Card(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  elevation: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(children: [
+                      _buildHeader(context, state),
+                      _buildChart(context, state),
+                    ]),
+                  ),
+                ));
+          },
+        ),
       ),
     );
   }
