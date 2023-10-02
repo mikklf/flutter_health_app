@@ -32,7 +32,7 @@ class HealthHelper {
   }
 
   /// Helper method to obtain the total steps in a given interval. Returns 0 if no steps are found.
-  Future<int> getSteps(DateTime startTime, DateTime endTime) async {
+  static Future<int> getSteps(DateTime startTime, DateTime endTime) async {
     final types = [
       HealthDataType.STEPS,
     ];

@@ -43,8 +43,6 @@ class StepRepository {
   }
 
   Future<void> syncSteps(DateTime startDate) async {
-    HealthHelper healthHelper = HealthHelper();
-
     // Count number of days since startDate
     var daysSinceStart = DateTime.now().difference(startDate).inDays;
 
@@ -57,7 +55,7 @@ class StepRepository {
       var midnight = DateTime(date.year, date.month, date.day, 23, 59, 59);
 
       // Get steps from the Health package
-      var steps = await healthHelper.getSteps(date, midnight);
+      var steps = await HealthHelper.getSteps(date, midnight);
 
       // If zero steps, skip
       if (steps == 0) continue;
