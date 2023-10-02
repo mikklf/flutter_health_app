@@ -1,4 +1,5 @@
 import 'package:flutter_health_app/domain/interfaces/step_provider.dart';
+import 'package:flutter_health_app/src/data/dataproviders/helpers/health_helper.dart';
 
 import '../models/steps.dart';
 
@@ -7,6 +8,7 @@ class StepRepository {
 
   StepRepository(this._stepProvider);
 
+  // TODO: Delete this method, when done implementing Steps widget
   Future<int> getStepsForDay(DateTime date) async {
     var entry = await _stepProvider.getStepsForDay(date);
 
@@ -38,5 +40,30 @@ class StepRepository {
     if (mapSteps == null) return [];
 
     return mapSteps.map((e) => Steps.fromMap(e)).toList();
+  }
+
+  Future<void> syncSteps(DateTime startDate) async {
+    HealthHelper healthHelper = HealthHelper();
+
+    // Count number of days since startDate
+    var daysSinceStart = DateTime.now().difference(startDate).inDays;
+
+    // Get steps for each day
+    for (var i = 0; i <= daysSinceStart; i++) {
+      var date = startDate.add(Duration(days: i));
+
+      // Set date variable to start of day and calculate end of day
+      date = DateTime(date.year, date.month, date.day, 0, 0, 0);
+      var midnight = DateTime(date.year, date.month, date.day, 23, 59, 59);
+
+      // Get steps from the Health package
+      var steps = await healthHelper.getSteps(date, midnight);
+
+      // If zero steps, skip
+      if (steps == 0) continue;
+
+      await updateStepsForDay(date, steps);
+    }
+
   }
 }

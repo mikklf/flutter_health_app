@@ -17,7 +17,9 @@ class StepsWidget extends StatelessWidget {
     return BlocProvider(
       create: (_) => StepsCubit(
         services.get<StepRepository>(),
-      )..getLastestSteps(7),
+      )
+        ..getLastestSteps(7)
+        ..syncSteps(),
       child: BlocBuilder<StepsCubit, StepsCubitState>(
         builder: (context, state) {
           return SizedBox(
