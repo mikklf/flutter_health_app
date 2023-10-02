@@ -23,7 +23,7 @@ class StepsWidget extends StatelessWidget {
       child: BlocListener<SyncCubit, SyncState>(
         listener: (context, state) {
           if (state.isSyncing == false) {
-            context.read<StepsCubit>().getLastestSteps(7);
+            context.read<StepsCubit>().getLastestSteps();
           }
         },
         child: BlocBuilder<StepsCubit, StepsCubitState>(
