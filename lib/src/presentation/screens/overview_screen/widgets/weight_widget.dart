@@ -45,37 +45,9 @@ class WeightWidget extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () {
-            var task = RPOrderedTask(
-              identifier: "weight",
-              steps: [
-                RPQuestionStep(
-                    identifier: "weight",
-                    title: "Update weight for today",
-                    answerFormat: RPDoubleAnswerFormat(
-                        minValue: 25, maxValue: 500, suffix: "kg"))
-              ],
-            );
-
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (_) => RPUITask(
-                  task: task,
-                  onSubmit: (RPTaskResult result) async {
-                    var stepResult = result.results["weight"] as RPStepResult;
-                    var weight = double.parse(stepResult.results["answer"]);
-
-                    // Round to 1 decimal place
-                    weight = double.parse(weight.toStringAsFixed(1));
-
-                    context
-                        .read<WeightsCubit>()
-                        .updateWeight(DateTime.now(), weight);
-
-                    // Call Bloc with weight
-                  },
-                ),
-              ),
+              MaterialPageRoute(builder: (_) => _buildWeightSurvey(context)),
             );
           },
           child: const Row(
@@ -89,6 +61,35 @@ class WeightWidget extends StatelessWidget {
         Text("${state.currentWeight} kg",
             style: Theme.of(context).textTheme.bodyLarge),
       ],
+    );
+  }
+
+  RPUITask _buildWeightSurvey(BuildContext context) {
+    var task = RPOrderedTask(
+      identifier: "weight",
+      steps: [
+        RPQuestionStep(
+            identifier: "weight",
+            title: "Update weight for today",
+            answerFormat:
+                RPDoubleAnswerFormat(minValue: 25, maxValue: 500, suffix: "kg"))
+      ],
+    );
+
+    onSubmit(RPTaskResult result) async {
+      // Fetch weight from survey package result
+      var stepResult = result.results["weight"] as RPStepResult;
+      var weight = double.parse(stepResult.results["answer"]);
+
+      // Round weight to one decimal
+      weight = double.parse(weight.toStringAsFixed(1));
+
+      context.read<WeightsCubit>().updateWeight(DateTime.now(), weight);
+    }
+
+    return RPUITask(
+      task: task,
+      onSubmit: onSubmit,
     );
   }
 
