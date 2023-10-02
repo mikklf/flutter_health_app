@@ -71,8 +71,8 @@ void main() {
       act: (bloc) => bloc.add(LoadSurveys()),
       expect: () {
         return [
-          const SurveysState(surveys: [], isLoading: true),
-          SurveysState(isLoading: false, surveys: surveysExpected)
+          const SurveysState(activeSurveys: [], isLoading: true),
+          SurveysState(isLoading: false, activeSurveys: surveysExpected)
         ];
       },
     );

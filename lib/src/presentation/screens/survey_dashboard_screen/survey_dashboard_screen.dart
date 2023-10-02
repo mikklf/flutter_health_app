@@ -26,7 +26,7 @@ class SurveyDashboardScreen extends StatelessWidget {
           return BlocBuilder<SurveysBloc, SurveysState>(
               builder: (context, state) {
               
-            if (state.isLoading && state.surveys.isEmpty) {
+            if (state.isLoading && state.activeSurveys.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             }
               
@@ -35,7 +35,7 @@ class SurveyDashboardScreen extends StatelessWidget {
                 context.read<SurveysBloc>().add(LoadSurveys());
                 return Future.delayed(const Duration(seconds: 1));
               },
-              child: state.surveys.isEmpty
+              child: state.activeSurveys.isEmpty
                   ? _buildNoSurveys(state)
                   : _buildSurveyListView(state),
             );
@@ -67,9 +67,9 @@ class SurveyDashboardScreen extends StatelessWidget {
 
   ListView _buildSurveyListView(SurveysState state) {
     var builder = ListView.builder(
-      itemCount: state.surveys.length,
+      itemCount: state.activeSurveys.length,
       itemBuilder: (context, index) {
-        return SurveyCard(survey: state.surveys[index]);
+        return SurveyCard(survey: state.activeSurveys[index]);
       },
     );
     return builder;
