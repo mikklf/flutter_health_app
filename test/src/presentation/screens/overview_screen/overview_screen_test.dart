@@ -6,6 +6,7 @@ import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/steps_widget.dart';
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/weight_widget.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -59,8 +60,13 @@ void main() {
     );
   }
 
-  testWidgets('Overview Screen has a text', (tester) async {
+  testWidgets('Overview Screen has a StepsWidget', (tester) async {
     await tester.pumpWidget(createWidgetUnderTest());
     expect(find.widgetWithText(StepsWidget, "Steps"), findsOneWidget);
+  });
+
+  testWidgets('Overview Screen has a WeightWidget', (tester) async {
+    await tester.pumpWidget(createWidgetUnderTest());
+    expect(find.widgetWithText(WeightWidget, "Weight"), findsOneWidget);
   });
 }
