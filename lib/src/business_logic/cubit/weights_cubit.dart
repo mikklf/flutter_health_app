@@ -8,13 +8,13 @@ part 'weights_state.dart';
 class WeightsCubit extends Cubit<WeightsCubitState> {
   final IWeightRepository _weightRepository;
 
-  /// The number of entries to return when calling [getLastestWeights]
+  /// The number of entries to return when calling [getLatestWeights]
   final int _numOfEntries = 7;
 
   WeightsCubit(this._weightRepository) : super(const WeightsCubitState());
 
   /// Returns the latest weight entry. Returns empty list if no data is found.
-  Future<void> getLastestWeights() async {
+  Future<void> getLatestWeights() async {
     var weightsData = await _weightRepository.getLatestWeights(_numOfEntries);
 
     emit(state.copyWith(weightList: weightsData));
@@ -23,6 +23,6 @@ class WeightsCubit extends Cubit<WeightsCubitState> {
   /// Adds a new weight entry.
   Future<void> updateWeight(DateTime date, double weight) async {
     await _weightRepository.updateWeight(date, weight);
-    await getLastestWeights();
+    await getLatestWeights();
   }
 }

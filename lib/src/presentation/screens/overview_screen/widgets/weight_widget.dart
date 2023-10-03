@@ -19,7 +19,7 @@ class WeightWidget extends StatelessWidget {
     return BlocProvider(
       create: (_) => WeightsCubit(
         services.get<IWeightRepository>(),
-      )..getLastestWeights(),
+      )..getLatestWeights(),
       child: BlocBuilder<WeightsCubit, WeightsCubitState>(
         builder: (context, state) {
           return DataCardBoxWidget(
