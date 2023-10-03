@@ -47,9 +47,9 @@ class SyncCubit extends Cubit<SyncState> with WidgetsBindingObserver {
     final String? lastSyncTime = prefs.getString('lastSyncStepsDateTime');
 
     if (lastSyncTime == null) {
-      _stepRepository.syncSteps(DateTime.now());
+      await _stepRepository.syncSteps(DateTime.now());
     } else {
-      _stepRepository.syncSteps(DateTime.parse(lastSyncTime));
+      await _stepRepository.syncSteps(DateTime.parse(lastSyncTime));
     }
 
     prefs.setString('lastSyncStepsDateTime', DateTime.now().toString());
