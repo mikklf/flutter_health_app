@@ -51,7 +51,7 @@ class OverviewScreen extends StatelessWidget {
 
     var databaseSteps = await stepRepository.getStepsInRange(startOfDay, endOfDay);
 
-    var stepsInDb = databaseSteps.first.steps;
+    var stepsInDb = databaseSteps.isNotEmpty ? databaseSteps.first.steps : 0;
 
     var healthProvider = services.get<IHealthProvider>();
     var healthSteps = await healthProvider.getSteps(startOfDay, endOfDay);
