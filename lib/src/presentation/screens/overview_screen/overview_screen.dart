@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:health/health.dart';
 
@@ -34,6 +35,7 @@ class OverviewScreen extends StatelessWidget {
     );
   }
 
+  /// TESTING SHOULD BE REMOVED!
   void _healthButtonPressed() async {
     var stepRepository = services.get<IStepRepository>();
 
@@ -51,7 +53,8 @@ class OverviewScreen extends StatelessWidget {
 
     var stepsInDb = databaseSteps.first.steps;
 
-    var healthSteps = await HealthHelper.getSteps(startOfDay, endOfDay);
+    var healthProvider = services.get<IHealthProvider>();
+    var healthSteps = await healthProvider.getSteps(startOfDay, endOfDay);
 
     debugPrint("Steps in DB for day: $stepsInDb");
     debugPrint("Steps in Health for day: $healthSteps");

@@ -31,24 +31,5 @@ class HealthHelper {
     return healthFactory;
   }
 
-  /// Helper method to obtain the total steps in a given interval. Returns 0 if no steps are found.
-  static Future<int> getSteps(DateTime startTime, DateTime endTime) async {
-    final types = [
-      HealthDataType.STEPS,
-    ];
-
-    var health = await HealthHelper.getHealthFactory();
-
-    bool? isAuthorized = await health.hasPermissions(types);
-
-    if (isAuthorized == null || !isAuthorized) {
-      bool requested = await health.requestAuthorization(types);
-
-      if (!requested) {
-        throw Exception("Permission not granted");
-      }
-    }
-
-    return await health.getTotalStepsInInterval(startTime, endTime) ?? 0;
-  }
+  
 }
