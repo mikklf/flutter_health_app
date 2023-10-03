@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
-import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
 
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-  
-  static List<Widget> pages = <Widget>[
-    const OverviewScreen(),
-    const SurveyDashboardScreen(),
-  ];
+  final List<Widget> pages;
+
+  const HomeScreen({super.key, required this.pages});
 
 
   @override

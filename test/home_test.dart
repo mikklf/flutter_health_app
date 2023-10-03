@@ -1,53 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
 import 'package:flutter_health_app/home.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
-import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
-import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
-
-class MockSurveyRepository extends Mock implements ISurveyRepository {}
-
-class MockStepRepository extends Mock implements IStepRepository {}
-
-class DateTimeFake extends Fake implements DateTime {}
 
 void main() {
-  setUpAll(() {
-    // Register services
-    ServiceLocator.setupDependencyInjection();
-
-    // Replace SurveyRepository with a mock
-    services.unregister<ISurveyRepository>();
-    services.registerSingleton<ISurveyRepository>(MockSurveyRepository());
-    // Replace StepRepository with a mock
-    services.unregister<IStepRepository>();
-    services.registerSingleton<IStepRepository>(MockStepRepository());
-
-    // Register fallback value for SurveyEntry
-    registerFallbackValue(DateTimeFake());
-
-    // Setup mock behaviour
-    when(() => services<IStepRepository>().getStepsInRange(any(), any()))
-        .thenAnswer((_) async {
-      return [];
-    });
-  });
-
-  tearDownAll(() {
-    services.reset(dispose: true);
-  });
-
   Widget createWidgetUnderTest() {
+    const pages = [
+      Text("OverviewScreen"),
+      Text("SurveyDashboard"),
+    ];
+
     return MaterialApp(
         title: 'home Test',
         home: BlocProvider(
           create: (context) => TabManagerCubit(),
-          child: const HomeScreen(),
+          child: const HomeScreen(pages: pages),
         ));
   }
 
@@ -82,8 +50,8 @@ void main() {
 
     // Assert
     expect(bottomNavBar.currentIndex, 0);
-    expect(find.byType(OverviewScreen), findsOneWidget);
-    expect(find.byType(SurveyDashboardScreen), findsNothing);
+    expect(find.text("OverviewScreen"), findsOneWidget);
+    expect(find.text("SurveyDashboard"), findsNothing);
   });
 
   testWidgets('Expect IndexedStack with two childrens', (tester) async {
@@ -101,18 +69,13 @@ void main() {
     // Arrange
     await tester.pumpWidget(createWidgetUnderTest());
 
-    when(() => services<ISurveyRepository>().getActive())
-        .thenAnswer((_) async => []);
-
     // Act
     await tester.tap(find.byIcon(Icons.book));
     await tester.pump();
 
     // Assert
-    expect(find.byType(OverviewScreen), findsNothing);
-    expect(find.byType(SurveyDashboardScreen), findsOneWidget);
-
-    verify(() => services<ISurveyRepository>().getActive()).called(1);
+    expect(find.text("OverviewScreen"), findsNothing);
+    expect(find.text("SurveyDashboard"), findsOneWidget);
 
     final BottomNavigationBar bottomNavBar =
         tester.widget(find.byType(BottomNavigationBar));

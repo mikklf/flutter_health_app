@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
+import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
 
 void main() {
   // Register services
@@ -16,6 +18,11 @@ void main() {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+
+  static const List<Widget> pages = [
+    OverviewScreen(),
+    SurveyDashboardScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,7 @@ class MainApp extends StatelessWidget {
       ],
       child: const MaterialApp(
           title: 'Mobile Health Application',
-          home: HomeScreen(),
+          home: HomeScreen(pages: pages),
         ),
     );
   }
