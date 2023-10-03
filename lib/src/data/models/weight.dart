@@ -40,5 +40,5 @@ class Weight extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, weight];
+  List<Object?> get props => [id, weight, date];
 }

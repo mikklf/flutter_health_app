@@ -27,6 +27,6 @@ class Survey extends Equatable {
         task = survey.task;
         
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, title, description, frequency, task];
  
 }
