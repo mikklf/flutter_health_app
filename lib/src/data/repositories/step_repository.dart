@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_health_app/domain/interfaces/step_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/data/dataproviders/helpers/health_helper.dart';
@@ -43,6 +44,8 @@ class StepRepository implements IStepRepository{
     for (var i = 0; i <= daysSinceStart; i++) {
       var date = startDate.add(Duration(days: i));
 
+      debugPrint("Syncing steps for $date");
+
       // Set date variable to start of day and calculate end of day
       date = DateTime(date.year, date.month, date.day, 0, 0, 0);
       var midnight = DateTime(date.year, date.month, date.day, 23, 59, 59);
@@ -55,6 +58,5 @@ class StepRepository implements IStepRepository{
 
       await updateStepsForDay(date, steps);
     }
-
   }
 }

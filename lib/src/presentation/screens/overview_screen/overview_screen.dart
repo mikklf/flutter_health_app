@@ -3,7 +3,6 @@ import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:health/health.dart';
 
-import 'widgets/heartbeat_widget.dart';
 import 'widgets/steps_widget.dart';
 import 'widgets/weight_widget.dart';
 
@@ -23,12 +22,14 @@ class OverviewScreen extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        // TESTING SHOULD BE REMOVED!
         ElevatedButton(
             onPressed: _healthButtonPressed,
-            child: const Text("Press me for health data")),
+            child: const Text("Test button")),
+        
+        // Register widgets here
         const StepsWidget(),
         const WeightWidget(),
-        const HeartbeatWidget(),
       ],
     );
   }

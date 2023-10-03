@@ -107,6 +107,26 @@ class WeightWidget extends StatelessWidget {
       child: charts.TimeSeriesChart(
         chartData,
         animate: false,
+        primaryMeasureAxis: const charts.NumericAxisSpec(
+          tickProviderSpec: charts.BasicNumericTickProviderSpec(
+            zeroBound: false,
+            desiredTickCount: 7,
+          ),
+        ),
+        defaultRenderer: charts.LineRendererConfig(includePoints: true),
+        behaviors: [
+          charts.LinePointHighlighter(
+            symbolRenderer: charts.CircleSymbolRenderer(),
+            selectionModelType: charts.SelectionModelType.info,
+          ),
+          charts.RangeAnnotation(state.weightList
+              .map((e) => charts.LineAnnotationSegment(
+                    e.date,
+                    charts.RangeAnnotationAxisType.domain,
+                    color: charts.MaterialPalette.gray.shade100,
+                  ))
+              .toList()),
+        ],
       ),
     );
   }
