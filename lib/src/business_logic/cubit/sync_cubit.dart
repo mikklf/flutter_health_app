@@ -9,7 +9,7 @@ part 'sync_state.dart';
 class SyncCubit extends Cubit<SyncState> with WidgetsBindingObserver {
   final IStepRepository _stepRepository;
 
-  SyncCubit(this._stepRepository) : super(SyncState(lastSyncTime: DateTime(0))) {
+  SyncCubit(this._stepRepository) : super(SyncState()) {
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -37,7 +37,7 @@ class SyncCubit extends Cubit<SyncState> with WidgetsBindingObserver {
     // Register all sync functions here
     await syncSteps();
 
-    emit(state.copyWith(isSyncing: false, lastSyncTime: DateTime.now()));
+    emit(state.copyWith(isSyncing: false));
   }
 
   /// Syncs steps with backend
