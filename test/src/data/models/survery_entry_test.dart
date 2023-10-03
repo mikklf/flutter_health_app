@@ -45,34 +45,5 @@ void main() {
       expect(entry.result.identifier, "test_task");
       expect(entry.id, 1);
     });
-
-    test("Equatable test", () {
-      // Arrange
-      SurveyEntry entry1 = SurveyEntry(
-          surveyId: "kellner",
-          date: moonLanding,
-          result: RPTaskResult(identifier: "test_task"),
-          id: 1);
-
-      SurveyEntry entry2 = SurveyEntry(
-          surveyId: "kellner",
-          date: moonLanding,
-          result: RPTaskResult(identifier: "test_task"),
-          id: 1);
-
-      SurveyEntry entry3 = SurveyEntry(
-          surveyId: "kellner",
-          date: moonLanding,
-          result: RPTaskResult(identifier: "test_task2"),
-          id: 2);
-
-      // Act
-      bool result1 = entry1 == entry2;
-      bool result2 = entry1 == entry3;
-
-      // Assert
-      expect(result1, true);
-      expect(result2, false);
-    });
   });
 }

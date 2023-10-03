@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class Weight extends Equatable {
+class Weight {
   final double weight;
   final DateTime date;
   final int? id;
@@ -38,7 +36,4 @@ class Weight extends Equatable {
       id: id ?? this.id,
     );
   }
-
-  @override
-  List<Object?> get props => [id, weight, date];
 }

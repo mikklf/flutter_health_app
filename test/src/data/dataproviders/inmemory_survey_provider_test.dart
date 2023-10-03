@@ -1,5 +1,5 @@
+import 'package:flutter_health_app/domain/surveys/surveys.dart';
 import 'package:flutter_health_app/src/data/dataproviders/inmemory_survey_provider.dart';
-import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -14,7 +14,7 @@ void main() {
       //arrange
 
       // act
-      List<Survey> surveys = await inMemorySurveyProvider.getAll();
+      List<RPSurvey> surveys = await inMemorySurveyProvider.getAll();
 
       // assert
       expect(surveys, isNotNull);
@@ -26,7 +26,7 @@ void main() {
       String validId = "kellner";
 
       // act
-      Survey survey = await inMemorySurveyProvider.getById(validId);
+      RPSurvey survey = await inMemorySurveyProvider.getById(validId);
 
       // assert
       expect(survey, isNotNull);

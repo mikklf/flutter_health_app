@@ -4,8 +4,8 @@ final class SurveysState extends Equatable {
   /// Indicates whether the surveys are currently being loaded.
   final bool isLoading;
 
-  /// A list of [Survey] objects that contains the active surveys.
-  final List<Survey> activeSurveys;
+  /// A list of [RPSurvey] objects that contains the active surveys.
+  final List<RPSurvey> activeSurveys;
 
   const SurveysState({
     this.isLoading = false,
@@ -18,7 +18,7 @@ final class SurveysState extends Equatable {
   /// Returns a copy of [SurveysState] with the given fields replaced with the new values.
   SurveysState copyWith({
     bool? isLoading,
-    List<Survey>? surveys,
+    List<RPSurvey>? surveys,
   }) {
     return SurveysState(
       isLoading: isLoading ?? this.isLoading,

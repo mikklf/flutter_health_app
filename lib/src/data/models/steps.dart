@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class Steps extends Equatable {
+class Steps {
   final int steps;
   final DateTime date;
   final int? id;
@@ -37,7 +35,4 @@ class Steps extends Equatable {
       id: id ?? this.id,
     );
   }
-
-  @override
-  List<Object?> get props => [id, steps, date];
 }

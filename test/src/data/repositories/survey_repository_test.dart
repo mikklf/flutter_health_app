@@ -1,7 +1,7 @@
 import 'package:flutter_health_app/domain/interfaces/survey_entry_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_provider.dart';
+import 'package:flutter_health_app/domain/surveys/surveys.dart';
 import 'package:flutter_health_app/src/data/models/survery_entry.dart';
-import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -17,7 +17,7 @@ void main() {
     late MockSurveyEntryProvider mockSurveyEntryProvider;
     late SurveyRepository surveyRepository;
 
-    late List<Survey> surveys;
+    late List<RPSurvey> surveys;
 
     setUp(() {
       mockSurveyProvider = MockSurveyProvider();
@@ -26,18 +26,8 @@ void main() {
           SurveyRepository(mockSurveyProvider, mockSurveyEntryProvider);
 
       surveys = [];
-      surveys.add(Survey(
-          id: "who5",
-          title: "who5_title",
-          description: "description1",
-          frequency: const Duration(days: 7),
-          task: RPOrderedTask(identifier: "who5", steps: [])));
-      surveys.add(Survey(
-          id: "kellner",
-          title: "kellner_title",
-          description: "description2",
-          frequency: const Duration(days: 14),
-          task: RPOrderedTask(identifier: "kellner", steps: [])));
+      surveys.add(Surveys.who5);
+      surveys.add(Surveys.kellner);
     });
 
     test("GetActive should only return surveys with older entries", () async {
@@ -46,7 +36,7 @@ void main() {
 
       entries.add(SurveyEntry(
           surveyId: "kellner",
-          date: DateTime.now().subtract(const Duration(days: 12)),
+          date: DateTime.now(),
           result: RPTaskResult(identifier: "kellner")));
 
       entries.add(SurveyEntry(
@@ -73,7 +63,7 @@ void main() {
       List<SurveyEntry> entries = [];
       entries.add(SurveyEntry(
           surveyId: "kellner",
-          date: DateTime.now().subtract(const Duration(days: 12)),
+          date: DateTime.now(),
           result: RPTaskResult(identifier: "kellner")));
 
       when(() => mockSurveyProvider.getAll()).thenAnswer((_) async => surveys);

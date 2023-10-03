@@ -1,10 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
+import 'package:flutter_health_app/domain/surveys/surveys.dart';
 import 'package:flutter_health_app/src/business_logic/bloc/surveys_bloc.dart';
-import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:research_package/research_package.dart';
 
 class MockSurveyRepository extends Mock implements ISurveyRepository {}
 
@@ -12,44 +11,15 @@ void main() {
   group('SurveysBloc', () {
     late MockSurveyRepository mockSurveyRepository;
     late SurveysBloc surveysBloc;
-    late List<Survey> surveys;
-    late List<Survey> surveysExpected;
+    late List<RPSurvey> surveys;
 
     setUp(() {
       mockSurveyRepository = MockSurveyRepository();
       surveysBloc = SurveysBloc(mockSurveyRepository);
 
       surveys = [];
-
-      surveys.add(Survey(
-          id: "who5",
-          title: "who5_title",
-          description: "description1",
-          frequency: Duration.zero,
-          task: RPOrderedTask(identifier: "1", steps: [])));
-
-      surveys.add(Survey(
-          id: "kellner",
-          title: "kellner_title",
-          description: "description2",
-          frequency: Duration.zero,
-          task: RPOrderedTask(identifier: "1", steps: [])));
-
-      surveysExpected = [];
-
-      surveysExpected.add(Survey(
-          id: "who5",
-          title: "who5_title",
-          description: "description1",
-          frequency: Duration.zero,
-          task: RPOrderedTask(identifier: "1", steps: [])));
-
-      surveysExpected.add(Survey(
-          id: "kellner",
-          title: "kellner_title",
-          description: "description2",
-          frequency: Duration.zero,
-          task: RPOrderedTask(identifier: "1", steps: [])));
+      surveys.add(Surveys.who5);
+      surveys.add(Surveys.kellner);
     });
 
     tearDown(() {
@@ -72,7 +42,7 @@ void main() {
       expect: () {
         return [
           const SurveysState(activeSurveys: [], isLoading: true),
-          SurveysState(isLoading: false, activeSurveys: surveysExpected)
+          SurveysState(isLoading: false, activeSurveys: surveys)
         ];
       },
     );

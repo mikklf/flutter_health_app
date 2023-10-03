@@ -1,6 +1,6 @@
-import 'package:flutter_health_app/src/data/models/survey.dart';
+import 'package:flutter_health_app/domain/surveys/surveys.dart';
 
 abstract interface class ISurveyRepository {
-  Future<List<Survey>> getActive();
-  Future<List<Survey>> getAll();
+  Future<List<RPSurvey>> getActive();
+  Future<List<RPSurvey>> getAll();
 }

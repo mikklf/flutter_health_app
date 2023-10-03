@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_entry_repository.dart';
 import 'package:flutter_health_app/domain/surveys/surveys.dart';
-import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_screen/survey_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -32,7 +31,7 @@ void main() {
   testWidgets('Survey screen pops when canceling survey', (tester) async {
     // Arrange
     await tester.pumpWidget(MaterialApp(
-        home: SurveyScreen(survey: Survey.fromRPSurvey(Surveys.kellner))));
+        home: SurveyScreen(survey: Surveys.kellner)));
 
     // Act
     // Press cross button
@@ -50,7 +49,7 @@ void main() {
   testWidgets('Survey screen pops when submitting', (tester) async {
     // Arrange
     await tester.pumpWidget(MaterialApp(
-        home: SurveyScreen(survey: Survey.fromRPSurvey(Surveys.dummy))));
+        home: SurveyScreen(survey: Surveys.dummy)));
 
     when(() => services<ISurveyEntryRepository>().save(any(), any()))
         .thenAnswer((_) async => {});

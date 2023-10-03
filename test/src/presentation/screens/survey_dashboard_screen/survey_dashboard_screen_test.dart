@@ -4,7 +4,6 @@ import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
 import 'package:flutter_health_app/domain/surveys/surveys.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
-import 'package:flutter_health_app/src/data/models/survey.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_screen/survey_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -50,7 +49,7 @@ void main() {
       when(() => services<ISurveyRepository>().getActive())
           .thenAnswer((_) async {
         await Future.delayed(const Duration(seconds: 2));
-        return [Survey.fromRPSurvey(Surveys.kellner)];
+        return [Surveys.kellner];
       });
 
       await tester.pumpWidget(createWidgetUnderTest());
@@ -90,7 +89,7 @@ void main() {
         (tester) async {
       // Arrange
       when(() => services<ISurveyRepository>().getActive())
-          .thenAnswer((_) async => [Survey.fromRPSurvey(Surveys.dummy)]);
+          .thenAnswer((_) async => [Surveys.dummy]);
 
       await tester.pumpWidget(createWidgetUnderTest());
 
@@ -110,7 +109,7 @@ void main() {
       // Arrange
       when(() => services.get<ISurveyRepository>().getActive()).thenAnswer(
           (_) async => await Future.delayed(const Duration(milliseconds: 500),
-              () => [Survey.fromRPSurvey(Surveys.dummy)]));
+              () => [Surveys.dummy]));
 
       await tester.pumpWidget(createWidgetUnderTest());
 
@@ -134,7 +133,7 @@ void main() {
     testWidgets("Clicking survey card opens survey page", (tester) async {
       // Arrange
       when(() => services.get<ISurveyRepository>().getActive())
-          .thenAnswer((_) async => [Survey.fromRPSurvey(Surveys.dummy)]);
+          .thenAnswer((_) async => [Surveys.dummy]);
 
       await tester.pumpWidget(createWidgetUnderTest());
       tabManagerCubit.changeTab(1);
@@ -153,7 +152,7 @@ void main() {
     testWidgets("Return from survey updates survey list", (tester) async {
       // Arrange
       when(() => services.get<ISurveyRepository>().getActive())
-          .thenAnswer((_) async => [Survey.fromRPSurvey(Surveys.dummy)]);
+          .thenAnswer((_) async => [Surveys.dummy]);
 
       await tester.pumpWidget(createWidgetUnderTest());
       tabManagerCubit.changeTab(1);

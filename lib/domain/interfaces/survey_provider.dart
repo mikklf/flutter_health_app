@@ -1,6 +1,6 @@
-import 'package:flutter_health_app/src/data/models/survey.dart';
+import 'package:flutter_health_app/domain/surveys/surveys.dart';
 
 abstract interface class ISurveyProvider {
-  Future<Survey> getById(String id);
-  Future<List<Survey>> getAll();
+  Future<RPSurvey> getById(String id);
+  Future<List<RPSurvey>> getAll();
 }

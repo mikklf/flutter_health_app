@@ -1,8 +1,8 @@
 import 'package:flutter_health_app/domain/interfaces/survey_entry_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
+import 'package:flutter_health_app/domain/surveys/surveys.dart';
 import 'package:flutter_health_app/src/data/models/survery_entry.dart';
-import 'package:flutter_health_app/src/data/models/survey.dart';
 
 class SurveyRepository implements ISurveyRepository {
   final ISurveyProvider _surveyProvider;
@@ -11,9 +11,9 @@ class SurveyRepository implements ISurveyRepository {
   SurveyRepository(this._surveyProvider, this._entryProvider);
 
   @override
-  Future<List<Survey>> getActive() async {
+  Future<List<RPSurvey>> getActive() async {
     var surveys = await _surveyProvider.getAll();
-    var activeSurveys = <Survey>[];
+    var activeSurveys = <RPSurvey>[];
 
     for (var survey in surveys) {
       var result = await _entryProvider.getLastEntryOfType(survey.id);
@@ -38,7 +38,7 @@ class SurveyRepository implements ISurveyRepository {
   }
 
   @override
-  Future<List<Survey>> getAll() async {
+  Future<List<RPSurvey>> getAll() async {
     return _surveyProvider.getAll();
   }
 }
