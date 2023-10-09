@@ -1,3 +1,4 @@
+import 'package:flutter_health_app/domain/interfaces/location_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'helpers/sqlite_database_helper.dart';
@@ -52,10 +53,22 @@ class SqliteLocationProvider implements ILocationProvider {
 
     return maps;
   }
-}
 
-abstract interface class ILocationProvider {
-  Future<void> insert(Map<String, Object?> values);
-  Future<void> update(Map<String, Object?> values);
-  Future<List<Map<String, dynamic>>?> getLocationsForDay(DateTime date);
+  /// Returns the last entry in the database
+  @override
+  Future<Map<String, dynamic>?> getLastest() async {
+    final Database db = await _databaseHelper.getDatabase();
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      _tableName,
+      orderBy: "id DESC",
+      limit: 1,
+    );
+
+    if (maps.isEmpty) {
+      return null;
+    }
+
+    return maps.first;
+  }
 }
