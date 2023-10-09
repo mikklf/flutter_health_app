@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/home_stay_widget.dart';
 import 'package:health/health.dart';
 
 import 'widgets/steps_widget.dart';
@@ -31,6 +32,8 @@ class OverviewScreen extends StatelessWidget {
         // Register widgets here
         const StepsWidget(),
         const WeightWidget(),
+        const HomeStayWidget(),
+        
       ],
     );
   }
