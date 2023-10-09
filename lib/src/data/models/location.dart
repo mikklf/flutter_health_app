@@ -50,32 +50,31 @@ class Location {
   }
 
   /// Calculates the distance between two [Location] in meters using the Haversine formula
-  double _calculateDistance(Location location1, Location location2) {
-    // Radius of the Earth in kilometers
-    const double radius = 6371.0; // km
+  double _calculateDistance(Location loc1, Location loc2) {
+  // Earth radius in meters
+  const radius = 6371e3;
 
-    // Convert latitude and longitude from degrees to radians
-    double lat1 = location1.latitude * (pi / 180.0);
-    double lon1 = location1.longitude * (pi / 180.0);
-    double lat2 = location2.latitude * (pi / 180.0);
-    double lon2 = location2.longitude * (pi / 180.0);
+  // Convert degrees to radians for latitude of both locations
+  var lat1 = loc1.latitude * pi / 180;
+  var lat2 = loc2.latitude * pi / 180;
 
-    // Calculate the differences in latitude and longitude
-    double dlat = lat2 - lat1;
-    double dlon = lon2 - lon1;
+  // Calculate the difference in latitude and longitude between the two locations in radians
+  var deltaLat = (loc2.latitude - loc1.latitude) * pi / 180;
+  var deltaLon = (loc2.longitude - loc1.longitude) * pi / 180;
 
-    // Haversine formula to calculate the central angle between two points
-    double a = sin(dlat / 2) * sin(dlat / 2) +
-        cos(lat1) * cos(lat2) * sin(dlon / 2) * sin(dlon / 2);
+  // Haversine formula: 
+  // a is the square of half the chord length between the points
+  // c is the angular distance in radians
+  var a = sin(deltaLat / 2) * sin(deltaLat / 2) +
+      cos(lat1) * cos(lat2) * sin(deltaLon / 2) * sin(deltaLon / 2);
+  
+  var c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
-    // Calculate the arc length along the sphere's surface
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+  // Calculate the distance in meters
+  var distance = radius * c;
 
-    // Calculate the distance in kilometers
-    double distanceInKm = radius * c;
-
-    // Convert distance to meters and return
-    return distanceInKm * 1000;
-  }
+  return distance;
+}
 
 }
+
