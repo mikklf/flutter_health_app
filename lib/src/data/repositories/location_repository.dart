@@ -10,12 +10,12 @@ class LocationRepository implements ILocationRepository {
   /// Inserts a new [Location] into the database 
   /// if the last entry is less than 10 minutes old.
   @override
-  Future<void> insert(Location location) async {
+  Future<bool> insert(Location location) async {
     var result = await _locationProvider.getLastest();
 
     if (result == null) {
       _locationProvider.insert(location.toMap());
-      return;
+      return true;
     }
 
     var entry = Location.fromMap(result);
@@ -23,11 +23,12 @@ class LocationRepository implements ILocationRepository {
     // If the last entry is less than 10 minutes old, don't insert
     // avoid overloading the database
     if (entry.date.difference(location.date).inMinutes < 10) {
-      return;
+      return false;
     }
 
     _locationProvider.insert(location.toMap());
-    
+
+    return true;
   }
 
   /// Returns a list of [Location] for a given day
@@ -41,7 +42,29 @@ class LocationRepository implements ILocationRepository {
 
     return result.map((e) => Location.fromMap(e)).toList();
   }
-  
+
+  Future<double?> calculateHomeStayForDay(DateTime date) async {
+    var locations = await getLocationsForDay(date);
+
+    if (locations == null) {
+      return null;
+    }
+
+    var homeLocation = Location(
+      latitude: 55.676098,
+      longitude: 12.568337,
+      date: DateTime.now(),
+    );
+
+    var totalDistance = 0.0;
+
+    for (var location in locations) {
+      totalDistance += location.distanceTo(homeLocation);
+    }
+
+    return totalDistance;
+  }
+
 }
 
 
