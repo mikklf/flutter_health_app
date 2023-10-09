@@ -5,7 +5,7 @@ import 'helpers/sqlite_database_helper.dart';
 
 class SqliteLocationProvider implements ILocationProvider {
   final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
-  final String _tableName = "location";
+  final String _tableName = "locations";
 
   /// Inserts a new location into the database
   @override
