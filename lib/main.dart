@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,7 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           lazy: false,
-          create: (context) => LocationCubit()..startTracking(),
+          create: (context) => LocationCubit(services.get<ILocationRepository>())..startTracking(),
         ),
       ],
       child: const MaterialApp(
