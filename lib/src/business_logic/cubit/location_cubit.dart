@@ -4,13 +4,16 @@ import 'package:bloc/bloc.dart';
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
+import 'package:flutter_health_app/src/data/models/location.dart';
 
 part 'location_state.dart';
 
 class LocationCubit extends Cubit<LocationState> {
+  final ILocationRepository _locationRepository;
   late StreamSubscription<LocationDto> locationSubscription;
 
-  LocationCubit() : super(const LocationState());
+  LocationCubit(this._locationRepository) : super(const LocationState([]));
 
   void startTracking() {
     debugPrint('Starting location tracking');
@@ -19,7 +22,8 @@ class LocationCubit extends Cubit<LocationState> {
     LocationManager().interval = 60 * 15; // 15 minutes
     LocationManager().distanceFilter = 0;
     LocationManager().notificationTitle = 'Flutter Health App';
-    LocationManager().notificationMsg = 'Flutter Health App is tracking your location';
+    LocationManager().notificationMsg =
+        'Flutter Health App is tracking your location';
     LocationManager().accuracy = LocationAccuracy.BALANCED;
 
     locationSubscription = LocationManager()
@@ -29,8 +33,20 @@ class LocationCubit extends Cubit<LocationState> {
     LocationManager().start();
   }
 
-  void _onLocationUpdates(LocationDto loc) {
+  Future<void> _onLocationUpdates(LocationDto loc) async {
     debugPrint('Location update: ${loc.longitude}, ${loc.latitude}}');
+
+    var location = Location(
+      longitude: loc.longitude,
+      latitude: loc.latitude,
+      date: DateTime.now(),
+    );
+
+    var didInsert = await _locationRepository.insert(location);
+
+    if (didInsert) {
+      emit(state.copyWith(locations: [...state.locations, location]));
+    }
   }
 
   void stopTracking() {
