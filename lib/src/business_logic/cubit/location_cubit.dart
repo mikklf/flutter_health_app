@@ -4,6 +4,7 @@ import 'package:carp_background_location/carp_background_location.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/src/data/models/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'location_state.dart';
 
@@ -57,10 +58,18 @@ class LocationCubit extends Cubit<LocationState> {
   Future<double> _calculateHomeStayPercentage() async {
     var date = DateTime.now();
 
-    // TODO: Get home location from user settings
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var homeLatitude = prefs.getDouble("home_latitude");
+    var homeLongitude = prefs.getDouble("home_longitude");
+    
+    if (homeLatitude == null || homeLongitude == null) {
+      return -1;
+    }
+
     var homeLocation = Location(
-      latitude: 55.931852785772655,
-      longitude: 12.294658981887142,
+      latitude: homeLatitude,
+      longitude: homeLongitude,
       date: DateTime.now(),
     );
 

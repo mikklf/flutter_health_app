@@ -8,7 +8,7 @@ import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
-import 'package:flutter_health_app/src/presentation/screens/setup_screen.dart';
+import 'package:flutter_health_app/src/presentation/screens/setup_screen/setup_screen.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,7 +18,9 @@ void main() {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final bool skipSetup;
+
+  const MainApp({super.key, this.skipSetup = false});
 
   Future isSetupRequired() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -28,6 +30,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (skipSetup) {
+      return _buildHomeScreen();
+    }
+
     return FutureBuilder(
       future: isSetupRequired(),
       builder: (context, snapshot) {
