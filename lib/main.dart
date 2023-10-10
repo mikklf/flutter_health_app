@@ -28,24 +28,53 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => TabManagerCubit(),
+    // TODO: Check if setup has been done, perhaps using shared preferences
+
+    var hasBeenSetup = true;
+
+
+    if (hasBeenSetup) {
+      return _buildHomeScreen();
+    } else {
+      return _buildSetupScreen();
+    }
+  }
+
+  Widget _buildSetupScreen() {
+
+    // Informed consent
+    // Get relevant user data (Home location)
+    // Mabye permissions
+
+    return const MaterialApp(
+      title: 'Setup screen',
+      home: Scaffold(
+        body: Center(
+          child: Text('This is the setup screen'),
         ),
-        BlocProvider(
-          lazy: false,
-          create: (context) => SyncCubit(services.get<IStepRepository>())..syncAll(),
-        ),
-        BlocProvider(
-          lazy: false,
-          create: (context) => LocationCubit(services.get<ILocationRepository>())..startTracking(),
-        ),
-      ],
-      child: const MaterialApp(
-          title: 'Mobile Health Application',
-          home: HomeScreen(pages: pages),
-        ),
+      ),
     );
+  }
+
+  Widget _buildHomeScreen() {
+    return MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (context) => TabManagerCubit(),
+      ),
+      BlocProvider(
+        lazy: false,
+        create: (context) => SyncCubit(services.get<IStepRepository>())..syncAll(),
+      ),
+      BlocProvider(
+        lazy: false,
+        create: (context) => LocationCubit(services.get<ILocationRepository>())..startTracking(),
+      ),
+    ],
+    child: const MaterialApp(
+        title: 'Mobile Health Application',
+        home: HomeScreen(pages: pages),
+      ),
+  );
   }
 }
