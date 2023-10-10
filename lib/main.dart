@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
-import 'package:flutter_health_app/home.dart';
+import 'package:flutter_health_app/src/presentation/screens/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/location_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
@@ -9,6 +9,7 @@ import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.da
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   // Register services
@@ -21,23 +22,38 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  static const List<Widget> pages = [
-    OverviewScreen(),
-    SurveyDashboardScreen(),
-  ];
+  Future isSetupRequired() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool setupCompleted = (prefs.getBool('setupCompleted') ?? false);
+    return !setupCompleted;
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Check if setup has been done, perhaps using shared preferences
+    return FutureBuilder(
+      future: isSetupRequired(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data == true) {
+            return _buildSetupScreen();
+          } else {
+            return _buildHomeScreen();
+          }
+        } else {
+          return const MaterialApp(
+            title: 'Mobile Health Application',
+            home: Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        }
+      },
+    );
 
-    var hasBeenSetup = true;
 
-
-    if (hasBeenSetup) {
-      return _buildHomeScreen();
-    } else {
-      return _buildSetupScreen();
-    }
+    
   }
 
   Widget _buildSetupScreen() {
@@ -73,7 +89,10 @@ class MainApp extends StatelessWidget {
     ],
     child: const MaterialApp(
         title: 'Mobile Health Application',
-        home: HomeScreen(pages: pages),
+        home: HomeScreen(pages: [
+          OverviewScreen(),
+          SurveyDashboardScreen(),
+        ]),
       ),
   );
   }
