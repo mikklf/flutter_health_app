@@ -5,6 +5,8 @@ import 'package:flutter_health_app/src/data/models/location.dart';
 class LocationRepository implements ILocationRepository {
   final ILocationProvider _locationProvider;
 
+  final int _minimumIntervalBetweenInsertsInMinutes = 10;
+
   LocationRepository(this._locationProvider);
 
   /// Inserts a new [Location] into the database 
@@ -21,8 +23,8 @@ class LocationRepository implements ILocationRepository {
     var entry = Location.fromMap(result);
 
     // If the last entry is less than 10 minutes old, don't insert
-    // avoid overloading the database
-    if (entry.date.difference(location.date).inMinutes < 10) {
+    // to avoid overloading the database
+    if (location.date.difference(entry.date).inMinutes < _minimumIntervalBetweenInsertsInMinutes) {
       return false;
     }
 

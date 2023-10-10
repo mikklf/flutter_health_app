@@ -1,22 +1,17 @@
 part of 'location_cubit.dart';
 
 final class LocationState extends Equatable {
-  
-  final List<Location> locations;
-
   final double homeStayPercent;
   
-  const LocationState(this.locations, this.homeStayPercent);
+  const LocationState(this.homeStayPercent);
   
   @override
-  List<Object> get props => [locations, homeStayPercent];
+  List<Object> get props => [homeStayPercent];
 
   LocationState copyWith({
-    List<Location>? locations,
     double? homeStayPercent,
   }) {
     return LocationState(
-      locations ?? this.locations,
       homeStayPercent ?? this.homeStayPercent,
     );
   }

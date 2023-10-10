@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/src/data/models/location.dart';
 
@@ -13,19 +11,13 @@ class LocationCubit extends Cubit<LocationState> {
   final ILocationRepository _locationRepository;
   late StreamSubscription<LocationDto> locationSubscription;
 
-  LocationCubit(this._locationRepository) : super(const LocationState([], 0));
+  LocationCubit(this._locationRepository) : super(const LocationState(0));
 
   void loadLocations() async {
-    var locations =
-        await _locationRepository.getLocationsForDay(DateTime.now());
-    emit(state.copyWith(
-        locations: locations,
-        homeStayPercent: await _calculateHomeStayPercentage()));
+    emit(state.copyWith(homeStayPercent: await _calculateHomeStayPercentage()));
   }
 
   void startTracking() {
-    debugPrint('Starting location tracking');
-
     // Setting interval only works on Android and is ignored on iOS, where location updates are determined by the OS.
     LocationManager().interval = 60 * 15; // 15 minutes
     LocationManager().distanceFilter = 0;
@@ -36,14 +28,12 @@ class LocationCubit extends Cubit<LocationState> {
 
     locationSubscription = LocationManager()
         .locationStream
-        .listen((LocationDto loc) => _onLocationUpdates(loc));
+        .listen((LocationDto loc) => onLocationUpdates(loc));
 
     LocationManager().start();
   }
 
-  Future<void> _onLocationUpdates(LocationDto loc) async {
-    debugPrint('Location update: ${loc.longitude}, ${loc.latitude}}');
-
+  void onLocationUpdates(LocationDto loc) async {
     var location = Location(
       longitude: loc.longitude,
       latitude: loc.latitude,
@@ -54,8 +44,8 @@ class LocationCubit extends Cubit<LocationState> {
 
     if (didInsert) {
       emit(state.copyWith(
-          locations: [...state.locations, location],
-          homeStayPercent: await _calculateHomeStayPercentage()));
+        homeStayPercent: await _calculateHomeStayPercentage(),
+      ));
     }
   }
 
@@ -67,6 +57,7 @@ class LocationCubit extends Cubit<LocationState> {
   Future<double> _calculateHomeStayPercentage() async {
     var date = DateTime.now();
 
+    // TODO: Get home location from user settings
     var homeLocation = Location(
       latitude: 55.931852785772655,
       longitude: 12.294658981887142,
