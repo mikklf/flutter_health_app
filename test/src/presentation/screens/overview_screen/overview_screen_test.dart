@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/location_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/steps_widget.dart';
@@ -11,7 +13,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockStepRepository extends Mock implements IStepRepository {}
+
 class MockWeightRepository extends Mock implements IWeightRepository {}
+
+class MockLocationRepository extends Mock implements ILocationRepository {}
 
 class DateTimeFake extends Fake implements DateTime {}
 
@@ -25,6 +30,9 @@ void main() {
     services.registerSingleton<IStepRepository>(MockStepRepository());
     services.unregister<IWeightRepository>();
     services.registerSingleton<IWeightRepository>(MockWeightRepository());
+    services.unregister<ILocationRepository>();
+    services.registerSingleton<ILocationRepository>(MockLocationRepository());
+
 
     // Register fallback value for SurveyEntry
     registerFallbackValue(DateTimeFake());
@@ -38,12 +46,16 @@ void main() {
         .thenAnswer((_) async {
       return;
     });
-    
+
+    when(() => services<ILocationRepository>().getLocationsForDay(any()))
+      .thenAnswer((_) async {
+      return [];
+    });
+
     when(() => services<IWeightRepository>().getLatestWeights(any()))
         .thenAnswer((_) async {
       return [];
     });
-
   });
 
   tearDown(() {
@@ -51,8 +63,15 @@ void main() {
   });
 
   Widget createWidgetUnderTest() {
-    return BlocProvider(
-      create: (context) => SyncCubit(services.get<IStepRepository>()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SyncCubit(services.get<IStepRepository>()),
+        ),
+        BlocProvider(
+          create: (context) => LocationCubit(services.get<ILocationRepository>()),
+        ),
+      ],
       child: const MaterialApp(
         title: 'Overview Screen Test',
         home: OverviewScreen(),
