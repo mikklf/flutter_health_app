@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_health_app/main.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/main_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
-import 'package:flutter_health_app/src/data/dataproviders/helpers/health_helper.dart';
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/informed_consent_objects.dart';
-import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:research_package/research_package.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SetupScreen extends StatelessWidget {
   const SetupScreen({super.key});
@@ -85,30 +84,36 @@ class SetupScreen extends StatelessWidget {
                         },
                         child: const Text("Set home address")),
                     Text(state.homeAddress),
-                    ElevatedButton(onPressed: () async {
+                    ElevatedButton(
+                        onPressed: () async {
+                          // Check if we have location permissions
+                          var status = await Permission.location.status;
+                          if (status.isDenied) {
+                            await Permission.location.request();
+                          }
 
-                      // Check if we have location permissions
-                      var status = await Permission.location.status;
-                      if (status.isDenied) {
-                        await Permission.location.request();
-                      }
+                          // Check if we can request locationAlways permission
+                          var alwaysStatus =
+                              await Permission.locationAlways.status;
+                          if (alwaysStatus.isDenied) {
+                            await Permission.locationAlways.request();
+                          }
 
-                      // Check if we can request locationAlways permission
-                      var alwaysStatus = await Permission.locationAlways.status;
-                      if (alwaysStatus.isDenied) {
-                        await Permission.locationAlways.request();
-                      }
-
-                      // TODO: Consider if health permissions should be requested here
-
-
-                    }, child: const Text("Give permissions")),
+                          // TODO: Consider if health permissions should be requested here
+                        },
+                        child: const Text("Give permissions")),
                     const SizedBox(height: 30),
-                    ElevatedButton(onPressed: () {
-                      Navigator.of(context).popUntil((route) => false);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const MainApp(skipSetup: true,)));
-                    }, child: const Text("Finish")),
+                    ElevatedButton(
+                        onPressed: () async {
+                          context.read<MainCubit>().completeSetup();
+
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+
+                          debugPrint(
+                              prefs.getBool("setupCompleted").toString());
+                        },
+                        child: const Text("Finish")),
                   ],
                 ),
               ),
