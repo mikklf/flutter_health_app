@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/src/data/models/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,12 @@ class LocationCubit extends Cubit<LocationState> {
     emit(state.copyWith(homeStayPercent: await _calculateHomeStayPercentage()));
   }
 
+  @override
+  Future<void> close() async {
+    stopTracking();
+    super.close();
+  }
+
   void startTracking() {
     // Setting interval only works on Android and is ignored on iOS, where location updates are determined by the OS.
     LocationManager().interval = 60 * 15; // 15 minutes
@@ -32,6 +39,8 @@ class LocationCubit extends Cubit<LocationState> {
         .listen((LocationDto loc) => onLocationUpdates(loc));
 
     LocationManager().start();
+
+    debugPrint("!!! Location tracking started !!!");
   }
 
   void onLocationUpdates(LocationDto loc) async {
@@ -48,6 +57,8 @@ class LocationCubit extends Cubit<LocationState> {
         homeStayPercent: await _calculateHomeStayPercentage(),
       ));
     }
+
+    debugPrint("### Location updated: $loc");
   }
 
   void stopTracking() {

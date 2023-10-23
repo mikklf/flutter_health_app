@@ -20,9 +20,13 @@ class SetupCubit extends Cubit<SetupState> {
   }
 
   completeSetup() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('setupCompleted', true);
+    _updateSetupStatus(true);
     emit(state.copyWith(isSetupCompleted: true));
+  }
+
+  resetSetup() async {
+    _updateSetupStatus(false);
+    emit(state.copyWith(isSetupCompleted: false));
   }
 
   Future<void> updateHomeAddress(String address) async {
@@ -59,5 +63,10 @@ class SetupCubit extends Cubit<SetupState> {
         homeAddress: addressName,
         homeLatitude: location.latitude,
         homeLongitude: location.longitude));
+  }
+
+  Future<void> _updateSetupStatus(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('setupCompleted', status);
   }
 }
