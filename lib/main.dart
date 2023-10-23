@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/main_cubit.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
 import 'package:flutter_health_app/src/presentation/screens/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/location_cubit.dart';
@@ -23,16 +23,15 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => MainCubit()..initializeMainState(),
-        child: BlocBuilder<MainCubit, MainState>(builder: (context, state) {
-          if (state is InitialMainState) {
-            return const CircularProgressIndicator();
-          } else if (state is SetupRequiredState) {
-            return _buildSetupScreen();
-          } else {
-            return _buildHomeScreen();
-          }
-        }));
+        create: (_) => SetupCubit()..checkSetupStatus(),
+        child: BlocBuilder<SetupCubit, SetupState>(
+          builder: (_, state) {
+            if (state.isSetupCompleted) {
+              return _buildHomeScreen();
+            } else {
+              return _buildSetupScreen();
+            }
+          }));
   }
 
   Widget _buildSetupScreen() {

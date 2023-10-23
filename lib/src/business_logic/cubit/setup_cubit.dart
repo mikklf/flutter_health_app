@@ -7,6 +7,23 @@ part 'setup_state.dart';
 
 class SetupCubit extends Cubit<SetupState> {
   SetupCubit() : super(const SetupState());
+  
+  checkSetupStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isSetupCompleted = prefs.getBool('setupCompleted') ?? false;
+
+    if (isSetupCompleted) {
+      emit(state.copyWith(isSetupCompleted: true));
+    } else {
+      emit(state.copyWith(isSetupCompleted: false));
+    }
+  }
+
+  completeSetup() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('setupCompleted', true);
+    emit(state.copyWith(isSetupCompleted: true));
+  }
 
   Future<void> updateHomeAddress(String address) async {
     List<Location> locations;
@@ -43,6 +60,4 @@ class SetupCubit extends Cubit<SetupState> {
         homeLatitude: location.latitude,
         homeLongitude: location.longitude));
   }
-
-  
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/main_cubit.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/home_stay_widget.dart';
 import 'package:health/health.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,11 +30,8 @@ class OverviewScreen extends StatelessWidget {
             onPressed: _healthButtonPressed, child: const Text("Test button")),
         ElevatedButton(
             onPressed: () async {
-              context.read<MainCubit>().resetSetup();
-
               SharedPreferences prefs = await SharedPreferences.getInstance();
-
-              debugPrint(prefs.getBool("setupCompleted").toString());
+              prefs.setBool("setupCompleted", false);
             },
             child: const Text("Set setupCompleted to false")),
 
