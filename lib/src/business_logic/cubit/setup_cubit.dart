@@ -71,8 +71,7 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     }
 
     bool isSetupCompleted = prefs.getBool('setup_completed') ?? false;
-
-    emit(state.copyWith(canFinishSetup: isSetupCompleted));
+    emit(state.copyWith(isSetupCompleted: isSetupCompleted));
 
     emit(state.copyWith(isLoading: false));
   }
@@ -80,13 +79,13 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
   completeSetup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('setup_completed', true);
-    emit(state.copyWith(canFinishSetup: true));
+    emit(state.copyWith(isSetupCompleted: true));
   }
 
   resetSetup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('setup_completed', false);
-    emit(state.copyWith(canFinishSetup: false));
+    emit(state.copyWith(isSetupCompleted: false));
   }
 
   Future<void> saveConsent(RPTaskResult result) async {

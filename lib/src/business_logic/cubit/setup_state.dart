@@ -8,12 +8,12 @@ final class SetupState extends Equatable {
   final bool isLocationPermissionGranted;
   final bool isHealthPermissionGranted;
 
-  final bool canFinshSetup;
+  final bool isSetupCompleted;
 
   const SetupState({
     this.isLoading = false,
     this.homeAddress = "",
-    this.canFinshSetup = false,
+    this.isSetupCompleted = false,
     this.isConsentGiven = false,
     this.isLocationPermissionGranted = false,
     this.isHealthPermissionGranted = false,
@@ -22,7 +22,7 @@ final class SetupState extends Equatable {
   @override
   List<Object> get props => [
         homeAddress,
-        canFinshSetup,
+        isSetupCompleted,
         isConsentGiven,
         isLoading,
         isLocationPermissionGranted,
@@ -31,7 +31,7 @@ final class SetupState extends Equatable {
 
   SetupState copyWith({
     String? homeAddress,
-    bool? canFinishSetup,
+    bool? isSetupCompleted,
     bool? isConsentGiven,
     bool? isLoading,
     bool? isLocationPermissionGranted,
@@ -39,7 +39,7 @@ final class SetupState extends Equatable {
   }) {
     return SetupState(
       homeAddress: homeAddress ?? this.homeAddress,
-      canFinshSetup: canFinishSetup ?? canFinshSetup,
+      isSetupCompleted: isSetupCompleted ?? this.isSetupCompleted,
       isConsentGiven: isConsentGiven ?? this.isConsentGiven,
       isLoading: isLoading ?? this.isLoading,
       isLocationPermissionGranted: isLocationPermissionGranted ?? this.isLocationPermissionGranted,

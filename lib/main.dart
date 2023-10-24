@@ -24,9 +24,11 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (_) => SetupCubit()..checkSetupStatus(),
-        child: BlocBuilder<SetupCubit, SetupState>(builder: (_, state) {
+        child: BlocBuilder<SetupCubit, SetupState>(
+          buildWhen: (previous, current) => previous.isSetupCompleted != current.isSetupCompleted,
+          builder: (_, state) {
           debugPrint("Main rebuild");
-          if (state.canFinshSetup) {
+          if (state.isSetupCompleted) {
             return _buildHomeScreen();
           } else {
             return _buildSetupScreen();

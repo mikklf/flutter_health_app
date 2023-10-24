@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
-import 'package:flutter_health_app/src/presentation/screens/setup_screen/informed_consent_objects.dart';
+import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/informed_consent_objects.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:research_package/research_package.dart';
+
+import 'widgets/setup_task_widget.dart';
 
 class SetupScreen extends StatelessWidget {
   const SetupScreen({super.key});
@@ -53,14 +55,16 @@ class SetupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SetupCubit, SetupState>(
-      builder: (context, state) {
-        return Scaffold(
-            body: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-            children: [
-              SetupTaskWidget(
+    return Scaffold(
+        body: SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        children: [
+          BlocBuilder<SetupCubit, SetupState>(
+            buildWhen: (previous, current) =>
+                previous.isConsentGiven != current.isConsentGiven,
+            builder: (context, state) {
+              return SetupTaskWidget(
                 title: "Informed Consent",
                 description: "Read and accept the informed consent",
                 icon: Icons.edit_document,
@@ -73,13 +77,20 @@ class SetupScreen extends StatelessWidget {
                         builder: (_) => _buildConsentScreen(context)),
                   );
                 },
-              ),
-              const SizedBox(height: 15),
-              SetupTaskWidget(
+              );
+            },
+          ),
+          const SizedBox(height: 15),
+          BlocBuilder<SetupCubit, SetupState>(
+            buildWhen: (previous, current) =>
+                previous.homeAddress != current.homeAddress,
+            builder: (context, state) {
+              return SetupTaskWidget(
                 title: "Home address",
                 description: "Set your home address",
                 icon: Icons.home,
-                isFinished: state.homeAddress.isNotEmpty && state.homeAddress != "No location found",
+                isFinished: state.homeAddress.isNotEmpty &&
+                    state.homeAddress != "No location found",
                 canResubmit: true,
                 completionText: state.homeAddress,
                 buttonText: "Update",
@@ -90,9 +101,16 @@ class SetupScreen extends StatelessWidget {
                         builder: (_) => _buildHomeAddressSurvey(context)),
                   );
                 },
-              ),
-              const SizedBox(height: 15),
-              SetupTaskWidget(
+              );
+            },
+          ),
+          const SizedBox(height: 15),
+          BlocBuilder<SetupCubit, SetupState>(
+            buildWhen: (previous, current) =>
+                previous.isLocationPermissionGranted !=
+                current.isLocationPermissionGranted,
+            builder: (context, state) {
+              return SetupTaskWidget(
                 title: "Location permissions",
                 description: "Give the app permissions to access your location",
                 icon: Icons.location_on,
@@ -100,9 +118,16 @@ class SetupScreen extends StatelessWidget {
                 onPressed: () {
                   _requestLocationPermissions(context);
                 },
-              ),
-              const SizedBox(height: 15),
-              SetupTaskWidget(
+              );
+            },
+          ),
+          const SizedBox(height: 15),
+          BlocBuilder<SetupCubit, SetupState>(
+            buildWhen: (previous, current) =>
+                previous.isHealthPermissionGranted !=
+                current.isHealthPermissionGranted,
+            builder: (context, state) {
+              return SetupTaskWidget(
                 title: "Health data permissions",
                 description:
                     "Give the app permissions to access your health data",
@@ -113,14 +138,16 @@ class SetupScreen extends StatelessWidget {
                 onPressed: () {
                   _requestHealthPermissions(context);
                 },
-              ),
-              const SizedBox(height: 15),
-              _finishButton(context),
-            ],
+              );
+            },
           ),
-        ));
-      },
-    );
+          const SizedBox(height: 15),
+          BlocBuilder<SetupCubit, SetupState>(
+            builder: (context, state) => _finishButton(context)
+          ),
+        ],
+      ),
+    ));
   }
 
   void _requestLocationPermissions(BuildContext context) async {
@@ -134,7 +161,8 @@ class SetupScreen extends StatelessWidget {
 
     if (status.isPermanentlyDenied) {
       if (context.mounted) {
-        _sendSnackBar(context, "Location permissions are permanently denied. Please enable them in your phone settings.");
+        _sendSnackBar(context,
+            "Location permissions are permanently denied. Please enable them in your phone settings.");
       }
       return;
     }
@@ -148,19 +176,23 @@ class SetupScreen extends StatelessWidget {
     alwaysStatus = await Permission.locationAlways.status;
     if (alwaysStatus.isDenied || alwaysStatus.isPermanentlyDenied) {
       if (context.mounted) {
-        _sendSnackBar(context, "Always access to location is required to use the app effectively. Please enable it in your phone settings.");
+        _sendSnackBar(context,
+            "Always access to location is required to use the app effectively. Please enable it in your phone settings.");
       }
     }
   }
 
-
   void _requestHealthPermissions(BuildContext context) async {
+    // NOTE: This is a minimal implementation of the health permission request.
+    // It works but does not provide a good user experience.
+
     var success = await services.get<IHealthProvider>().requestAuthorization();
 
     if (!success) {
       if (context.mounted) {
         context.read<SetupCubit>().saveHealthPermission(success: false);
-        _sendSnackBar(context, "Could not get health permissions. Access to health data is required to use the app effectively.");
+        _sendSnackBar(context,
+            "Could not get health permissions. Access to health data is required to use the app effectively.");
       }
     }
 
@@ -195,75 +227,5 @@ class SetupScreen extends StatelessWidget {
           }
         },
         future: context.read<SetupCubit>().canFinshSetup());
-  }
-}
-
-class SetupTaskWidget extends StatelessWidget {
-  final String title;
-  final String description;
-  final String? completionText;
-  final String buttonText;
-  final IconData icon;
-  final void Function() onPressed;
-  final bool isFinished;
-  final bool canResubmit;
-
-  const SetupTaskWidget({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.icon,
-    required this.onPressed,
-    required this.isFinished,
-    this.completionText,
-    this.canResubmit = false,
-    this.buttonText = "Start",
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListTile(
-            leading: isFinished
-                ? const Icon(Icons.check_circle, color: Colors.green)
-                : Icon(icon),
-            title: Text(title),
-            subtitle: Text(description),
-          ),
-          const Divider(indent: 16, endIndent: 16),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              if (!isFinished || (isFinished && canResubmit))
-                _startButton()
-              else
-                _finishText(),
-              if (completionText != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(completionText!),
-                ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _startButton() {
-    return TextButton(
-      onPressed: onPressed,
-      child: Text(buttonText),
-    );
-  }
-
-  Widget _finishText() {
-    return const TextButton(
-      onPressed: null,
-      child: Text('Done'),
-    );
   }
 }
