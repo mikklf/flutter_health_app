@@ -26,48 +26,67 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     // Ensures that data is synced every time the app is opened
     // regardless of the state of the app
     if (state == AppLifecycleState.resumed) {
-      checkSetupStatus();
+      checkLocationPermission();
     }
+  }
+
+  checkLocationPermission() {
+    Permission.locationAlways.status.then((status) {
+      emit(state.copyWith(isLocationPermissionGranted: status.isGranted));
+    });
+  }
+
+  checkConstentGiven() {
+    SharedPreferences.getInstance().then((prefs) {
+      emit(state.copyWith(
+          isConsentGiven: prefs.getBool('consent_given') ?? false));
+    });
+  }
+
+  checkHomeAddressSet() {
+    SharedPreferences.getInstance().then((prefs) {
+      emit(state.copyWith(homeAddress: prefs.getString('home_address') ?? ""));
+    });
+  }
+
+  checkHealthPermissionStatus() {
+    SharedPreferences.getInstance().then((prefs) {
+      emit(state.copyWith(isHealthPermissionGranted: prefs.getBool('health_permission_given') ?? false));
+    });
   }
 
   checkSetupStatus() async {
     emit(state.copyWith(isLoading: true));
+
+    // Run checks, each check handles emitting state changes
+    checkConstentGiven();
+    checkHomeAddressSet();
+    checkLocationPermission();
+    checkHealthPermissionStatus();
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    bool isConsentGiven = prefs.getBool('consentGiven') ?? false;
-    bool isAddressSet = prefs.getDouble('home_longitude') != 0 &&
-        prefs.getDouble('home_latitude') != 0;
-    bool isLocationPermissionGranted =
-        await Permission.locationAlways.isGranted;
-
-    bool setupChecks = isConsentGiven && isAddressSet && isLocationPermissionGranted;
-
-    if (!setupChecks) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool('setupCompleted', false);
+    if (!await canFinshSetup()) {
+      prefs.setBool('setup_completed', false);
     }
 
-    bool isSetupCompleted = prefs.getBool('setupCompleted') ?? false;
+    bool isSetupCompleted = prefs.getBool('setup_completed') ?? false;
 
-    if (isSetupCompleted) {
-      emit(state.copyWith(isSetupCompleted: true));
-    } else {
-      emit(state.copyWith(isSetupCompleted: false));
-    }
+    emit(state.copyWith(canFinishSetup: isSetupCompleted));
 
     emit(state.copyWith(isLoading: false));
   }
 
   completeSetup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('setupCompleted', true);
-    emit(state.copyWith(isSetupCompleted: true));
+    prefs.setBool('setup_completed', true);
+    emit(state.copyWith(canFinishSetup: true));
   }
 
   resetSetup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('setupCompleted', false);
-    emit(state.copyWith(isSetupCompleted: false));
+    prefs.setBool('setup_completed', false);
+    emit(state.copyWith(canFinishSetup: false));
   }
 
   Future<void> saveConsent(RPTaskResult result) async {
@@ -75,16 +94,21 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     debugPrint("Consent result: ${jsonEncode(result)}");
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('consentGiven', true);
+    prefs.setBool('consent_given', true);
 
     emit(state.copyWith(isConsentGiven: true));
   }
 
   Future<void> updateHomeAddress(String address) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     List<Location> locations;
     try {
       locations = await locationFromAddress(address);
     } on NoResultFoundException {
+      prefs.setDouble("home_longitude", 0);
+      prefs.setDouble("home_latitude", 0);
+      prefs.setString("home_address", "");
       emit(state.copyWith(homeAddress: "No location found"));
       return;
     }
@@ -106,21 +130,33 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     }
 
     // Save coordinates to shared preferences
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setDouble("home_longitude", locations.first.longitude);
     prefs.setDouble("home_latitude", locations.first.latitude);
+    prefs.setString("home_address", addressName);
 
-    emit(state.copyWith(
-        homeAddress: addressName,
-        homeLatitude: location.latitude,
-        homeLongitude: location.longitude));
+    emit(state.copyWith(homeAddress: addressName));
+  }
+
+  /// Saves the health permission status to shared preferences
+  /// [success] is true if the permission was granted, false otherwise
+  Future<void> saveHealthPermission({bool success = true}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('health_permission_given', success);
+    emit(state.copyWith(isHealthPermissionGranted: success));
   }
 
   Future<bool> canFinshSetup() async {
-    debugPrint("Can finish setup: ${state.isConsentGiven} ${state.homeLatitude} ${state.homeLongitude} ${await Permission.locationAlways.isGranted}");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isConsentGiven = prefs.getBool('consent_given') ?? false;
 
-    return state.isConsentGiven &&
-        (state.homeLatitude != 0 && state.homeLongitude != 0) &&
+    bool isAddressSet = prefs.getDouble('home_longitude') != 0 &&
+        prefs.getDouble('home_latitude') != 0;
+
+    bool isLocationPermissionGranted =
         await Permission.locationAlways.isGranted;
+
+    bool isHealthPermissionGranted = prefs.getBool('health_permission_given') ?? false;
+
+    return isConsentGiven && isAddressSet && isLocationPermissionGranted && isHealthPermissionGranted;
   }
 }

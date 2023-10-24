@@ -3,49 +3,47 @@ part of 'setup_cubit.dart';
 final class SetupState extends Equatable {
   final bool isLoading;
 
-  final double homeLongitude;
-  final double homeLatitude;
-
   final String homeAddress;
-
-  final bool isSetupCompleted;
-
   final bool isConsentGiven;
+  final bool isLocationPermissionGranted;
+  final bool isHealthPermissionGranted;
+
+  final bool canFinshSetup;
 
   const SetupState({
     this.isLoading = false,
-    this.homeLongitude = 0,
-    this.homeLatitude = 0,
     this.homeAddress = "",
-    this.isSetupCompleted = false,
+    this.canFinshSetup = false,
     this.isConsentGiven = false,
+    this.isLocationPermissionGranted = false,
+    this.isHealthPermissionGranted = false,
   });
 
   @override
   List<Object> get props => [
-        homeLongitude,
-        homeLatitude,
         homeAddress,
-        isSetupCompleted,
+        canFinshSetup,
         isConsentGiven,
         isLoading,
+        isLocationPermissionGranted,
+        isHealthPermissionGranted
       ];
 
   SetupState copyWith({
-    double? homeLongitude,
-    double? homeLatitude,
     String? homeAddress,
-    bool? isSetupCompleted,
+    bool? canFinishSetup,
     bool? isConsentGiven,
     bool? isLoading,
+    bool? isLocationPermissionGranted,
+    bool? isHealthPermissionGranted,
   }) {
     return SetupState(
-      homeLongitude: homeLongitude ?? this.homeLongitude,
-      homeLatitude: homeLatitude ?? this.homeLatitude,
       homeAddress: homeAddress ?? this.homeAddress,
-      isSetupCompleted: isSetupCompleted ?? this.isSetupCompleted,
+      canFinshSetup: canFinishSetup ?? canFinshSetup,
       isConsentGiven: isConsentGiven ?? this.isConsentGiven,
       isLoading: isLoading ?? this.isLoading,
+      isLocationPermissionGranted: isLocationPermissionGranted ?? this.isLocationPermissionGranted,
+      isHealthPermissionGranted: isHealthPermissionGranted ?? this.isHealthPermissionGranted,
     );
   }
 }

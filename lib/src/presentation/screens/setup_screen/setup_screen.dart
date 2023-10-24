@@ -79,8 +79,7 @@ class SetupScreen extends StatelessWidget {
                 title: "Home address",
                 description: "Set your home address",
                 icon: Icons.home,
-                isFinished: state.homeAddress.isNotEmpty &&
-                    state.homeAddress != "No location found",
+                isFinished: state.homeAddress.isNotEmpty && state.homeAddress != "No location found",
                 canResubmit: true,
                 completionText: state.homeAddress,
                 buttonText: "Update",
@@ -97,7 +96,7 @@ class SetupScreen extends StatelessWidget {
                 title: "Location permissions",
                 description: "Give the app permissions to access your location",
                 icon: Icons.location_on,
-                isFinished: false,
+                isFinished: state.isLocationPermissionGranted,
                 onPressed: () {
                   _requestLocationPermissions(context);
                 },
@@ -108,7 +107,9 @@ class SetupScreen extends StatelessWidget {
                 description:
                     "Give the app permissions to access your health data",
                 icon: Icons.health_and_safety,
-                isFinished: false,
+                canResubmit: true,
+                buttonText: "Reauthorize",
+                isFinished: state.isHealthPermissionGranted,
                 onPressed: () {
                   _requestHealthPermissions(context);
                 },
@@ -144,6 +145,7 @@ class SetupScreen extends StatelessWidget {
       await Permission.locationAlways.request();
     }
 
+    alwaysStatus = await Permission.locationAlways.status;
     if (alwaysStatus.isDenied || alwaysStatus.isPermanentlyDenied) {
       if (context.mounted) {
         _sendSnackBar(context, "Always access to location is required to use the app effectively. Please enable it in your phone settings.");
@@ -157,8 +159,14 @@ class SetupScreen extends StatelessWidget {
 
     if (!success) {
       if (context.mounted) {
+        context.read<SetupCubit>().saveHealthPermission(success: false);
         _sendSnackBar(context, "Could not get health permissions. Access to health data is required to use the app effectively.");
       }
+    }
+
+    if (context.mounted) {
+      context.read<SetupCubit>().saveHealthPermission(success: true);
+      _sendSnackBar(context, "Health permissions granted.");
     }
   }
 

@@ -8,16 +8,21 @@ class HealthProvider implements IHealthProvider {
     HealthDataType.STEPS,
   ];
 
+  final permissions = [
+    // Should be only Read permissions
+    HealthDataAccess.READ_WRITE,
+  ];
+  
   /// Requests authorization to read health data from the user.
   /// Returns true if the user granted permission, false otherwise.
   @override
   Future<bool> requestAuthorization() async {
     var health = await HealthHelper.getHealthFactory();
 
-    bool? isAuthorized = await health.hasPermissions(types);
+    bool? isAuthorized = await health.hasPermissions(types, permissions: permissions);
 
     if (isAuthorized == null || !isAuthorized) {
-      bool requested = await health.requestAuthorization(types);
+      bool requested = await health.requestAuthorization(types, permissions: permissions);
 
       if (!requested) {
         return false;
@@ -35,12 +40,16 @@ class HealthProvider implements IHealthProvider {
       HealthDataType.STEPS,
     ];
 
+    final permissions = [
+      HealthDataAccess.READ,
+    ];
+
     var health = await HealthHelper.getHealthFactory();
 
-    bool? isAuthorized = await health.hasPermissions(types);
+    bool? isAuthorized = await health.hasPermissions(types, permissions: permissions);
 
     if (isAuthorized == null || !isAuthorized) {
-      bool requested = await health.requestAuthorization(types);
+      bool requested = await health.requestAuthorization(types, permissions: permissions);
 
       if (!requested) {
         throw Exception("Permission not granted");
