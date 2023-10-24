@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/informed_consent_objects.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -77,9 +79,11 @@ class SetupScreen extends StatelessWidget {
                 title: "Home address",
                 description: "Set your home address",
                 icon: Icons.home,
-                isFinished: state.homeAddress.isNotEmpty && state.homeAddress != "No location found",
+                isFinished: state.homeAddress.isNotEmpty &&
+                    state.homeAddress != "No location found",
                 canResubmit: true,
                 completionText: state.homeAddress,
+                buttonText: "Update",
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -90,25 +94,23 @@ class SetupScreen extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               SetupTaskWidget(
-                title: "Phone permissions",
-                description:
-                    "Give the app permissions to access information from your phone",
-                icon: Icons.phone_android,
+                title: "Location permissions",
+                description: "Give the app permissions to access your location",
+                icon: Icons.location_on,
                 isFinished: false,
-                onPressed: () async {
-                  // Check if we have location permissions
-                  var status = await Permission.location.status;
-                  if (status.isDenied) {
-                    await Permission.location.request();
-                  }
-
-                  // Check if we can request locationAlways permission
-                  var alwaysStatus = await Permission.locationAlways.status;
-                  if (alwaysStatus.isDenied) {
-                    await Permission.locationAlways.request();
-                  }
-
-                  // TODO: Consider if health permissions should be requested here
+                onPressed: () {
+                  _requestLocationPermissions(context);
+                },
+              ),
+              const SizedBox(height: 15),
+              SetupTaskWidget(
+                title: "Health data permissions",
+                description:
+                    "Give the app permissions to access your health data",
+                icon: Icons.health_and_safety,
+                isFinished: false,
+                onPressed: () {
+                  _requestHealthPermissions(context);
                 },
               ),
               const SizedBox(height: 15),
@@ -117,6 +119,54 @@ class SetupScreen extends StatelessWidget {
           ),
         ));
       },
+    );
+  }
+
+  void _requestLocationPermissions(BuildContext context) async {
+    // NOTE: This is a basic implementation of the location permission request.
+    // It works but does not provide a good user experience.
+
+    // Check if we have location permissions
+    var status = await Permission.location.status;
+
+    await Permission.location.request();
+
+    if (status.isPermanentlyDenied) {
+      if (context.mounted) {
+        _sendSnackBar(context, "Location permissions are permanently denied. Please enable them in your phone settings.");
+      }
+      return;
+    }
+
+    // Check if we can request locationAlways permission
+    var alwaysStatus = await Permission.locationAlways.status;
+    if (alwaysStatus.isDenied) {
+      await Permission.locationAlways.request();
+    }
+
+    if (alwaysStatus.isDenied || alwaysStatus.isPermanentlyDenied) {
+      if (context.mounted) {
+        _sendSnackBar(context, "Always access to location is required to use the app effectively. Please enable it in your phone settings.");
+      }
+    }
+  }
+
+
+  void _requestHealthPermissions(BuildContext context) async {
+    var success = await services.get<IHealthProvider>().requestAuthorization();
+
+    if (!success) {
+      if (context.mounted) {
+        _sendSnackBar(context, "Could not get health permissions. Access to health data is required to use the app effectively.");
+      }
+    }
+  }
+
+  void _sendSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
     );
   }
 
@@ -144,6 +194,7 @@ class SetupTaskWidget extends StatelessWidget {
   final String title;
   final String description;
   final String? completionText;
+  final String buttonText;
   final IconData icon;
   final void Function() onPressed;
   final bool isFinished;
@@ -158,6 +209,7 @@ class SetupTaskWidget extends StatelessWidget {
     required this.isFinished,
     this.completionText,
     this.canResubmit = false,
+    this.buttonText = "Start",
   });
 
   @override
@@ -167,7 +219,9 @@ class SetupTaskWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            leading: isFinished ? const Icon(Icons.check_circle, color: Colors.green) : Icon(icon),
+            leading: isFinished
+                ? const Icon(Icons.check_circle, color: Colors.green)
+                : Icon(icon),
             title: Text(title),
             subtitle: Text(description),
           ),
@@ -175,7 +229,10 @@ class SetupTaskWidget extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              if (!isFinished || (isFinished && canResubmit)) _startButton() else _finishText(),
+              if (!isFinished || (isFinished && canResubmit))
+                _startButton()
+              else
+                _finishText(),
               if (completionText != null)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
@@ -191,7 +248,7 @@ class SetupTaskWidget extends StatelessWidget {
   Widget _startButton() {
     return TextButton(
       onPressed: onPressed,
-      child: const Text('Start'),
+      child: Text(buttonText),
     );
   }
 
