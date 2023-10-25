@@ -50,6 +50,8 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
   }
 
   checkSetupStatus() async {
+    emit(state.copyWith(isLoading: true));
+
     // Run checks, each check handles emitting state changes
     await checkConstentGiven();
     await checkHomeAddressSet();
@@ -63,7 +65,8 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     }
 
     bool isSetupCompleted = prefs.getBool('setup_completed') ?? false;
-    emit(state.copyWith(isSetupCompleted: isSetupCompleted));
+
+    emit(state.copyWith(isSetupCompleted: isSetupCompleted, isLoading: false));
   }
 
   completeSetup() async {

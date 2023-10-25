@@ -27,14 +27,27 @@ class MainApp extends StatelessWidget {
     return BlocProvider(
         create: (_) => SetupCubit()..checkSetupStatus(),
         child: BlocBuilder<SetupCubit, SetupState>(
-          buildWhen: (previous, current) => previous.isSetupCompleted != current.isSetupCompleted,
-          builder: (_, state) {
-          if (state.isSetupCompleted) {
-            return _buildHomeScreen();
-          } else {
-            return _buildSetupScreen();
-          }
-        }));
+            buildWhen: (previous, current) =>
+                previous.isSetupCompleted != current.isSetupCompleted ||
+                previous.isLoading != current.isLoading,
+            builder: (_, state) {
+              if (state.isLoading) {
+                return MaterialApp(
+                  title: Constants.appName,
+                  home: const Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                );
+              }
+
+              if (state.isSetupCompleted) {
+                return _buildHomeScreen();
+              } else {
+                return _buildSetupScreen();
+              }
+            }));
   }
 
   Widget _buildSetupScreen() {
