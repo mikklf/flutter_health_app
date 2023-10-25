@@ -26,8 +26,8 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     }
   }
 
-  checkLocationPermission() async  {
-    var status = await Permission.location.status;
+  checkLocationPermission() async {
+    var status = await Permission.locationAlways.status;
     emit(state.copyWith(isLocationPermissionGranted: status.isGranted));
   }
 
