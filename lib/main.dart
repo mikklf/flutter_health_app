@@ -29,7 +29,6 @@ class MainApp extends StatelessWidget {
         child: BlocBuilder<SetupCubit, SetupState>(
           buildWhen: (previous, current) => previous.isSetupCompleted != current.isSetupCompleted,
           builder: (_, state) {
-          debugPrint("Main rebuild");
           if (state.isSetupCompleted) {
             return _buildHomeScreen();
           } else {

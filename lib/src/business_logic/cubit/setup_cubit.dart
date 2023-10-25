@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -28,43 +26,39 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     }
   }
 
-  checkLocationPermission() {
-    Permission.locationAlways.status.then((status) {
-      emit(state.copyWith(isLocationPermissionGranted: status.isGranted));
-    });
+  checkLocationPermission() async  {
+    var status = await Permission.location.status;
+    emit(state.copyWith(isLocationPermissionGranted: status.isGranted));
   }
 
-  checkConstentGiven() {
-    SharedPreferences.getInstance().then((prefs) {
-      emit(state.copyWith(
-          isConsentGiven: prefs.getBool('consent_given') ?? false));
-    });
+  checkConstentGiven() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var status = prefs.getBool('consent_given') ?? false;
+    emit(state.copyWith(isConsentGiven: status));
   }
 
-  checkHomeAddressSet() {
-    SharedPreferences.getInstance().then((prefs) {
-      emit(state.copyWith(homeAddress: prefs.getString('home_address') ?? ""));
-    });
+  checkHomeAddressSet() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var address = prefs.getString('home_address') ?? "";
+    emit(state.copyWith(homeAddress: address));
   }
 
-  checkHealthPermissionStatus() {
-    SharedPreferences.getInstance().then((prefs) {
-      emit(state.copyWith(
-          isHealthPermissionGranted:
-              prefs.getBool('health_permission_given') ?? false));
-    });
+  checkHealthPermissionStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var status = prefs.getBool('health_permission_given') ?? false;
+    emit(state.copyWith(isHealthPermissionGranted: status));
   }
 
   checkSetupStatus() async {
     // Run checks, each check handles emitting state changes
-    checkConstentGiven();
-    checkHomeAddressSet();
-    checkLocationPermission();
-    checkHealthPermissionStatus();
+    await checkConstentGiven();
+    await checkHomeAddressSet();
+    await checkLocationPermission();
+    await checkHealthPermissionStatus();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (state.canFinishSetup) {
+    if (!state.canFinishSetup) {
       prefs.setBool('setup_completed', false);
     }
 
@@ -86,8 +80,6 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
 
   Future<void> saveConsent(RPTaskResult result) async {
     // TODO: Consider how to save the consent result.
-    debugPrint("Consent result: ${jsonEncode(result)}");
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('consent_given', true);
 

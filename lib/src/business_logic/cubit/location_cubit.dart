@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_health_app/constants.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/src/data/models/location.dart';
@@ -40,8 +39,6 @@ class LocationCubit extends Cubit<LocationState> {
         .listen((LocationDto loc) => onLocationUpdates(loc));
 
     LocationManager().start();
-
-    debugPrint("!!! Location tracking started !!!");
   }
 
   void onLocationUpdates(LocationDto loc) async {
@@ -58,8 +55,6 @@ class LocationCubit extends Cubit<LocationState> {
         homeStayPercent: await _calculateHomeStayPercentage(),
       ));
     }
-
-    debugPrint("### Location updated: $loc");
   }
 
   void stopTracking() {

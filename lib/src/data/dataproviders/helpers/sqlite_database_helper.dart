@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -14,7 +13,6 @@ class SqliteDatabaseHelper {
   }
 
   void _onDatabaseCreate(Database db, int version) {
-    debugPrint("Creating database");
     var batch = db.batch();
     batch.execute(
         "CREATE TABLE survey_entries(id INTEGER PRIMARY KEY AUTOINCREMENT, survey_id TEXT, date TEXT, result TEXT);");
