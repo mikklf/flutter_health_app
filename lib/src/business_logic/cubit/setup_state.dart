@@ -1,8 +1,6 @@
 part of 'setup_cubit.dart';
 
 final class SetupState extends Equatable {
-  final bool isLoading;
-
   final String homeAddress;
   final bool isConsentGiven;
   final bool isLocationPermissionGranted;
@@ -19,7 +17,6 @@ final class SetupState extends Equatable {
       isHealthPermissionGranted;
 
   const SetupState({
-    this.isLoading = false,
     this.homeAddress = "",
     this.isSetupCompleted = false,
     this.isConsentGiven = false,
@@ -32,7 +29,6 @@ final class SetupState extends Equatable {
         homeAddress,
         isSetupCompleted,
         isConsentGiven,
-        isLoading,
         isLocationPermissionGranted,
         isHealthPermissionGranted
       ];
@@ -49,7 +45,6 @@ final class SetupState extends Equatable {
       homeAddress: homeAddress ?? this.homeAddress,
       isSetupCompleted: isSetupCompleted ?? this.isSetupCompleted,
       isConsentGiven: isConsentGiven ?? this.isConsentGiven,
-      isLoading: isLoading ?? this.isLoading,
       isLocationPermissionGranted: isLocationPermissionGranted ?? this.isLocationPermissionGranted,
       isHealthPermissionGranted: isHealthPermissionGranted ?? this.isHealthPermissionGranted,
     );

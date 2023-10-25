@@ -23,8 +23,6 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    // Ensures that data is synced every time the app is opened
-    // regardless of the state of the app
     if (state == AppLifecycleState.resumed) {
       checkLocationPermission();
     }
@@ -58,8 +56,6 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
   }
 
   checkSetupStatus() async {
-    emit(state.copyWith(isLoading: true));
-
     // Run checks, each check handles emitting state changes
     checkConstentGiven();
     checkHomeAddressSet();
@@ -74,8 +70,6 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
 
     bool isSetupCompleted = prefs.getBool('setup_completed') ?? false;
     emit(state.copyWith(isSetupCompleted: isSetupCompleted));
-
-    emit(state.copyWith(isLoading: false));
   }
 
   completeSetup() async {
