@@ -13,7 +13,11 @@ class LocationCubit extends Cubit<LocationState> {
   final ILocationRepository _locationRepository;
   late StreamSubscription<LocationDto> locationSubscription;
 
-  LocationCubit(this._locationRepository) : super(const LocationState(0));
+  LocationCubit(this._locationRepository) : super(const LocationState(0)) {
+    locationSubscription = LocationManager()
+        .locationStream
+        .listen((LocationDto loc) => onLocationUpdates(loc));
+  }
 
   void loadLocations() async {
     emit(state.copyWith(homeStayPercent: await _calculateHomeStayPercentage()));
@@ -27,16 +31,12 @@ class LocationCubit extends Cubit<LocationState> {
 
   void startTracking() {
     // Setting interval only works on Android and is ignored on iOS, where location updates are determined by the OS.
-    LocationManager().interval = 60 * 15; // 15 minutes
+    LocationManager().interval = 1; // 15 minutes
     LocationManager().distanceFilter = 0;
     LocationManager().notificationTitle = Constants.appName;
     LocationManager().notificationMsg =
         'Flutter Health App is tracking your location';
     LocationManager().accuracy = LocationAccuracy.BALANCED;
-
-    locationSubscription = LocationManager()
-        .locationStream
-        .listen((LocationDto loc) => onLocationUpdates(loc));
 
     LocationManager().start();
   }
