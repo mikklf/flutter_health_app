@@ -143,7 +143,7 @@ class SetupScreen extends StatelessWidget {
           ),
           const SizedBox(height: 15),
           BlocBuilder<SetupCubit, SetupState>(
-            builder: (context, state) => _finishButton(context)
+            builder: (context, state) => _finishButton(context, state),
           ),
         ],
       ),
@@ -210,22 +210,14 @@ class SetupScreen extends StatelessWidget {
     );
   }
 
-  Widget _finishButton(BuildContext context) {
-    return FutureBuilder(
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ElevatedButton(
-              onPressed: snapshot.data == true
-                  ? () {
-                      context.read<SetupCubit>().completeSetup();
-                    }
-                  : null,
-              child: const Text("Finish setup"),
-            );
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
-        future: context.read<SetupCubit>().canFinshSetup());
+  Widget _finishButton(BuildContext context, SetupState state) {
+    return ElevatedButton(
+      onPressed: state.canFinishSetup
+          ? () {
+              context.read<SetupCubit>().completeSetup();
+            }
+          : null,
+      child: const Text("Finish setup"),
+    );
   }
 }

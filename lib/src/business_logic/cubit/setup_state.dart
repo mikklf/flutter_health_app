@@ -10,6 +10,14 @@ final class SetupState extends Equatable {
 
   final bool isSetupCompleted;
 
+  /// Returns true if all setup tasks are completed
+  bool get canFinishSetup =>
+      isConsentGiven &&
+      (homeAddress.isNotEmpty &&
+      homeAddress != "No location found") &&
+      isLocationPermissionGranted &&
+      isHealthPermissionGranted;
+
   const SetupState({
     this.isLoading = false,
     this.homeAddress = "",

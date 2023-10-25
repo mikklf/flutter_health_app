@@ -51,7 +51,9 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
 
   checkHealthPermissionStatus() {
     SharedPreferences.getInstance().then((prefs) {
-      emit(state.copyWith(isHealthPermissionGranted: prefs.getBool('health_permission_given') ?? false));
+      emit(state.copyWith(
+          isHealthPermissionGranted:
+              prefs.getBool('health_permission_given') ?? false));
     });
   }
 
@@ -66,7 +68,7 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (!await canFinshSetup()) {
+    if (state.canFinishSetup) {
       prefs.setBool('setup_completed', false);
     }
 
@@ -142,20 +144,5 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('health_permission_given', success);
     emit(state.copyWith(isHealthPermissionGranted: success));
-  }
-
-  Future<bool> canFinshSetup() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isConsentGiven = prefs.getBool('consent_given') ?? false;
-
-    bool isAddressSet = prefs.getDouble('home_longitude') != 0 &&
-        prefs.getDouble('home_latitude') != 0;
-
-    bool isLocationPermissionGranted =
-        await Permission.locationAlways.isGranted;
-
-    bool isHealthPermissionGranted = prefs.getBool('health_permission_given') ?? false;
-
-    return isConsentGiven && isAddressSet && isLocationPermissionGranted && isHealthPermissionGranted;
   }
 }
