@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/constants.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
 
 
@@ -49,7 +50,7 @@ class HomeScreen extends StatelessWidget {
   AppBar _appBar(BuildContext context) {
     return AppBar(
       title: Text(
-        'Mobile Health App',
+        Constants.appName,
         style: Theme.of(context).textTheme.titleLarge,
       ),
     );

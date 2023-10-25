@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/constants.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
@@ -60,6 +61,18 @@ class SetupScreen extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         children: [
+          // Header
+          Text("${Constants.appName} Setup", style: Theme.of(context).textTheme.headlineSmall),
+          const SizedBox(height: 5),
+          Text("Complete the following tasks to setup and start using the application.",
+              style: Theme.of(context).textTheme.bodyMedium),
+          const SizedBox(height: 5),
+          const Divider(
+            thickness: 2,
+          ),
+          const SizedBox(height: 5),
+
+          // Setup tasks
           BlocBuilder<SetupCubit, SetupState>(
             buildWhen: (previous, current) =>
                 previous.isConsentGiven != current.isConsentGiven,

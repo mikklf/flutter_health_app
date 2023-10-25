@@ -12,6 +12,8 @@ import 'package:flutter_health_app/src/presentation/screens/overview_screen/over
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/setup_screen.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
 
+import 'constants.dart';
+
 void main() {
   ServiceLocator.setupDependencyInjection();
   runApp(const MainApp());
@@ -61,9 +63,9 @@ class MainApp extends StatelessWidget {
                 ..startTracking(),
         ),
       ],
-      child: const MaterialApp(
-        title: 'Mobile Health Application',
-        home: HomeScreen(pages: [
+      child: MaterialApp(
+        title: Constants.appName,
+        home: const HomeScreen(pages: [
           OverviewScreen(),
           SurveyDashboardScreen(),
         ]),

@@ -85,7 +85,7 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
   }
 
   Future<void> saveConsent(RPTaskResult result) async {
-    // TODO: Save Constent
+    // TODO: Consider how to save the consent result.
     debugPrint("Consent result: ${jsonEncode(result)}");
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
