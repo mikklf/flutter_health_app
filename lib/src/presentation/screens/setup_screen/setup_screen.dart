@@ -12,10 +12,6 @@ import 'widgets/setup_task_widget.dart';
 
 class SetupScreen extends StatelessWidget {
   const SetupScreen({super.key});
-  // Informed consent
-  // Get relevant user data (Home location)
-  // permissions (https://pub.dev/packages/permission_handler)
-
   RPUITask _buildConsentScreen(BuildContext context) {
     onSubmit(RPTaskResult result) async {
       context.read<SetupCubit>().saveConsent(result);
@@ -167,7 +163,6 @@ class SetupScreen extends StatelessWidget {
     // NOTE: This is a basic implementation of the location permission request.
     // It works but does not provide a good user experience.
 
-    // Check if we have location permissions
     var status = await Permission.location.status;
 
     await Permission.location.request();
