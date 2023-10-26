@@ -9,24 +9,24 @@ class MockStepProvider extends Mock implements IStepProvider {}
 class MockHealthProvider extends Mock implements IHealthProvider {}
 
 void main() {
+  late IStepProvider mockStepProvider;
+  late IHealthProvider mockHealthProvider;
+  late StepRepository stepRepository;
+
+  setUp(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    mockStepProvider = MockStepProvider();
+    mockHealthProvider = MockHealthProvider();
+    stepRepository = StepRepository(mockStepProvider, mockHealthProvider);
+
+    when(() => mockStepProvider.update(any()))
+        .thenAnswer((_) => Future.value(null));
+    when(() => mockStepProvider.insert(any()))
+        .thenAnswer((_) => Future.value(null));
+  });
+
   group('StepRepository', () {
-    late IStepProvider mockStepProvider;
-    late IHealthProvider mockHealthProvider;
-    late StepRepository stepRepository;
-
-    setUp(() {
-      TestWidgetsFlutterBinding.ensureInitialized();
-
-      mockStepProvider = MockStepProvider();
-      mockHealthProvider = MockHealthProvider();
-      stepRepository = StepRepository(mockStepProvider, mockHealthProvider);
-
-      when(() => mockStepProvider.update(any()))
-          .thenAnswer((_) => Future.value(null));
-      when(() => mockStepProvider.insert(any()))
-          .thenAnswer((_) => Future.value(null));
-    });
-
     test('updateStepsForDay should insert new steps if entry is null',
         () async {
       final date = DateTime.now();

@@ -7,7 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:research_package/model.dart';
 
-class MockSurveyEntryRepository extends Mock implements ISurveyEntryRepository {}
+class MockSurveyEntryRepository extends Mock
+    implements ISurveyEntryRepository {}
 
 class RPTaskResultFake extends Fake implements RPTaskResult {}
 
@@ -18,7 +19,8 @@ void main() {
 
     // Replace SurveyRepository with a mock
     services.unregister<ISurveyEntryRepository>();
-    services.registerSingleton<ISurveyEntryRepository>(MockSurveyEntryRepository());
+    services
+        .registerSingleton<ISurveyEntryRepository>(MockSurveyEntryRepository());
 
     // Register fallback value for SurveyEntry
     registerFallbackValue(RPTaskResultFake());
@@ -28,40 +30,43 @@ void main() {
     services.reset(dispose: true);
   });
 
-  testWidgets('Survey screen pops when canceling survey', (tester) async {
-    // Arrange
-    await tester.pumpWidget(MaterialApp(
-        home: SurveyScreen(survey: Surveys.kellner)));
+  group("SurveyScreen", () {
+    testWidgets('Survey screen pops when canceling survey', (tester) async {
+      // Arrange
+      await tester
+          .pumpWidget(MaterialApp(home: SurveyScreen(survey: Surveys.kellner)));
 
-    // Act
-    // Press cross button
-    await tester.tap(find.byIcon(Icons.highlight_off));
-    await tester.pumpAndSettle();
+      // Act
+      // Press cross button
+      await tester.tap(find.byIcon(Icons.highlight_off));
+      await tester.pumpAndSettle();
 
-    // Confirm cancel
-    await tester.tap(find.text("YES"));
-    await tester.pumpAndSettle();
+      // Confirm cancel
+      await tester.tap(find.text("YES"));
+      await tester.pumpAndSettle();
 
-    // Assert
-    expect(find.byType(SurveyScreen), findsNothing);
-  });
+      // Assert
+      expect(find.byType(SurveyScreen), findsNothing);
+    });
 
-  testWidgets('Survey screen pops when submitting', (tester) async {
-    // Arrange
-    await tester.pumpWidget(MaterialApp(
-        home: SurveyScreen(survey: Surveys.dummy)));
+    testWidgets('Survey screen pops when submitting', (tester) async {
+      // Arrange
+      await tester
+          .pumpWidget(MaterialApp(home: SurveyScreen(survey: Surveys.dummy)));
 
-    when(() => services<ISurveyEntryRepository>().save(any(), any()))
-        .thenAnswer((_) async => {});
+      when(() => services<ISurveyEntryRepository>().save(any(), any()))
+          .thenAnswer((_) async => {});
 
-    // Act
-    // Press done button
-    await tester.tap(find.text("DONE"));
-    await tester.pumpAndSettle();
+      // Act
+      // Press done button
+      await tester.tap(find.text("DONE"));
+      await tester.pumpAndSettle();
 
-    // Assert
-    expect(find.byType(SurveyScreen), findsNothing);
-    // Verify that save was called
-    verify(() => services<ISurveyEntryRepository>().save(any(), any())).called(1);
+      // Assert
+      expect(find.byType(SurveyScreen), findsNothing);
+      // Verify that save was called
+      verify(() => services<ISurveyEntryRepository>().save(any(), any()))
+          .called(1);
+    });
   });
 }

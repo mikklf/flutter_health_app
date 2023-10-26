@@ -8,15 +8,15 @@ import 'package:mocktail/mocktail.dart';
 class MockWeightRepository extends Mock implements IWeightRepository {}
 
 void main() {
+  late IWeightRepository weightRepository;
+  late WeightsCubit weightsCubit;
+
+  setUp(() {
+    weightRepository = MockWeightRepository();
+    weightsCubit = WeightsCubit(weightRepository);
+  });
+
   group('WeightsCubit', () {
-    late IWeightRepository weightRepository;
-    late WeightsCubit weightsCubit;
-
-    setUp(() {
-      weightRepository = MockWeightRepository();
-      weightsCubit = WeightsCubit(weightRepository);
-    });
-
     test('initial state is correct', () {
       expect(weightsCubit.state, const WeightsCubitState());
     });
@@ -64,7 +64,7 @@ void main() {
             when(() => weightRepository.updateWeight(any(), any()))
                 .thenAnswer((_) => Future.value());
             when(() => weightRepository.getLatestWeights(any()))
-              .thenAnswer((_) async => []);
+                .thenAnswer((_) async => []);
             return weightsCubit;
           },
           act: (cubit) => cubit.updateWeight(date, weight),

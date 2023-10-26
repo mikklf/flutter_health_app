@@ -4,7 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:research_package/model.dart';
 
-class MockSurveyEntryRepository extends Mock implements ISurveyEntryRepository {}
+class MockSurveyEntryRepository extends Mock
+    implements ISurveyEntryRepository {}
 
 void main() {
   late MockSurveyEntryRepository mockSurveyEntryRepository;

@@ -3,17 +3,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
 
 void main() {
+  late TabManagerCubit tabManagerCubit;
+
+  setUp(() {
+    tabManagerCubit = TabManagerCubit();
+  });
+
+  tearDown(() {
+    tabManagerCubit.close();
+  });
+
   group('TabManagerCubit', () {
-    late TabManagerCubit tabManagerCubit;
-
-    setUp(() {
-      tabManagerCubit = TabManagerCubit();
-    });
-
-    tearDown(() {
-      tabManagerCubit.close();
-    });
-
     test('initial state has [selectedTab] set to 0', () {
       expect(tabManagerCubit.state, const TabManagerState(0));
     });

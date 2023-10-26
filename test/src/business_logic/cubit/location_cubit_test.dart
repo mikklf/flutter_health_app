@@ -12,20 +12,20 @@ class MockLocationRepository extends Mock implements ILocationRepository {}
 class LocationFake extends Fake implements Location {}
 
 void main() {
+  late ILocationRepository locationRepository;
+  late LocationCubit locationCubit;
+
+  setUpAll(() {
+    registerFallbackValue(LocationFake());
+  });
+
+  setUp(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    locationRepository = MockLocationRepository();
+    locationCubit = LocationCubit(locationRepository);
+  });
+
   group('LocationCubit', () {
-    late ILocationRepository locationRepository;
-    late LocationCubit locationCubit;
-
-    setUpAll(() {
-      registerFallbackValue(LocationFake());
-    });
-
-    setUp(() {
-      TestWidgetsFlutterBinding.ensureInitialized();
-      locationRepository = MockLocationRepository();
-      locationCubit = LocationCubit(locationRepository);
-    });
-
     test('initial state is LocationState(0)', () {
       expect(locationCubit.state, const LocationState(0));
     });
@@ -41,7 +41,7 @@ void main() {
                     date: DateTime.now(),
                   )
                 ]);
-                
+
         SharedPreferences.setMockInitialValues(
             <String, Object>{'home_latitude': 0.0, 'home_longitude': 0.0});
 

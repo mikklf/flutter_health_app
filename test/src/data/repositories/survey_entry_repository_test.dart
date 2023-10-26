@@ -10,19 +10,19 @@ class MockSurveyEntryProvider extends Mock implements ISurveyEntryProvider {}
 class SurveyEntryFake extends Fake implements SurveyEntry {}
 
 void main() {
+  late MockSurveyEntryProvider mockSurveyEntryProvider;
+  late SurveyEntryRepository entryRepository;
+
+  setUpAll(() => {
+        registerFallbackValue(SurveyEntryFake()),
+      });
+
+  setUp(() {
+    mockSurveyEntryProvider = MockSurveyEntryProvider();
+    entryRepository = SurveyEntryRepository(mockSurveyEntryProvider);
+  });
+
   group('SurveyRepository', () {
-    late MockSurveyEntryProvider mockSurveyEntryProvider;
-    late SurveyEntryRepository entryRepository;
-
-    setUpAll(() => {
-      registerFallbackValue(SurveyEntryFake()),
-    });
-
-    setUp(() {
-      mockSurveyEntryProvider = MockSurveyEntryProvider();
-      entryRepository = SurveyEntryRepository(mockSurveyEntryProvider);
-    });
-
     test("save method should call EntryProvider save method", () async {
       // Arrange
       var surveyId = "kellner";
@@ -37,6 +37,5 @@ void main() {
       // Assert
       verify(() => mockSurveyEntryProvider.insert(any())).called(1);
     });
-
   });
 }

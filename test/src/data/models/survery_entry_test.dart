@@ -4,13 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:research_package/model.dart';
 
 void main() {
+  late DateTime moonLanding = DateTime.utc(1969, 7, 20, 20, 18, 04);
+
+  setUp(() {
+    moonLanding = DateTime.utc(1969, 7, 20, 20, 18, 04);
+  });
+
   group('SurveyEntry Model', () {
-    late DateTime moonLanding = DateTime.utc(1969, 7, 20, 20, 18, 04);
-
-    setUp(() {
-      moonLanding = DateTime.utc(1969, 7, 20, 20, 18, 04);
-    });
-
     test('returns correct SurveyEntry from toMap method', () {
       // Arrange
       SurveyEntry entry = SurveyEntry(

@@ -8,24 +8,24 @@ import 'package:mocktail/mocktail.dart';
 class MockSurveyRepository extends Mock implements ISurveyRepository {}
 
 void main() {
+  late MockSurveyRepository mockSurveyRepository;
+  late SurveysBloc surveysBloc;
+  late List<RPSurvey> surveys;
+
+  setUp(() {
+    mockSurveyRepository = MockSurveyRepository();
+    surveysBloc = SurveysBloc(mockSurveyRepository);
+
+    surveys = [];
+    surveys.add(Surveys.who5);
+    surveys.add(Surveys.kellner);
+  });
+
+  tearDown(() {
+    surveysBloc.close();
+  });
+
   group('SurveysBloc', () {
-    late MockSurveyRepository mockSurveyRepository;
-    late SurveysBloc surveysBloc;
-    late List<RPSurvey> surveys;
-
-    setUp(() {
-      mockSurveyRepository = MockSurveyRepository();
-      surveysBloc = SurveysBloc(mockSurveyRepository);
-
-      surveys = [];
-      surveys.add(Surveys.who5);
-      surveys.add(Surveys.kellner);
-    });
-
-    tearDown(() {
-      surveysBloc.close();
-    });
-
     test('initial state has [surveys] set to []', () {
       expect(surveysBloc.state, const SurveysState());
     });

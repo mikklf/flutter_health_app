@@ -12,24 +12,24 @@ class MockSurveyProvider extends Mock implements ISurveyProvider {}
 class MockSurveyEntryProvider extends Mock implements ISurveyEntryProvider {}
 
 void main() {
+  late MockSurveyProvider mockSurveyProvider;
+  late MockSurveyEntryProvider mockSurveyEntryProvider;
+  late SurveyRepository surveyRepository;
+
+  late List<RPSurvey> surveys;
+
+  setUp(() {
+    mockSurveyProvider = MockSurveyProvider();
+    mockSurveyEntryProvider = MockSurveyEntryProvider();
+    surveyRepository =
+        SurveyRepository(mockSurveyProvider, mockSurveyEntryProvider);
+
+    surveys = [];
+    surveys.add(Surveys.who5);
+    surveys.add(Surveys.kellner);
+  });
+
   group('SurveyRepository', () {
-    late MockSurveyProvider mockSurveyProvider;
-    late MockSurveyEntryProvider mockSurveyEntryProvider;
-    late SurveyRepository surveyRepository;
-
-    late List<RPSurvey> surveys;
-
-    setUp(() {
-      mockSurveyProvider = MockSurveyProvider();
-      mockSurveyEntryProvider = MockSurveyEntryProvider();
-      surveyRepository =
-          SurveyRepository(mockSurveyProvider, mockSurveyEntryProvider);
-
-      surveys = [];
-      surveys.add(Surveys.who5);
-      surveys.add(Surveys.kellner);
-    });
-
     test("GetActive should only return surveys with older entries", () async {
       // Arrange
       List<SurveyEntry> entries = [];
@@ -82,7 +82,7 @@ void main() {
 
     test("GetAll should return all entries", () async {
       // Arrange
-      List<SurveyEntry>  entries = [];
+      List<SurveyEntry> entries = [];
 
       entries.add(SurveyEntry(
           surveyId: "kellner",

@@ -34,7 +34,6 @@ void main() {
     services.unregister<ILocationRepository>();
     services.registerSingleton<ILocationRepository>(MockLocationRepository());
 
-
     // Register fallback value for SurveyEntry
     registerFallbackValue(DateTimeFake());
 
@@ -49,7 +48,7 @@ void main() {
     });
 
     when(() => services<ILocationRepository>().getLocationsForDay(any()))
-      .thenAnswer((_) async {
+        .thenAnswer((_) async {
       return [];
     });
 
@@ -70,7 +69,8 @@ void main() {
           create: (context) => SyncCubit(services.get<IStepRepository>()),
         ),
         BlocProvider(
-          create: (context) => LocationCubit(services.get<ILocationRepository>()),
+          create: (context) =>
+              LocationCubit(services.get<ILocationRepository>()),
         ),
       ],
       child: const MaterialApp(
@@ -80,24 +80,26 @@ void main() {
     );
   }
 
-  testWidgets('Overview Screen has a StepsWidget', (tester) async {
-    await tester.pumpWidget(createWidgetUnderTest());
-    await tester.scrollUntilVisible(find.byType(StepsWidget), 100);
-    
-    expect(find.byType(StepsWidget), findsOneWidget);
-  });
+  group("OverviewScreen", () {
+    testWidgets('Overview Screen has a StepsWidget', (tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.scrollUntilVisible(find.byType(StepsWidget), 100);
 
-  testWidgets('Overview Screen has a WeightWidget', (tester) async {
-    await tester.pumpWidget(createWidgetUnderTest());
-    await tester.scrollUntilVisible(find.byType(WeightWidget), 100);
+      expect(find.byType(StepsWidget), findsOneWidget);
+    });
 
-    expect(find.byType(WeightWidget), findsOneWidget);
-  });
+    testWidgets('Overview Screen has a WeightWidget', (tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.scrollUntilVisible(find.byType(WeightWidget), 100);
 
-  testWidgets('Overview Screen has a HomeStayWidget', (tester) async {
-    await tester.pumpWidget(createWidgetUnderTest());
-    await tester.scrollUntilVisible(find.byType(HomeStayWidget), 100);
+      expect(find.byType(WeightWidget), findsOneWidget);
+    });
 
-    expect(find.byType(HomeStayWidget), findsOneWidget);
+    testWidgets('Overview Screen has a HomeStayWidget', (tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.scrollUntilVisible(find.byType(HomeStayWidget), 100);
+
+      expect(find.byType(HomeStayWidget), findsOneWidget);
+    });
   });
 }

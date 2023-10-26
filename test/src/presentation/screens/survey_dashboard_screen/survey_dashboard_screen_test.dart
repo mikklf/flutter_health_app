@@ -12,7 +12,6 @@ import 'package:mocktail/mocktail.dart';
 class MockISurveyRepository extends Mock implements ISurveyRepository {}
 
 void main() {
-  group("SurveyDashboardScreen", () {
     late TabManagerCubit tabManagerCubit;
 
     setUp(() {
@@ -38,11 +37,7 @@ void main() {
           ));
     }
 
-    /// Test that the CircularProgressIndicator is shown when state.isLoading is true.
-    /// Test that the "No surveys available" message is shown when there are no surveys.
-    /// Test that the survey list is shown when there are surveys.
-    /// Test that tapping on a survey card navigates to the SurveyScreen.
-
+  group("SurveyDashboardScreen", () {
     testWidgets('Loading indicator is displayed while waiting of Surveys',
         (tester) async {
       // arrange

@@ -11,42 +11,42 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MockLocationRepository extends Mock implements ILocationRepository {}
 
 void main() {
-  group('WeightWidget', () {
-    late ILocationRepository locationRepository;
-    late LocationCubit locationCubit;
+  late ILocationRepository locationRepository;
+  late LocationCubit locationCubit;
 
-    setUp(() {
-      locationRepository = MockLocationRepository();
-      locationCubit = LocationCubit(locationRepository);
-    });
+  setUp(() {
+    locationRepository = MockLocationRepository();
+    locationCubit = LocationCubit(locationRepository);
+  });
 
-    Widget createWidgetUnderTest() {
-      return MaterialApp(
-        home: BlocProvider(
-          create: (context) => locationCubit,
-          child: const HomeStayWidget(),
-        ),
-      );
-    }
+  Widget createWidgetUnderTest() {
+    return MaterialApp(
+      home: BlocProvider(
+        create: (context) => locationCubit,
+        child: const HomeStayWidget(),
+      ),
+    );
+  }
 
-    testWidgets('Expect HomeStayWidget text when no locations exists',
-        (tester) async {
-      // Arrange
-      when(() => locationRepository.getLocationsForDay(any()))
-          .thenAnswer((_) async => []);    
+  testWidgets('Expect HomeStayWidget text when no locations exists',
+      (tester) async {
+    // Arrange
+    when(() => locationRepository.getLocationsForDay(any()))
+        .thenAnswer((_) async => []);
 
-      SharedPreferences.setMockInitialValues(
-          <String, Object>{'home_latitude': 0.0, 'home_longitude': 0.0});
+    SharedPreferences.setMockInitialValues(
+        <String, Object>{'home_latitude': 0.0, 'home_longitude': 0.0});
 
-      // Act
-      await tester.pumpWidget(createWidgetUnderTest());
-      await tester.pumpAndSettle();
+    // Act
+    await tester.pumpWidget(createWidgetUnderTest());
+    await tester.pumpAndSettle();
 
-      // Assert
-      verify(() => locationRepository.getLocationsForDay(any())).called(1);
-      expect(find.text(".. %"), findsOneWidget);
-    });
+    // Assert
+    verify(() => locationRepository.getLocationsForDay(any())).called(1);
+    expect(find.text(".. %"), findsOneWidget);
+  });
 
+  group('HomeStayWidget', () {
     testWidgets('Expect HomeStayWidget text when locations exists',
         (tester) async {
       // Arrange
@@ -57,7 +57,7 @@ void main() {
                   latitude: 0,
                   date: DateTime.now().subtract(const Duration(hours: 1)),
                 )
-          ]);    
+              ]);
 
       SharedPreferences.setMockInitialValues(
           <String, Object>{'home_latitude': 0.0, 'home_longitude': 0.0});

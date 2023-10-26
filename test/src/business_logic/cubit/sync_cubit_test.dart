@@ -26,7 +26,8 @@ void main() {
       expect(syncCubit.state, const SyncState(isSyncing: false));
     });
 
-    blocTest('(if lastSyncTime == null) syncAll changes state from isSyncing false to true to false',
+    blocTest(
+        '(if lastSyncTime == null) syncAll changes state from isSyncing false to true to false',
         build: () {
           when(() => mockStepRepository.syncSteps(any()))
               .thenAnswer((_) => Future.value());
@@ -42,7 +43,8 @@ void main() {
           verify(() => mockStepRepository.syncSteps(any())).called(1);
         });
 
-    blocTest('(if lastSyncTime != null) syncAll changes state from isSyncing false to true to false',
+    blocTest(
+        '(if lastSyncTime != null) syncAll changes state from isSyncing false to true to false',
         build: () {
           when(() => mockStepRepository.syncSteps(any()))
               .thenAnswer((_) => Future.value());

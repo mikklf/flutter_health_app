@@ -19,66 +19,69 @@ void main() {
         ));
   }
 
-  testWidgets('Expect App bar', (tester) async {
-    await tester.pumpWidget(createWidgetUnderTest());
+  group("Home", () {
+    testWidgets('Expect App bar', (tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
 
-    expect(find.byType(AppBar), findsOneWidget);
-  });
+      expect(find.byType(AppBar), findsOneWidget);
+    });
 
-  testWidgets('Expect Bottom navigation bar with two items', (tester) async {
-    // Arrange
-    await tester.pumpWidget(createWidgetUnderTest());
+    testWidgets('Expect Bottom navigation bar with two items', (tester) async {
+      // Arrange
+      await tester.pumpWidget(createWidgetUnderTest());
 
-    // Act
-    var navbar = find.byType(BottomNavigationBar);
-    final BottomNavigationBar bottomNavBar =
-        tester.widget(find.byType(BottomNavigationBar));
+      // Act
+      var navbar = find.byType(BottomNavigationBar);
+      final BottomNavigationBar bottomNavBar =
+          tester.widget(find.byType(BottomNavigationBar));
 
-    // Assert
-    expect(navbar, findsOneWidget);
-    expect(bottomNavBar.items.length, 2);
-  });
+      // Assert
+      expect(navbar, findsOneWidget);
+      expect(bottomNavBar.items.length, 2);
+    });
 
-  testWidgets('Initial selected tab is 0 and home page is OverviewScreen',
-      (tester) async {
-    // Arrange
-    await tester.pumpWidget(createWidgetUnderTest());
+    testWidgets('Initial selected tab is 0 and home page is OverviewScreen',
+        (tester) async {
+      // Arrange
+      await tester.pumpWidget(createWidgetUnderTest());
 
-    // Act
-    final BottomNavigationBar bottomNavBar =
-        tester.widget(find.byType(BottomNavigationBar));
+      // Act
+      final BottomNavigationBar bottomNavBar =
+          tester.widget(find.byType(BottomNavigationBar));
 
-    // Assert
-    expect(bottomNavBar.currentIndex, 0);
-    expect(find.text("OverviewScreen"), findsOneWidget);
-    expect(find.text("SurveyDashboard"), findsNothing);
-  });
+      // Assert
+      expect(bottomNavBar.currentIndex, 0);
+      expect(find.text("OverviewScreen"), findsOneWidget);
+      expect(find.text("SurveyDashboard"), findsNothing);
+    });
 
-  testWidgets('Expect IndexedStack with two childrens', (tester) async {
-    // Arrange
-    await tester.pumpWidget(createWidgetUnderTest());
+    testWidgets('Expect IndexedStack with two childrens', (tester) async {
+      // Arrange
+      await tester.pumpWidget(createWidgetUnderTest());
 
-    // Act
-    expect(find.byType(IndexedStack), findsOneWidget);
-    final IndexedStack indexedStack = tester.widget(find.byType(IndexedStack));
-    expect(indexedStack.index, 0);
-    expect(indexedStack.children.length, 2);
-  });
+      // Act
+      expect(find.byType(IndexedStack), findsOneWidget);
+      final IndexedStack indexedStack =
+          tester.widget(find.byType(IndexedStack));
+      expect(indexedStack.index, 0);
+      expect(indexedStack.children.length, 2);
+    });
 
-  testWidgets("Tapping survey page should change page", (tester) async {
-    // Arrange
-    await tester.pumpWidget(createWidgetUnderTest());
+    testWidgets("Tapping survey page should change page", (tester) async {
+      // Arrange
+      await tester.pumpWidget(createWidgetUnderTest());
 
-    // Act
-    await tester.tap(find.byIcon(Icons.book));
-    await tester.pump();
+      // Act
+      await tester.tap(find.byIcon(Icons.book));
+      await tester.pump();
 
-    // Assert
-    expect(find.text("OverviewScreen"), findsNothing);
-    expect(find.text("SurveyDashboard"), findsOneWidget);
+      // Assert
+      expect(find.text("OverviewScreen"), findsNothing);
+      expect(find.text("SurveyDashboard"), findsOneWidget);
 
-    final BottomNavigationBar bottomNavBar =
-        tester.widget(find.byType(BottomNavigationBar));
-    expect(bottomNavBar.currentIndex, 1);
+      final BottomNavigationBar bottomNavBar =
+          tester.widget(find.byType(BottomNavigationBar));
+      expect(bottomNavBar.currentIndex, 1);
+    });
   });
 }

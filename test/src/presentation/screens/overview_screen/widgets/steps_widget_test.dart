@@ -48,24 +48,26 @@ void main() {
             child: const StepsWidget()));
   }
 
-  testWidgets('Expect StepsWidget to show chart', (tester) async {
-    // Act
-    await tester.pumpWidget(createWidgetUnderTest());
+  group("StepsWidget", () {
+    testWidgets('Expect StepsWidget to show chart', (tester) async {
+      // Act
+      await tester.pumpWidget(createWidgetUnderTest());
 
-    // Assert
-    expect(find.byType(charts.BarChart), findsOneWidget);
-  });
+      // Assert
+      expect(find.byType(charts.BarChart), findsOneWidget);
+    });
 
-  testWidgets('Expect StepsWidget to show synced steps', (tester) async {
-    // Act
-    await tester.pumpWidget(createWidgetUnderTest());
-    expect(find.text("0 steps today"), findsOneWidget);
-    await tester.pumpAndSettle();
+    testWidgets('Expect StepsWidget to show synced steps', (tester) async {
+      // Act
+      await tester.pumpWidget(createWidgetUnderTest());
+      expect(find.text("0 steps today"), findsOneWidget);
+      await tester.pumpAndSettle();
 
-    // Assert
-    verify(() => services<IStepRepository>().syncSteps(any())).called(1);
-    verify(() => services<IStepRepository>().getStepsInRange(any(), any()))
-        .called(1);
-    expect(find.text("100 steps today"), findsOneWidget);
+      // Assert
+      verify(() => services<IStepRepository>().syncSteps(any())).called(1);
+      verify(() => services<IStepRepository>().getStepsInRange(any(), any()))
+          .called(1);
+      expect(find.text("100 steps today"), findsOneWidget);
+    });
   });
 }

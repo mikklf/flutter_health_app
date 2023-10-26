@@ -11,32 +11,32 @@ import 'package:research_package/ui.dart';
 class MockWeightRepository extends Mock implements IWeightRepository {}
 
 void main() {
+  setUp(() {
+    // Register services
+    ServiceLocator.setupDependencyInjection();
+
+    // Replace services with mocks
+    services.unregister<IWeightRepository>();
+    services.registerSingleton<IWeightRepository>(MockWeightRepository());
+
+    // Register mock behaviour
+    when(() => services<IWeightRepository>().getLatestWeights(any()))
+        .thenAnswer((_) async {
+      return [];
+    });
+  });
+
+  Widget createWidgetUnderTest() {
+    return const MaterialApp(
+      home: WeightWidget(),
+    );
+  }
+
+  tearDown(() {
+    services.reset(dispose: true);
+  });
+
   group('WeightWidget', () {
-    setUp(() {
-      // Register services
-      ServiceLocator.setupDependencyInjection();
-
-      // Replace services with mocks
-      services.unregister<IWeightRepository>();
-      services.registerSingleton<IWeightRepository>(MockWeightRepository());
-
-      // Register mock behaviour
-      when(() => services<IWeightRepository>().getLatestWeights(any()))
-          .thenAnswer((_) async {
-        return [];
-      });
-    });
-
-    Widget createWidgetUnderTest() {
-      return const MaterialApp(
-        home: WeightWidget(),
-      );
-    }
-
-    tearDown(() {
-      services.reset(dispose: true);
-    });
-
     testWidgets('Expect weight widget to have a weight update button',
         (tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
@@ -60,7 +60,6 @@ void main() {
 
       // Assert
       expect(find.byType(RPUITask), findsOneWidget);
-      
     });
   });
 }

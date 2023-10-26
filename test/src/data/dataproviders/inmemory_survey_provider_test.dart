@@ -3,13 +3,13 @@ import 'package:flutter_health_app/src/data/dataproviders/inmemory_survey_provid
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  late InMemorySurveyProvider inMemorySurveyProvider;
+
+  setUp(() {
+    inMemorySurveyProvider = InMemorySurveyProvider();
+  });
+
   group('InMemorySurveyProvider', () {
-    late InMemorySurveyProvider inMemorySurveyProvider;
-
-    setUp(() {
-      inMemorySurveyProvider = InMemorySurveyProvider();
-    });
-
     test('getAll should return all surveys', () async {
       //arrange
 

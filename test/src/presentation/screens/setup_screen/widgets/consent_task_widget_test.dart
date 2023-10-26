@@ -27,62 +27,68 @@ void main() {
     );
   }
 
-  testWidgets('Expect ConsentTaskWidget to contain a SetupTaskWidget',
-      (tester) async {
-    await tester.pumpWidget(createWidgetUnderTest());
+  group("ConsentTaskWidget", () {
+    testWidgets('Expect ConsentTaskWidget to contain a SetupTaskWidget',
+        (tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
 
-    expect(find.byType(SetupTaskWidget), findsOneWidget);
-  });
+      expect(find.byType(SetupTaskWidget), findsOneWidget);
+    });
 
-  testWidgets('Expect onPressed to navigate to consent screen', (tester) async {
-    // Arrange
-    await tester.pumpWidget(createWidgetUnderTest());
-    await tester.pumpAndSettle();
+    testWidgets('Expect onPressed to navigate to consent screen',
+        (tester) async {
+      // Arrange
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pumpAndSettle();
 
-    // Act
-    await tester.tap(find.byType(TextButton));
-    await tester.pumpAndSettle();
+      // Act
+      await tester.tap(find.byType(TextButton));
+      await tester.pumpAndSettle();
 
-    // Assert
-    expect(find.byType(RPUITask), findsOneWidget);
-  });
+      // Assert
+      expect(find.byType(RPUITask), findsOneWidget);
+    });
 
-  testWidgets('Expect widget to show success when completing consent task', (tester) async {
-    // Arrange
-    SharedPreferences.setMockInitialValues(
+    testWidgets('Expect widget to show success when completing consent task',
+        (tester) async {
+      // Arrange
+      SharedPreferences.setMockInitialValues(
           <String, Object>{'consent_given': false});
-    await tester.pumpWidget(createWidgetUnderTest());
-    await tester.pumpAndSettle();
-    await tester.tap(find.byType(TextButton));
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(TextButton));
+      await tester.pumpAndSettle();
 
-    // Act
-    await tester.tap(find.text("DONE"));
-    await tester.pumpAndSettle();
-    
-    // Assert
-    expect(find.byIcon(Icons.check_circle), findsOneWidget);
-  });
+      // Act
+      await tester.tap(find.text("DONE"));
+      await tester.pumpAndSettle();
 
-  testWidgets('Expect widget to show remain uncompleted canceling consent task', (tester) async {
-    // Arrange
-    SharedPreferences.setMockInitialValues(
+      // Assert
+      expect(find.byIcon(Icons.check_circle), findsOneWidget);
+    });
+
+    testWidgets(
+        'Expect widget to show remain uncompleted canceling consent task',
+        (tester) async {
+      // Arrange
+      SharedPreferences.setMockInitialValues(
           <String, Object>{'consent_given': false});
-    await tester.pumpWidget(createWidgetUnderTest());
-    await tester.pumpAndSettle();
-    await tester.tap(find.byType(TextButton));
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(TextButton));
+      await tester.pumpAndSettle();
 
-    // Act
-    // Press cross button
-    await tester.tap(find.byIcon(Icons.highlight_off));
-    await tester.pumpAndSettle();
+      // Act
+      // Press cross button
+      await tester.tap(find.byIcon(Icons.highlight_off));
+      await tester.pumpAndSettle();
 
-    // Confirm cancel
-    await tester.tap(find.text("YES"));
-    await tester.pumpAndSettle();
-    
-    // Assert
-    expect(find.byIcon(Icons.check_circle), findsNothing);
+      // Confirm cancel
+      await tester.tap(find.text("YES"));
+      await tester.pumpAndSettle();
+
+      // Assert
+      expect(find.byIcon(Icons.check_circle), findsNothing);
+    });
   });
 }
