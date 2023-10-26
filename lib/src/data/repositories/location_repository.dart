@@ -9,8 +9,8 @@ class LocationRepository implements ILocationRepository {
 
   LocationRepository(this._locationProvider);
 
-  /// Inserts a new [Location] into the database
-  /// if the last entry is less than 10 minutes old.
+  /// Inserts a new [Location] into the database. If the last entry is less than 10 minutes old.
+  /// Returns true if the location was inserted, false otherwise.
   @override
   Future<bool> insert(Location location) async {
     var result = await _locationProvider.getLastest();
