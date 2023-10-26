@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +12,7 @@ void main() {
   late SyncCubit syncCubit;
 
   setUp(() {
-    WidgetsFlutterBinding.ensureInitialized();
+    TestWidgetsFlutterBinding.ensureInitialized();
     mockStepRepository = MockStepRepository();
     syncCubit = SyncCubit(mockStepRepository);
   });

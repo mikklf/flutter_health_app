@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/step_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
@@ -16,7 +15,7 @@ void main() {
     late StepRepository stepRepository;
 
     setUp(() {
-      WidgetsFlutterBinding.ensureInitialized();
+      TestWidgetsFlutterBinding.ensureInitialized();
 
       mockStepProvider = MockStepProvider();
       mockHealthProvider = MockHealthProvider();
