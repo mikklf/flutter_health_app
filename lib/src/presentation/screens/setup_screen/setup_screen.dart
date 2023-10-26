@@ -5,7 +5,7 @@ import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/consent_task_widget.dart';
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/health_permission_task_widget.dart';
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/home_address_task_widget.dart';
-import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/informed_consent_objects.dart';
+import 'package:flutter_health_app/src/presentation/screens/setup_screen/informed_consent_objects.dart';
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/location_permission_task_widget.dart';
 
 
