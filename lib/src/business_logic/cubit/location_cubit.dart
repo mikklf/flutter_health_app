@@ -69,7 +69,7 @@ class LocationCubit extends Cubit<LocationState> {
 
     var homeLatitude = prefs.getDouble("home_latitude");
     var homeLongitude = prefs.getDouble("home_longitude");
-    
+        
     if (homeLatitude == null || homeLongitude == null) {
       return -1;
     }

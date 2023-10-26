@@ -41,9 +41,7 @@ void main() {
                     date: DateTime.now(),
                   )
                 ]);
-        when(() => locationRepository.insert(any()))
-            .thenAnswer((_) async => true);
-
+                
         SharedPreferences.setMockInitialValues(
             <String, Object>{'home_latitude': 0.0, 'home_longitude': 0.0});
 
