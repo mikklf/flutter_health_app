@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:research_package/model.dart';
@@ -127,11 +129,58 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     emit(state.copyWith(homeAddress: addressName));
   }
 
+
+  Future<void> requestLocationPermissions() async {
+    // NOTE: This is a basic implementation of the location permission request.
+    // It works but does not provide a good user experience.
+    var status = await Permission.location.status;
+
+    await Permission.location.request();
+
+    if (status.isPermanentlyDenied) {
+      sendSnackbarMessage(
+          "Location permissions are permanently denied. Please enable them in your phone settings.");
+      return;
+    }
+
+    // Check if we can request locationAlways permission
+    var alwaysStatus = await Permission.locationAlways.status;
+    if (alwaysStatus.isDenied) {
+      await Permission.locationAlways.request();
+    }
+
+    alwaysStatus = await Permission.locationAlways.status;
+    if (alwaysStatus.isDenied || alwaysStatus.isPermanentlyDenied) {
+      sendSnackbarMessage(
+          "Always access to location is required to use the app effectively. Please enable it in your phone settings.");
+    }
+  }
+
   /// Saves the health permission status to shared preferences
   /// [success] is true if the permission was granted, false otherwise
   Future<void> saveHealthPermission({bool success = true}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('health_permission_given', success);
     emit(state.copyWith(isHealthPermissionGranted: success));
+  }
+
+  Future<void> requestHealthPermissions() async {
+    // NOTE: This is a minimal implementation of the health permission request.
+    // It works but does not provide a good user experience.
+    var success = await services.get<IHealthProvider>().requestAuthorization();
+
+    if (!success) {
+      saveHealthPermission(success: false);
+      sendSnackbarMessage("Could not get health permissions. Access to health data is required to use the app effectively.");
+      return;
+    }
+
+    saveHealthPermission(success: true);
+    sendSnackbarMessage("Health permissions granted.");
+        
+  }
+
+  void sendSnackbarMessage(String message) {
+    emit(state.copyWith(snackbarMessage: message));
   }
 }

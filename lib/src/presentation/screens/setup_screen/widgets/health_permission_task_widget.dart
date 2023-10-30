@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
 
 import 'setup_task_widget.dart';
@@ -27,38 +25,10 @@ class HealthPermisionTaskWidget extends StatelessWidget {
                 buttonText: "Reauthorize",
                 isFinished: state.isHealthPermissionGranted,
                 onPressed: () {
-                  _requestHealthPermissions(context);
+                  context.read<SetupCubit>().requestHealthPermissions();
                 },
               );
             },
           );
-  }
-
-  void _requestHealthPermissions(BuildContext context) async {
-    // NOTE: This is a minimal implementation of the health permission request.
-    // It works but does not provide a good user experience.
-
-    var success = await services.get<IHealthProvider>().requestAuthorization();
-
-    if (!success) {
-      if (context.mounted) {
-        context.read<SetupCubit>().saveHealthPermission(success: false);
-        _sendSnackBar(context,
-            "Could not get health permissions. Access to health data is required to use the app effectively.");
-      }
-    }
-
-    if (context.mounted) {
-      context.read<SetupCubit>().saveHealthPermission(success: true);
-      _sendSnackBar(context, "Health permissions granted.");
-    }
-  }
-
-  void _sendSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
   }
 }

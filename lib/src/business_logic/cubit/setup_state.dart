@@ -10,6 +10,8 @@ final class SetupState extends Equatable {
 
   final bool isLoading;
 
+  final String snackbarMessage;
+
   /// Returns true if all setup tasks are completed
   bool get canFinishSetup =>
       isConsentGiven &&
@@ -25,6 +27,7 @@ final class SetupState extends Equatable {
     this.isLocationPermissionGranted = false,
     this.isHealthPermissionGranted = false,
     this.isLoading = true,
+    this.snackbarMessage = "",
   });
 
   @override
@@ -35,6 +38,7 @@ final class SetupState extends Equatable {
         isLocationPermissionGranted,
         isHealthPermissionGranted,
         isLoading,
+        snackbarMessage,
       ];
 
   SetupState copyWith({
@@ -44,6 +48,7 @@ final class SetupState extends Equatable {
     bool? isLocationPermissionGranted,
     bool? isHealthPermissionGranted,
     bool? isLoading,
+    String? snackbarMessage,
   }) {
     return SetupState(
       homeAddress: homeAddress ?? this.homeAddress,
@@ -52,6 +57,7 @@ final class SetupState extends Equatable {
       isLocationPermissionGranted: isLocationPermissionGranted ?? this.isLocationPermissionGranted,
       isHealthPermissionGranted: isHealthPermissionGranted ?? this.isHealthPermissionGranted,
       isLoading: isLoading ?? this.isLoading,
+      snackbarMessage: snackbarMessage ?? this.snackbarMessage,
     );
   }
 }

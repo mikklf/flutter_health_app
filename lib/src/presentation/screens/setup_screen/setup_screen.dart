@@ -8,7 +8,6 @@ import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/informed_consent_objects.dart';
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/location_permission_task_widget.dart';
 
-
 class SetupScreen extends StatelessWidget {
   const SetupScreen({super.key});
 
@@ -47,6 +46,22 @@ class SetupScreen extends StatelessWidget {
 
           BlocBuilder<SetupCubit, SetupState>(
             builder: (context, state) => _finishButton(context, state),
+          ),
+
+          BlocBuilder<SetupCubit, SetupState>(
+            buildWhen: (previous, current) => previous.snackbarMessage != current.snackbarMessage,
+            builder: (context, state) {
+              if (state.snackbarMessage != "") {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.snackbarMessage),
+                    ),
+                  );
+                });
+              }
+              return const SizedBox.shrink();
+            },
           ),
         ],
       ),
