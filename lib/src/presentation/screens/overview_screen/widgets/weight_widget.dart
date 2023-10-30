@@ -38,12 +38,22 @@ class WeightWidget extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Icon(Icons.directions_walk),
+            const Icon(Icons.monitor_weight_outlined),
             const SizedBox(width: 8),
-            Text("Weight", style: Theme.of(context).textTheme.titleLarge),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Steps", style: Theme.of(context).textTheme.titleLarge),
+                Text("Last 7 entries", style: Theme.of(context).textTheme.bodySmall),
+              ],
+            ),
           ],
         ),
         ElevatedButton(
+          // make smaller
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+          ),
           onPressed: () {
             Navigator.push(
               context,
@@ -52,9 +62,9 @@ class WeightWidget extends StatelessWidget {
           },
           child: const Row(
             children: [
-              Icon(Icons.add_circle_outline),
-              SizedBox(width: 8),
-              Text("Update"),
+              Icon(Icons.add_circle_outline, size: 18),
+              SizedBox(width: 4),
+              Text("Update", style: TextStyle(fontSize: 12)),
             ],
           ),
         ),

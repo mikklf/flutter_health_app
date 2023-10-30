@@ -39,7 +39,14 @@ class HeartRateRepository implements IHeartRateRepository {
     }
 
     for (HealthDataPoint heartrate in heartrates) {
-      var beatsPerMinute = heartrate.value.toJson()['value'] as int;
+      var value = heartrate.value as NumericHealthValue;
+
+      var beatsPerMinute = int.tryParse(value.numericValue.toString());
+
+      if (beatsPerMinute == null) {
+        continue;
+      }
+
       var heartRate = HeartRate(
         beatsPerMinute: beatsPerMinute,
         timestamp: heartrate.dateFrom,

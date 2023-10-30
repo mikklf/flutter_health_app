@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
+import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/heart_rate_widget.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/home_stay_widget.dart';
 import 'package:health/health.dart';
 
@@ -27,24 +29,33 @@ class OverviewScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       children: [
         // TESTING SHOULD BE REMOVED!
-        ElevatedButton(
-            onPressed: _healthButtonPressed, child: const Text("Test button")),
-        ElevatedButton(
-            onPressed: () async {
-              context.read<SetupCubit>().resetSetup();
-            },
-            child: const Text("Reset setup")),
+        Row(
+          children: [
+            ElevatedButton(
+                onPressed: _healthHeartRateButtonPressed,
+                child: const Text("Test Heart rate")),
+            ElevatedButton(
+                onPressed: _healthStepsButtonPressed,
+                child: const Text("Test Steps")),
+            ElevatedButton(
+                onPressed: () async {
+                  context.read<SetupCubit>().resetSetup();
+                },
+                child: const Text("Reset setup"))
+          ],
+        ),
 
         // Register widgets here
         const StepsWidget(),
         const WeightWidget(),
         const HomeStayWidget(),
+        const HeartRateWidget(),
       ],
     );
   }
 
   /// TESTING SHOULD BE REMOVED!
-  void _healthButtonPressed() async {
+  void _healthStepsButtonPressed() async {
     var stepRepository = services.get<IStepRepository>();
 
     HealthFactory healthFactory = await HealthHelper.getHealthFactory();
@@ -67,5 +78,33 @@ class OverviewScreen extends StatelessWidget {
 
     debugPrint("Steps in DB for day: $stepsInDb");
     debugPrint("Steps in Health for day: $healthSteps");
+  }
+
+  /// TESTING SHOULD BE REMOVED!
+  void _healthHeartRateButtonPressed() async {
+    var heartRateRepository = services.get<IHeartRateRepository>();
+
+    HealthFactory healthFactory = await HealthHelper.getHealthFactory();
+
+    var now = DateTime.now();
+
+    healthFactory.writeHealthData(
+        80, HealthDataType.HEART_RATE, DateTime.now(), DateTime.now());
+
+    var startOfDay = DateTime(now.year, now.month, now.day, 0, 0, 0);
+    var endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
+
+    var databaseHeartRate =
+        await heartRateRepository.getHeartRatesInRange(startOfDay, endOfDay);
+
+    var healthProvider = services.get<IHealthProvider>();
+    var healthHeartRate =
+        await healthProvider.getHeartbeats(startOfDay, endOfDay);
+
+    var countDb = databaseHeartRate.length;
+    var countHealth = healthHeartRate.length;
+
+    debugPrint("Heart rate count in DB for day: $countDb");
+    debugPrint("Heart rate count in Health for day: $countHealth");
   }
 }

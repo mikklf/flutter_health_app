@@ -33,7 +33,7 @@ class StepsWidget extends StatelessWidget {
                 children: [
                   _buildHeader(context, state),
                   _buildChart(context, state),
-                ],
+                ], 
               ),
             );
           },
@@ -50,7 +50,13 @@ class StepsWidget extends StatelessWidget {
           children: [
             const Icon(Icons.directions_walk),
             const SizedBox(width: 8),
-            Text("Steps", style: Theme.of(context).textTheme.titleLarge),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Steps", style: Theme.of(context).textTheme.titleLarge),
+                Text("Last 7 days", style: Theme.of(context).textTheme.bodySmall),
+              ],
+            ),
           ],
         ),
         Text("${state.stepsToday} steps today",

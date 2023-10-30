@@ -14,8 +14,9 @@ class SqliteHeartRateProvider implements IHeartRateProvider {
 
     final List<Map<String, dynamic>> maps = await db.query(
       _tableName,
-      where: "date BETWEEN ? AND ?",
+      where: "timestamp BETWEEN ? AND ?",
       whereArgs: [startTime.toString(), endTime.toString()],
+      orderBy: "timestamp ASC",
     );
 
     if (maps.isEmpty) {
