@@ -16,8 +16,9 @@ class MockPermissionHandlerPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements PermissionHandlerPlatform {
   @override
-  Future<PermissionStatus> checkPermissionStatus(Permission permission) =>
-      Future.value(PermissionStatus.granted);
+  Future<PermissionStatus> checkPermissionStatus(Permission permission) {
+    return Future.value(PermissionStatus.granted);
+  }
 }
 
 class MockGeocodingPlatform extends Mock
@@ -227,7 +228,10 @@ void main() {
       },
       act: (cubit) => cubit.requestHealthPermissions(),
       expect: () => [
-        const SetupState(isHealthPermissionGranted: false, snackbarMessage: "Could not get health permissions. Access to health data is required to use the app effectively."),
+        const SetupState(
+            isHealthPermissionGranted: false,
+            snackbarMessage:
+                "Could not get health permissions. Access to health data is required to use the app effectively."),
       ],
       verify: (cubit) {
         verify(() => services.get<IHealthProvider>().requestAuthorization())
@@ -246,7 +250,9 @@ void main() {
       act: (cubit) => cubit.requestHealthPermissions(),
       expect: () {
         return [
-          const SetupState(isHealthPermissionGranted: true, snackbarMessage: "Health permissions granted."),
+          const SetupState(
+              isHealthPermissionGranted: true,
+              snackbarMessage: "Health permissions granted."),
         ];
       },
       verify: (cubit) {
@@ -254,5 +260,7 @@ void main() {
             .called(1);
       },
     );
+
+    // TODO: Implement test for requestLocationPermissions
   });
 }

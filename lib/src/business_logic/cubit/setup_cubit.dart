@@ -161,7 +161,7 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     // NOTE: This is a minimal implementation of the health permission request.
     // It works but does not provide a good user experience.
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     var success = await services.get<IHealthProvider>().requestAuthorization();
 
     if (!success) {
