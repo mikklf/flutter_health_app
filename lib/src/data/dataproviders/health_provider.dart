@@ -6,13 +6,16 @@ class HealthProvider implements IHealthProvider {
   // Health data types to be used in the app
   final types = [
     HealthDataType.STEPS,
+    HealthDataType.HEART_RATE,
   ];
 
-  final permissions = [
-    // Should be only Read permissions
-    HealthDataAccess.READ_WRITE,
-  ];
-  
+  late List<HealthDataAccess> permissions;
+
+  HealthProvider() {
+    // TODO: Set permissions to READ only when done implementing
+    permissions = types.map((e) => HealthDataAccess.READ_WRITE).toList();
+  }
+
   /// Requests authorization to read health data from the user.
   /// Returns true if the user granted permission, false otherwise.
   @override
@@ -44,6 +47,31 @@ class HealthProvider implements IHealthProvider {
       HealthDataAccess.READ,
     ];
 
+    var health = await _getHealthFactory(types, permissions);
+
+    return await health.getTotalStepsInInterval(startTime, endTime) ?? 0;
+  }
+
+  @override
+  Future<List<HealthDataPoint>> getHeartbeats(DateTime startTime, DateTime endTime) async {
+    final types = [
+      HealthDataType.HEART_RATE,
+    ];
+
+    final permissions = [
+      HealthDataAccess.READ,
+    ];
+
+    var health = await _getHealthFactory(types, permissions);
+
+    var data = await health.getHealthDataFromTypes(startTime, endTime, types);
+
+    // Return only unique data points
+    return HealthFactory.removeDuplicates(data);
+  }
+
+
+  Future<HealthFactory> _getHealthFactory(List<HealthDataType> types, List<HealthDataAccess> permissions) async {
     var health = await HealthHelper.getHealthFactory();
 
     bool? isAuthorized = await health.hasPermissions(types, permissions: permissions);
@@ -56,6 +84,7 @@ class HealthProvider implements IHealthProvider {
       }
     }
 
-    return await health.getTotalStepsInInterval(startTime, endTime) ?? 0;
+    return health;
   }
+
 }

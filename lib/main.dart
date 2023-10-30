@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
@@ -65,8 +66,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           lazy: false,
-          create: (context) =>
-              SyncCubit(services.get<IStepRepository>())..syncAll(),
+          create: (context) => SyncCubit(services.get<IStepRepository>(),
+              services.get<IHeartRateRepository>())
+            ..syncAll(),
         ),
         BlocProvider(
           lazy: false,

@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,15 +7,18 @@ import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MockStepRepository extends Mock implements IStepRepository {}
+class MockHeartRateRepository extends Mock implements IHeartRateRepository {}
 
 void main() {
   late MockStepRepository mockStepRepository;
+  late MockHeartRateRepository mockHeartRateRepository;
   late SyncCubit syncCubit;
 
   setUp(() {
     TestWidgetsFlutterBinding.ensureInitialized();
     mockStepRepository = MockStepRepository();
-    syncCubit = SyncCubit(mockStepRepository);
+    mockHeartRateRepository = MockHeartRateRepository();
+    syncCubit = SyncCubit(mockStepRepository, mockHeartRateRepository);
   });
 
   tearDown(() {
@@ -30,6 +34,8 @@ void main() {
         '(if lastSyncTime == null) syncAll changes state from isSyncing false to true to false',
         build: () {
           when(() => mockStepRepository.syncSteps(any()))
+              .thenAnswer((_) => Future.value());
+          when(() => mockHeartRateRepository.syncHeartRates(any()))
               .thenAnswer((_) => Future.value());
           SharedPreferences.setMockInitialValues(<String, Object>{});
           return syncCubit;
@@ -47,6 +53,8 @@ void main() {
         '(if lastSyncTime != null) syncAll changes state from isSyncing false to true to false',
         build: () {
           when(() => mockStepRepository.syncSteps(any()))
+              .thenAnswer((_) => Future.value());
+          when(() => mockHeartRateRepository.syncHeartRates(any()))
               .thenAnswer((_) => Future.value());
           SharedPreferences.setMockInitialValues(<String, Object>{
             'lastSyncStepsDateTime': DateTime(0).toString()

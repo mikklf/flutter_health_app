@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/data/models/steps.dart';
@@ -12,6 +13,7 @@ import 'package:community_charts_flutter/community_charts_flutter.dart'
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MockStepRepository extends Mock implements IStepRepository {}
+class MockHeartRateRepository extends Mock implements IHeartRateRepository {}
 
 void main() {
   setUp(() {
@@ -20,8 +22,15 @@ void main() {
 
     services.unregister<IStepRepository>();
     services.registerSingleton<IStepRepository>(MockStepRepository());
+    services.unregister<IHeartRateRepository>();
+    services.registerSingleton<IHeartRateRepository>(MockHeartRateRepository());
 
     when(() => services<IStepRepository>().syncSteps(any()))
+        .thenAnswer((_) async {
+      return;
+    });
+    
+    when(() => services<IHeartRateRepository>().syncHeartRates(any()))
         .thenAnswer((_) async {
       return;
     });
@@ -44,7 +53,7 @@ void main() {
         home: BlocProvider(
             lazy: false,
             create: (_) =>
-                SyncCubit(services.get<IStepRepository>())..syncAll(),
+                SyncCubit(services.get<IStepRepository>(), services.get<IHeartRateRepository>())..syncAll(),
             child: const StepsWidget()));
   }
 

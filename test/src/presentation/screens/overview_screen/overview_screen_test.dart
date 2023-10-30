@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
@@ -14,6 +15,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockStepRepository extends Mock implements IStepRepository {}
+
+class MockHeartRateRepository extends Mock implements IHeartRateRepository {}
 
 class MockWeightRepository extends Mock implements IWeightRepository {}
 
@@ -29,6 +32,8 @@ void main() {
     // Replace services with mocks
     services.unregister<IStepRepository>();
     services.registerSingleton<IStepRepository>(MockStepRepository());
+    services.unregister<IHeartRateRepository>();
+    services.registerSingleton<IHeartRateRepository>(MockHeartRateRepository());
     services.unregister<IWeightRepository>();
     services.registerSingleton<IWeightRepository>(MockWeightRepository());
     services.unregister<ILocationRepository>();
@@ -42,7 +47,13 @@ void main() {
         .thenAnswer((_) async {
       return [];
     });
+    
     when(() => services<IStepRepository>().syncSteps(any()))
+        .thenAnswer((_) async {
+      return;
+    });
+
+    when(() => services<IHeartRateRepository>().syncHeartRates(any()))
         .thenAnswer((_) async {
       return;
     });
@@ -66,7 +77,7 @@ void main() {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => SyncCubit(services.get<IStepRepository>()),
+          create: (context) => SyncCubit(services.get<IStepRepository>(), services.get<IHeartRateRepository>()),
         ),
         BlocProvider(
           create: (context) =>
