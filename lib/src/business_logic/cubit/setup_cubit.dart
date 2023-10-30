@@ -129,7 +129,6 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     emit(state.copyWith(homeAddress: addressName));
   }
 
-
   Future<void> requestLocationPermissions() async {
     // NOTE: This is a basic implementation of the location permission request.
     // It works but does not provide a good user experience.
@@ -138,8 +137,9 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     await Permission.location.request();
 
     if (status.isPermanentlyDenied) {
-      sendSnackbarMessage(
-          "Location permissions are permanently denied. Please enable them in your phone settings.");
+      emit(state.copyWith(
+          snackbarMessage:
+              "Location permission is required to use the app effectively. Please enable it in your phone settings."));
       return;
     }
 
@@ -151,36 +151,31 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
 
     alwaysStatus = await Permission.locationAlways.status;
     if (alwaysStatus.isDenied || alwaysStatus.isPermanentlyDenied) {
-      sendSnackbarMessage(
-          "Always access to location is required to use the app effectively. Please enable it in your phone settings.");
+      emit(state.copyWith(
+          snackbarMessage:
+              "Always access to location is required to use the app effectively. Please enable it in your phone settings."));
     }
-  }
-
-  /// Saves the health permission status to shared preferences
-  /// [success] is true if the permission was granted, false otherwise
-  Future<void> saveHealthPermission({bool success = true}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('health_permission_given', success);
-    emit(state.copyWith(isHealthPermissionGranted: success));
   }
 
   Future<void> requestHealthPermissions() async {
     // NOTE: This is a minimal implementation of the health permission request.
     // It works but does not provide a good user experience.
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    
     var success = await services.get<IHealthProvider>().requestAuthorization();
 
     if (!success) {
-      saveHealthPermission(success: false);
-      sendSnackbarMessage("Could not get health permissions. Access to health data is required to use the app effectively.");
+      await prefs.setBool('health_permission_given', false);
+      emit(state.copyWith(
+          isHealthPermissionGranted: false,
+          snackbarMessage:
+              "Could not get health permissions. Access to health data is required to use the app effectively."));
       return;
     }
 
-    saveHealthPermission(success: true);
-    sendSnackbarMessage("Health permissions granted.");
-        
-  }
-
-  void sendSnackbarMessage(String message) {
-    emit(state.copyWith(snackbarMessage: message));
+    await prefs.setBool('health_permission_given', true);
+    emit(state.copyWith(
+        isHealthPermissionGranted: true,
+        snackbarMessage: "Health permissions granted."));
   }
 }

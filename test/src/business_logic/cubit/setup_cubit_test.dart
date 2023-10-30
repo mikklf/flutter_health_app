@@ -1,4 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geocoding/geocoding.dart';
@@ -61,10 +63,19 @@ class MockGeocodingPlatform extends Mock
   }
 }
 
+class MockHealthProvider extends Mock implements IHealthProvider {}
+
 void main() {
   late SetupCubit setupCubit;
 
   setUp(() {
+    // Register services
+    ServiceLocator.setupDependencyInjection();
+
+    // Replace services with mocks
+    services.unregister<IHealthProvider>();
+    services.registerSingleton<IHealthProvider>(MockHealthProvider());
+
     TestWidgetsFlutterBinding.ensureInitialized();
     setupCubit = SetupCubit();
     GeocodingPlatform.instance = MockGeocodingPlatform();
@@ -73,6 +84,7 @@ void main() {
 
   tearDown(() {
     setupCubit.close();
+    services.reset();
   });
 
   group('SetupCubit', () {
@@ -182,28 +194,6 @@ void main() {
     );
 
     blocTest<SetupCubit, SetupState>(
-      'emits isHealthPermissionGranted when saveHealthPermission is called with success = true',
-      build: () {
-        return SetupCubit();
-      },
-      act: (cubit) => cubit.saveHealthPermission(success: true),
-      expect: () => [
-        const SetupState(isHealthPermissionGranted: true),
-      ],
-    );
-
-    blocTest<SetupCubit, SetupState>(
-      'emits isHealthPermissionGranted when saveHealthPermission is called with success = false',
-      build: () {
-        return SetupCubit();
-      },
-      act: (cubit) => cubit.saveHealthPermission(success: false),
-      expect: () => [
-        const SetupState(isHealthPermissionGranted: false),
-      ],
-    );
-
-    blocTest<SetupCubit, SetupState>(
       'emits homeAddress when updateHomeAddress is called with valid address',
       build: () {
         return SetupCubit();
@@ -225,6 +215,44 @@ void main() {
         const SetupState(homeAddress: "No location found"),
       ],
       verify: (cubit) => throwsA(isA<NoResultFoundException>),
+    );
+
+    blocTest<SetupCubit, SetupState>(
+      'saves health permission as false when health permission is not granted',
+      build: () {
+        when(() => services.get<IHealthProvider>().requestAuthorization())
+            .thenAnswer((_) async => false);
+
+        return SetupCubit();
+      },
+      act: (cubit) => cubit.requestHealthPermissions(),
+      expect: () => [
+        const SetupState(isHealthPermissionGranted: false, snackbarMessage: "Could not get health permissions. Access to health data is required to use the app effectively."),
+      ],
+      verify: (cubit) {
+        verify(() => services.get<IHealthProvider>().requestAuthorization())
+            .called(1);
+      },
+    );
+
+    blocTest<SetupCubit, SetupState>(
+      'saves health permission as true when health permission is granted',
+      build: () {
+        when(() => services.get<IHealthProvider>().requestAuthorization())
+            .thenAnswer((_) async => true);
+
+        return SetupCubit();
+      },
+      act: (cubit) => cubit.requestHealthPermissions(),
+      expect: () {
+        return [
+          const SetupState(isHealthPermissionGranted: true, snackbarMessage: "Health permissions granted."),
+        ];
+      },
+      verify: (cubit) {
+        verify(() => services.get<IHealthProvider>().requestAuthorization())
+            .called(1);
+      },
     );
   });
 }
