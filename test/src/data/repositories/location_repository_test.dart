@@ -86,7 +86,7 @@ void main() {
       // Arrange
       final date = DateTime.now();
       when(() => mockLocationProvider.getLocationsForDay(date))
-          .thenAnswer((_) => Future.value([]));
+          .thenAnswer((_) => Future.value(null));
 
       // Act
       final result = await locationRepository.getLocationsForDay(date);
