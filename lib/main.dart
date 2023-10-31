@@ -1,8 +1,10 @@
+import 'package:carp_background_location/carp_background_location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
+import 'package:flutter_health_app/src/business_logic/cubit/weather_cubit.dart';
 import 'package:flutter_health_app/src/presentation/screens/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/location_cubit.dart';
@@ -59,6 +61,16 @@ class MainApp extends StatelessWidget {
   }
 
   Widget _buildHomeScreen() {
+    // Setting interval only works on Android and is ignored on iOS, where location updates are determined by the OS.
+    LocationManager().interval = 60 * 15; // 15 minutes
+    LocationManager().distanceFilter = 0;
+    LocationManager().notificationTitle = Constants.appName;
+    LocationManager().notificationMsg =
+        '${Constants.appName} is tracking your location';
+    LocationManager().accuracy = LocationAccuracy.BALANCED;
+
+    LocationManager().start();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -73,8 +85,12 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           lazy: false,
           create: (context) =>
-              LocationCubit(services.get<ILocationRepository>())
-                ..startTracking(),
+              LocationCubit(services.get<ILocationRepository>()),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (context) =>
+              WeatherCubit(),
         ),
       ],
       child: MaterialApp(

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_health_app/constants.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/src/data/models/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,20 +24,8 @@ class LocationCubit extends Cubit<LocationState> {
 
   @override
   Future<void> close() async {
-    stopTracking();
+    locationSubscription.cancel();
     super.close();
-  }
-
-  void startTracking() {
-    // Setting interval only works on Android and is ignored on iOS, where location updates are determined by the OS.
-    LocationManager().interval = 60 * 15; // 15 minutes
-    LocationManager().distanceFilter = 0;
-    LocationManager().notificationTitle = Constants.appName;
-    LocationManager().notificationMsg =
-        'Flutter Health App is tracking your location';
-    LocationManager().accuracy = LocationAccuracy.BALANCED;
-
-    LocationManager().start();
   }
 
   void onLocationUpdates(LocationDto loc) async {
@@ -55,11 +42,6 @@ class LocationCubit extends Cubit<LocationState> {
         homeStayPercent: await _calculateHomeStayPercentage(),
       ));
     }
-  }
-
-  void stopTracking() {
-    locationSubscription.cancel();
-    LocationManager().stop();
   }
 
   Future<double> _calculateHomeStayPercentage() async {
