@@ -36,11 +36,11 @@ class LocationRepository implements ILocationRepository {
 
   /// Returns a list of [Location] for a given day
   @override
-  Future<List<Location>?> getLocationsForDay(DateTime date) async {
+  Future<List<Location>> getLocationsForDay(DateTime date) async {
     var result = await _locationProvider.getLocationsForDay(date);
 
     if (result == null) {
-      return null;
+      return [];
     }
 
     return result.map((e) => Location.fromMap(e)).toList();

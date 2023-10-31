@@ -81,18 +81,18 @@ void main() {
     });
 
     test(
-        'getLocationsForDay should return null if there are no locations for the given day',
+        'getLocationsForDay should return empty list if there are no locations for the given day',
         () async {
       // Arrange
       final date = DateTime.now();
       when(() => mockLocationProvider.getLocationsForDay(date))
-          .thenAnswer((_) => Future.value(null));
+          .thenAnswer((_) => Future.value([]));
 
       // Act
       final result = await locationRepository.getLocationsForDay(date);
 
       // Assert
-      expect(result, null);
+      expect(result, []);
     });
 
     test(

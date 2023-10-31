@@ -82,7 +82,7 @@ class LocationCubit extends Cubit<LocationState> {
 
     var locations = await _locationRepository.getLocationsForDay(date);
 
-    if (locations == null || locations.isEmpty) {
+    if (locations.isEmpty) {
       return -1;
     }
 
