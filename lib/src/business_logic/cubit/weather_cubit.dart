@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_health_app/domain/interfaces/weather_repository.dart';
 import 'package:flutter_health_app/src/data/models/weather.dart';
 import 'package:weather/weather.dart' as open_weather;
@@ -28,12 +27,9 @@ class WeatherCubit extends Cubit<WeatherState> {
   }
 
   void onLocationUpdates(LocationDto loc) async {
-    debugPrint("!!! WeatherCubit.onLocationUpdates() called");
-
     var lastest = await _weatherRepository.getLastest();
 
     if (lastest == null) {
-      debugPrint("!!! Lastest is null");
       await _saveWeatherFor(loc.latitude, loc.longitude);
       return;
     }
