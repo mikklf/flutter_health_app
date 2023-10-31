@@ -111,7 +111,7 @@ void main() {
       final result = await locationRepository.getLocationsForDay(date);
 
       // Assert
-      expect(result?.length, 2);
+      expect(result.length, 2);
     });
   });
 }
