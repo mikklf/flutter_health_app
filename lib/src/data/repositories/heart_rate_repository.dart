@@ -41,11 +41,17 @@ class HeartRateRepository implements IHeartRateRepository {
     for (HealthDataPoint heartrate in heartrates) {
       var value = heartrate.value as NumericHealthValue;
 
-      var beatsPerMinute = int.tryParse(value.numericValue.toString());
+      // Google Fit returns a double, Health Connect returns an int
+      // To ensure compatibility, we first try to parse the value as a double
+      // Which can handle both cases, and then we convert it to an int which is what we want.
+      // No idea what happens on iOS.
+      var beatsPerMinuteDouble = double.tryParse(value.numericValue.toString());
 
-      if (beatsPerMinute == null) {
+      if (beatsPerMinuteDouble == null) {
         continue;
       }
+
+      var beatsPerMinute = beatsPerMinuteDouble.toInt();
 
       var heartRate = HeartRate(
         beatsPerMinute: beatsPerMinute,
@@ -60,8 +66,3 @@ class HeartRateRepository implements IHeartRateRepository {
   
 
 }
-
-
-// // fetch health data
-//      List<HealthDataPoint> healthData =
-//          await health.getHealthDataFromTypes(lastSyncTime, now, [HealthDataType.HEART_RATE]);
