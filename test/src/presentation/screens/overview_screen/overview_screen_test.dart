@@ -8,6 +8,7 @@ import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/location_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/heart_rate_widget.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/home_stay_widget.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/steps_widget.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/weight_widget.dart';
@@ -111,6 +112,13 @@ void main() {
       await tester.scrollUntilVisible(find.byType(HomeStayWidget), 100);
 
       expect(find.byType(HomeStayWidget), findsOneWidget);
+    });
+
+    testWidgets('Overview Screen has a HeartRateWidget', (tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.scrollUntilVisible(find.byType(HeartRateWidget), 100);
+
+      expect(find.byType(HeartRateWidget), findsOneWidget);
     });
   });
 }
