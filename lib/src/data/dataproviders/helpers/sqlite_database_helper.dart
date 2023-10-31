@@ -21,9 +21,12 @@ class SqliteDatabaseHelper {
     batch.execute(
         "CREATE TABLE weights(id INTEGER PRIMARY KEY AUTOINCREMENT, weight REAL, date TEXT);");
     batch.execute(
-      "CREATE TABLE locations (id INTEGER PRIMARY KEY AUTOINCREMENT, latitude REAL, longitude REAL, date TEXT);");
+        "CREATE TABLE locations (id INTEGER PRIMARY KEY AUTOINCREMENT, latitude REAL, longitude REAL, timestamp TEXT);");
     batch.execute(
-      "CREATE TABLE heart_rate (id INTEGER PRIMARY KEY AUTOINCREMENT, beats_per_minute INTEGER, timestamp TEXT);");
+        "CREATE TABLE heart_rate (id INTEGER PRIMARY KEY AUTOINCREMENT, beats_per_minute INTEGER, timestamp TEXT);");
+    batch.execute(
+        "CREATE TABLE weather (id INTEGER PRIMARY KEY AUTOINCREMENT, temperature REAL, temperature_feels_like REAL, humidity REAL, cloudiness_percent INTEGER, weather_condition TEXT, weather_description TEXT, latitude REAL, longitude REAL, timestamp TEXT, sunrise TEXT, sunset TEXT);");
+
     batch.commit();
 
     return;

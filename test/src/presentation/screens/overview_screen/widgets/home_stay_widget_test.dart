@@ -55,7 +55,7 @@ void main() {
                 Location(
                   longitude: 0,
                   latitude: 0,
-                  date: DateTime.now().subtract(const Duration(hours: 1)),
+                  timestamp: DateTime.now().subtract(const Duration(hours: 1)),
                 )
               ]);
 

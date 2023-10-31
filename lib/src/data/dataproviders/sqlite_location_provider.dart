@@ -43,7 +43,7 @@ class SqliteLocationProvider implements ILocationProvider {
 
     final List<Map<String, dynamic>> maps = await db.query(
       _tableName,
-      where: "date BETWEEN ? AND ?",
+      where: "timestamp BETWEEN ? AND ?",
       whereArgs: [startOfDay.toString(), endOfDay.toString()],
     );
 
@@ -61,7 +61,7 @@ class SqliteLocationProvider implements ILocationProvider {
 
     final List<Map<String, dynamic>> maps = await db.query(
       _tableName,
-      orderBy: "id DESC",
+      orderBy: "timestamp DESC",
       limit: 1,
     );
 

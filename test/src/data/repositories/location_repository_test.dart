@@ -20,7 +20,7 @@ void main() {
         () async {
       // Arrange
       final location =
-          Location(date: DateTime.now(), latitude: 0.0, longitude: 0.0);
+          Location(timestamp: DateTime.now(), latitude: 0.0, longitude: 0.0);
       when(() => mockLocationProvider.getLastest())
           .thenAnswer((_) => Future.value(null));
       when(() => mockLocationProvider.insert(location.toMap()))
@@ -39,9 +39,9 @@ void main() {
         () async {
       // Arrange
       final location =
-          Location(date: DateTime.now(), latitude: 0, longitude: 0);
+          Location(timestamp: DateTime.now(), latitude: 0, longitude: 0);
       final lastLocation = Location(
-          date: DateTime.now().subtract(const Duration(minutes: 5)),
+          timestamp: DateTime.now().subtract(const Duration(minutes: 5)),
           latitude: 0,
           longitude: 0);
       when(() => mockLocationProvider.getLastest())
@@ -62,9 +62,9 @@ void main() {
         () async {
       // Arrange
       final location =
-          Location(date: DateTime.now(), latitude: 0, longitude: 0);
+          Location(timestamp: DateTime.now(), latitude: 0, longitude: 0);
       final lastLocation = Location(
-          date: DateTime.now().subtract(const Duration(minutes: 15)),
+          timestamp: DateTime.now().subtract(const Duration(minutes: 15)),
           latitude: 0,
           longitude: 0);
       when(() => mockLocationProvider.getLastest())
@@ -101,8 +101,8 @@ void main() {
       // Arrange
       final date = DateTime.now();
       final locations = [
-        Location(date: date, latitude: 0, longitude: 0),
-        Location(date: date, latitude: 1, longitude: 1),
+        Location(timestamp: date, latitude: 0, longitude: 0),
+        Location(timestamp: date, latitude: 1, longitude: 1),
       ];
       when(() => mockLocationProvider.getLocationsForDay(date)).thenAnswer(
           (_) => Future.value(locations.map((e) => e.toMap()).toList()));

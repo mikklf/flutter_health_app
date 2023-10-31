@@ -1,11 +1,16 @@
 import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/heart_rate_provider.dart';
+import 'package:flutter_health_app/domain/interfaces/location_provider.dart';
+import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
+import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_entry_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_entry_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
+import 'package:flutter_health_app/domain/interfaces/weather_provider.dart';
+import 'package:flutter_health_app/domain/interfaces/weather_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/weight_provider.dart';
 import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/data/dataproviders/health_provider.dart';
@@ -14,18 +19,16 @@ import 'package:flutter_health_app/src/data/dataproviders/sqlite_heart_rate_prov
 import 'package:flutter_health_app/src/data/dataproviders/sqlite_location_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/sqlite_survey_entry_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/sqlite_step_provider.dart';
+import 'package:flutter_health_app/src/data/dataproviders/sqlite_weather_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/sqlite_weight_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/heart_rate_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/location_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/weather_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/weight_repository.dart';
 import 'package:get_it/get_it.dart';
-
-import 'domain/interfaces/heart_rate_repository.dart';
-import 'domain/interfaces/location_provider.dart';
-import 'domain/interfaces/location_repository.dart';
 
 final services = GetIt.instance;
 
@@ -66,5 +69,9 @@ class ServiceLocator {
     services.registerSingleton<IWeightProvider>(SQLiteWeightProvider());
     services.registerSingleton<IWeightRepository>(
         WeightRepository(services<IWeightProvider>()));
+
+    services.registerSingleton<IWeatherProvider>(SqliteWeatherProvider());
+    services.registerSingleton<IWeatherRepository>(
+        WeatherRepository(services<IWeatherProvider>()));
   }
 }

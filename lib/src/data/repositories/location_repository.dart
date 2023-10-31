@@ -24,7 +24,7 @@ class LocationRepository implements ILocationRepository {
 
     // If the last entry is less than 10 minutes old, don't insert
     // to avoid overloading the database
-    if (location.date.difference(entry.date).inMinutes <
+    if (location.timestamp.difference(entry.timestamp).inMinutes <
         _minimumIntervalBetweenInsertsInMinutes) {
       return false;
     }

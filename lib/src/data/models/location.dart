@@ -3,20 +3,20 @@ import 'dart:math';
 class Location {
   final double latitude;
   final double longitude;
-  final DateTime date;
+  final DateTime timestamp;
   final int? id;
 
   const Location(
       {required this.latitude,
       required this.longitude,
-      required this.date,
+      required this.timestamp,
       this.id});
 
   Map<String, dynamic> toMap() {
     return {
       'latitude': latitude,
       'longitude': longitude,
-      'date': date.toString(),
+      'timestamp': timestamp.toString(),
       'id': id,
     };
   }
@@ -25,7 +25,7 @@ class Location {
     return Location(
       latitude: map['latitude'] as double,
       longitude: map['longitude'] as double,
-      date: DateTime.parse(map['date']),
+      timestamp: DateTime.parse(map['timestamp']),
       id: map['id'] as int?,
     );
   }
@@ -33,13 +33,13 @@ class Location {
   Location copyWith({
     double? latitude,
     double? longitude,
-    DateTime? date,
+    DateTime? timestamp,
     int? id,
   }) {
     return Location(
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
-      date: date ?? this.date,
+      timestamp: timestamp ?? this.timestamp,
       id: id ?? this.id,
     );
   }

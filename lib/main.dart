@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
+import 'package:flutter_health_app/domain/interfaces/weather_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/weather_cubit.dart';
 import 'package:flutter_health_app/src/presentation/screens/home_screen.dart';
@@ -90,7 +91,7 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           lazy: false,
           create: (context) =>
-              WeatherCubit(),
+              WeatherCubit(services.get<IWeatherRepository>()),
         ),
       ],
       child: MaterialApp(

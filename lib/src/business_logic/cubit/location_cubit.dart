@@ -32,7 +32,7 @@ class LocationCubit extends Cubit<LocationState> {
     var location = Location(
       longitude: loc.longitude,
       latitude: loc.latitude,
-      date: DateTime.now(),
+      timestamp: DateTime.now(),
     );
 
     var didInsert = await _locationRepository.insert(location);
@@ -59,7 +59,7 @@ class LocationCubit extends Cubit<LocationState> {
     var homeLocation = Location(
       latitude: homeLatitude,
       longitude: homeLongitude,
-      date: DateTime.now(),
+      timestamp: DateTime.now(),
     );
 
     var locations = await _locationRepository.getLocationsForDay(date);
@@ -76,10 +76,10 @@ class LocationCubit extends Cubit<LocationState> {
       var distance = location.distanceTo(homeLocation);
       if (distance < 100) {
         homeStayDuration +=
-            location.date.difference(lastDataPointTime).inSeconds;
+            location.timestamp.difference(lastDataPointTime).inSeconds;
       }
 
-      lastDataPointTime = location.date;
+      lastDataPointTime = location.timestamp;
     }
 
     var elapsedTime = lastDataPointTime
