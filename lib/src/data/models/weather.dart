@@ -48,17 +48,17 @@ class Weather {
 
   factory Weather.fromMap(Map<String, dynamic> map) {
     return Weather(
-      temperature: map['temperature'] as num,
-      temperatureFeelsLike: map['temperature_feels_like'] as num,
-      humidity: map['humidity'] as num,
-      cloudinessPercent: map['cloudiness_percent'] as num,
-      weatherCondition: map['weather_condition'] as String,
-      weatherdescription: map['weather_description'] as String,
-      latitude: map['latitude'] as num,
-      longitude: map['longitude'] as num,
+      temperature: map['temperature'],
+      temperatureFeelsLike: map['temperature_feels_like'],
+      humidity: map['humidity'],
+      cloudinessPercent: map['cloudiness_percent'],
+      weatherCondition: map['weather_condition'],
+      weatherdescription: map['weather_description'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
       timestamp: DateTime.parse(map['timestamp']),
-      sunrise: DateTime.parse(map['sunrise']),
-      sunset: DateTime.parse(map['sunset']),
+      sunrise: map['sunrise'] == null ? null : DateTime.parse(map['sunrise']),
+      sunset: map['sunset'] == null ? null : DateTime.parse(map['sunset']),
     );
   }
 

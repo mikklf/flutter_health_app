@@ -14,7 +14,7 @@ class WeatherRepository implements IWeatherRepository {
   }
 
   @override
-  Future<Weather?> getLastest () async {
+  Future<Weather?> getLastest() async {
     var result = await _weatherContext.getLastest();
 
     if (result == null) {
