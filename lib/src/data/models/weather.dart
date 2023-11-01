@@ -17,16 +17,16 @@ class Weather {
 
   const Weather(
       {required this.temperature,
-      required this.temperatureFeelsLike,
-      required this.humidity,
-      required this.cloudinessPercent,
-      required this.weatherCondition,
-      required this.weatherdescription,
-      required this.latitude,
-      required this.longitude,
+      this.temperatureFeelsLike,
+      this.humidity,
+      this.cloudinessPercent,
+      this.weatherCondition,
+      this.weatherdescription,
+      this.latitude,
+      this.longitude,
       required this.timestamp,
-      required this.sunrise,
-      required this.sunset
+      this.sunrise,
+      this.sunset
       }
   );
 
