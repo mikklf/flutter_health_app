@@ -15,8 +15,8 @@ void main() {
         latitude: 37.7749,
         longitude: -122.4194,
         timestamp: DateTime.now(),
-        sunrise: DateTime.now().add(Duration(hours: 1)),
-        sunset: DateTime.now().add(Duration(hours: 10)),
+        sunrise: DateTime.now().add(const Duration(hours: 1)),
+        sunset: DateTime.now().add(const Duration(hours: 10)),
       );
 
       // Act
@@ -47,8 +47,8 @@ void main() {
         'latitude': 37.7749,
         'longitude': -122.4194,
         'timestamp': DateTime.now().toString(),
-        'sunrise': DateTime.now().add(Duration(hours: 1)).toString(),
-        'sunset': DateTime.now().add(Duration(hours: 10)).toString(),
+        'sunrise': DateTime.now().add(const Duration(hours: 1)).toString(),
+        'sunset': DateTime.now().add(const Duration(hours: 10)).toString(),
       };
 
       // Act
@@ -79,8 +79,8 @@ void main() {
         latitude: 37.7749,
         longitude: -122.4194,
         timestamp: DateTime.now(),
-        sunrise: DateTime.now().add(Duration(hours: 1)),
-        sunset: DateTime.now().add(Duration(hours: 10)),
+        sunrise: DateTime.now().add(const Duration(hours: 1)),
+        sunset: DateTime.now().add(const Duration(hours: 10)),
       );
 
       // Act

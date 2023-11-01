@@ -5,7 +5,7 @@ import 'package:flutter_health_app/src/data/dataproviders/interfaces/weather_pro
 import 'package:flutter_health_app/src/data/models/weather.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/weather_repository.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 class MockWeatherRepository extends Mock implements IWeatherRepository {}
 
