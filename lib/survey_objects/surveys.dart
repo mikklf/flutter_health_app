@@ -1,4 +1,4 @@
-import 'package:flutter_health_app/domain/surveys/dummy.dart';
+import 'package:flutter_health_app/survey_objects/dummy.dart';
 import 'package:research_package/research_package.dart';
 
 import 'kellner.dart';

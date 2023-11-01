@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_health_app/domain/interfaces/weather_repository.dart';
 import 'package:flutter_health_app/src/data/models/weather.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/weather_repository.dart';
 import 'package:weather/weather.dart' as open_weather;
 
 part 'weather_state.dart';

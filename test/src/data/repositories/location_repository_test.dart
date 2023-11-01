@@ -1,14 +1,14 @@
-import 'package:flutter_health_app/domain/interfaces/location_provider.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/location_datacontext.dart';
 import 'package:flutter_health_app/src/data/models/location.dart';
 import 'package:flutter_health_app/src/data/repositories/location_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockLocationProvider extends Mock implements ILocationProvider {}
+class MockLocationProvider extends Mock implements ILocationDataContext {}
 
 void main() {
   late LocationRepository locationRepository;
-  late ILocationProvider mockLocationProvider;
+  late ILocationDataContext mockLocationProvider;
 
   setUp(() {
     mockLocationProvider = MockLocationProvider();

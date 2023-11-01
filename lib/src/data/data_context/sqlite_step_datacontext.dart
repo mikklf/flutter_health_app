@@ -1,9 +1,9 @@
-import 'package:flutter_health_app/domain/interfaces/step_provider.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'helpers/sqlite_database_helper.dart';
+import 'interfaces/step_datacontext.dart';
 
-class SqliteStepProvider implements IStepProvider {
+class StepDataContext implements IStepDataContext {
   final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
   final String _tableName = "steps";
 

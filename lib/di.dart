@@ -1,27 +1,27 @@
-import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/heart_rate_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/location_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/step_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/survey_entry_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/survey_entry_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/survey_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/survey_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/weather_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/weather_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/weight_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/heart_rate_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/location_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/step_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/survey_entry_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/weather_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/weight_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/sqlite_heart_rate_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/sqlite_location_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/sqlite_step_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/sqlite_weather_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/sqlite_survey_entry_datacontext.dart';
+import 'package:flutter_health_app/src/data/data_context/sqlite_weight_datacontext.dart';
 import 'package:flutter_health_app/src/data/dataproviders/health_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/inmemory_survey_provider.dart';
-import 'package:flutter_health_app/src/data/dataproviders/sqlite_heart_rate_provider.dart';
-import 'package:flutter_health_app/src/data/dataproviders/sqlite_location_provider.dart';
-import 'package:flutter_health_app/src/data/dataproviders/sqlite_survey_entry_provider.dart';
-import 'package:flutter_health_app/src/data/dataproviders/sqlite_step_provider.dart';
-import 'package:flutter_health_app/src/data/dataproviders/sqlite_weather_provider.dart';
-import 'package:flutter_health_app/src/data/dataproviders/sqlite_weight_provider.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/survey_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/heart_rate_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/location_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/survey_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/weather_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/location_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_entry_repository.dart';
@@ -37,41 +37,41 @@ class ServiceLocator {
     // Register services
     services.registerSingleton<ISurveyProvider>(InMemorySurveyProvider());
     services
-        .registerSingleton<ISurveyEntryProvider>(SQLiteSurveyEntryProvider());
+        .registerSingleton<ISurveyEntryDataContext>(SurveyEntryDataContext());
     services.registerSingleton<IHealthProvider>(HealthProvider());
 
     services.registerSingleton<ISurveyRepository>(SurveyRepository(
       services<ISurveyProvider>(),
-      services<ISurveyEntryProvider>(),
+      services<ISurveyEntryDataContext>(),
     ));
 
     services.registerSingleton<ISurveyEntryRepository>(SurveyEntryRepository(
-      services<ISurveyEntryProvider>(),
+      services<ISurveyEntryDataContext>(),
     ));
 
-    services.registerSingleton<IStepProvider>(SqliteStepProvider());
+    services.registerSingleton<IStepDataContext>(StepDataContext());
 
     services.registerSingleton<IStepRepository>(StepRepository(
-      services<IStepProvider>(),
+      services<IStepDataContext>(),
       services<IHealthProvider>(),
     ));
 
-    services.registerSingleton<ILocationProvider>(SqliteLocationProvider());
+    services.registerSingleton<ILocationDataContext>(LocationDataContext());
     services.registerSingleton<ILocationRepository>(
-        LocationRepository(services<ILocationProvider>()));
+        LocationRepository(services<ILocationDataContext>()));
 
-    services.registerSingleton<IHeartRateProvider>(SqliteHeartRateProvider());
+    services.registerSingleton<IHeartRateDataContext>(HeartRateDataContext());
     services.registerSingleton<IHeartRateRepository>(HeartRateRepository(
-      services<IHeartRateProvider>(),
+      services<IHeartRateDataContext>(),
       services<IHealthProvider>(),
     ));
 
-    services.registerSingleton<IWeightProvider>(SQLiteWeightProvider());
+    services.registerSingleton<IWeightDataContext>(WeightDataContext());
     services.registerSingleton<IWeightRepository>(
-        WeightRepository(services<IWeightProvider>()));
+        WeightRepository(services<IWeightDataContext>()));
 
-    services.registerSingleton<IWeatherProvider>(SqliteWeatherProvider());
+    services.registerSingleton<IWeatherDataContext>(WeatherDataContext());
     services.registerSingleton<IWeatherRepository>(
-        WeatherRepository(services<IWeatherProvider>()));
+        WeatherRepository(services<IWeatherDataContext>()));
   }
 }

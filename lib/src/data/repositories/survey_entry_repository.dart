@@ -1,10 +1,11 @@
-import 'package:flutter_health_app/domain/interfaces/survey_entry_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/data/models/survery_entry.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
 import 'package:research_package/research_package.dart';
 
+import '../data_context/interfaces/survey_entry_datacontext.dart';
+
 class SurveyEntryRepository implements ISurveyEntryRepository {
-  final ISurveyEntryProvider _entryProvider;
+  final ISurveyEntryDataContext _entryProvider;
 
   SurveyEntryRepository(this._entryProvider);
 

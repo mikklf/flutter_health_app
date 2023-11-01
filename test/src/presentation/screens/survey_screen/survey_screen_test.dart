@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_health_app/domain/interfaces/survey_entry_repository.dart';
-import 'package:flutter_health_app/domain/surveys/surveys.dart';
+import 'package:flutter_health_app/survey_objects/surveys.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/presentation/screens/survey_screen/survey_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

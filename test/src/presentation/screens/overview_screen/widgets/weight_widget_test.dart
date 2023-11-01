@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/weight_widget.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

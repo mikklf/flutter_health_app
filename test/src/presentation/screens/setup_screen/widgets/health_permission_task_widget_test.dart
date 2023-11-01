@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/health_permission_task_widget.dart';
 import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/setup_task_widget.dart';
 import 'package:flutter_test/flutter_test.dart';

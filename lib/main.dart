@@ -1,11 +1,11 @@
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/weather_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/weather_cubit.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/location_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/weather_repository.dart';
 import 'package:flutter_health_app/src/presentation/screens/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/location_cubit.dart';

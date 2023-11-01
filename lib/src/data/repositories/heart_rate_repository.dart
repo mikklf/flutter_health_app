@@ -1,12 +1,12 @@
-import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/heart_rate_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
 import 'package:health/health.dart';
 
+import '../data_context/interfaces/heart_rate_datacontext.dart';
 import '../models/heart_rate.dart';
 
 class HeartRateRepository implements IHeartRateRepository {
-  final IHeartRateProvider _heartbeatProvider;
+  final IHeartRateDataContext _heartbeatProvider;
   final IHealthProvider _healthProvider;
 
   HeartRateRepository(this._heartbeatProvider, this._healthProvider);

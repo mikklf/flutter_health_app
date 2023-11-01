@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/src/data/models/heart_rate.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
 
 part 'heart_rate_state.dart';
 

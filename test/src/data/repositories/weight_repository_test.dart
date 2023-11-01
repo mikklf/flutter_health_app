@@ -1,10 +1,10 @@
-import 'package:flutter_health_app/domain/interfaces/weight_provider.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/weight_datacontext.dart';
 import 'package:flutter_health_app/src/data/models/weight.dart';
 import 'package:flutter_health_app/src/data/repositories/weight_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockWeightProvider extends Mock implements IWeightProvider {}
+class MockWeightProvider extends Mock implements IWeightDataContext {}
 
 void main() {
   late MockWeightProvider mockWeightProvider;

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:research_package/model.dart';

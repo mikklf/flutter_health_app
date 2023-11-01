@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_health_app/domain/interfaces/survey_entry_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
 import 'package:research_package/research_package.dart';
 
 part 'survey_manager_state.dart';

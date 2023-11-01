@@ -1,5 +1,5 @@
-import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/helpers/health_helper.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:health/health.dart';
 
 class HealthProvider implements IHealthProvider {
@@ -86,5 +86,4 @@ class HealthProvider implements IHealthProvider {
 
     return health;
   }
-
 }

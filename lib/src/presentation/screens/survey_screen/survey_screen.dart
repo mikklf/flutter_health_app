@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_health_app/domain/interfaces/survey_entry_repository.dart';
-import 'package:flutter_health_app/domain/surveys/surveys.dart';
+import 'package:flutter_health_app/survey_objects/surveys.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/survey_manager_cubit.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
 import 'package:research_package/research_package.dart';
 
 

@@ -1,16 +1,16 @@
-import 'package:flutter_health_app/domain/interfaces/weather_provider.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'helpers/sqlite_database_helper.dart';
+import 'interfaces/survey_entry_datacontext.dart';
 
-class SqliteWeatherProvider implements IWeatherProvider {
+class SurveyEntryDataContext implements ISurveyEntryDataContext {
   final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
-  final String _tableName = "weather";
+  final String _tableName = "survey_entries";
 
   @override
   Future<void> insert(Map<String, Object?> values) async {
     final Database db = await _databaseHelper.getDatabase();
-    // insert
+    
     await db.insert(
       _tableName,
       values,
@@ -18,13 +18,16 @@ class SqliteWeatherProvider implements IWeatherProvider {
     );
   }
 
+  /// Get the last entry of a survey with the given [surveyId]. Returns null if no entry is found.
   @override
-  Future<Map<String, dynamic>?> getLastest() async {
+  Future<Map<String, dynamic>?> getLastEntryOfType(final String surveyId) async {
     final Database db = await _databaseHelper.getDatabase();
 
     final List<Map<String, dynamic>> maps = await db.query(
       _tableName,
-      orderBy: "timestamp DESC",
+      where: "survey_id = ?",
+      whereArgs: [surveyId],
+      orderBy: "id DESC",
       limit: 1,
     );
 

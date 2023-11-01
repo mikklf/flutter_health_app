@@ -1,4 +1,4 @@
-abstract interface class IWeightProvider {
+abstract interface class IWeightDataContext {
   Future<void> insert(Map<String, Object?> values);
   Future<void> update(Map<String, Object?> values);
   Future<List<Map<String, dynamic>>> getWeightsInRange(

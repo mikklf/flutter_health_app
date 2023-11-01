@@ -1,9 +1,9 @@
-import 'package:flutter_health_app/domain/interfaces/weight_provider.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'helpers/sqlite_database_helper.dart';
+import 'interfaces/weight_datacontext.dart';
 
-class SQLiteWeightProvider implements IWeightProvider {
+class WeightDataContext implements IWeightDataContext {
   final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
   final String _tableName = "weights";
 

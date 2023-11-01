@@ -1,15 +1,15 @@
-import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/step_provider.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/step_datacontext.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockStepProvider extends Mock implements IStepProvider {}
+class MockStepProvider extends Mock implements IStepDataContext {}
 
 class MockHealthProvider extends Mock implements IHealthProvider {}
 
 void main() {
-  late IStepProvider mockStepProvider;
+  late IStepDataContext mockStepProvider;
   late IHealthProvider mockHealthProvider;
   late StepRepository stepRepository;
 

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/data/models/steps.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';
 
 part 'steps_state.dart';
 

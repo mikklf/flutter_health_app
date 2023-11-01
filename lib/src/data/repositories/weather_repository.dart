@@ -1,9 +1,10 @@
-import 'package:flutter_health_app/domain/interfaces/weather_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/weather_repository.dart';
 import 'package:flutter_health_app/src/data/models/weather.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/weather_repository.dart';
+
+import '../data_context/interfaces/weather_datacontext.dart';
 
 class WeatherRepository implements IWeatherRepository {
-  final IWeatherProvider _weatherProvider;
+  final IWeatherDataContext _weatherProvider;
 
   WeatherRepository(this._weatherProvider);
   

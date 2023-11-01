@@ -1,10 +1,11 @@
-import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/step_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/models/steps.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';
+
+import '../data_context/interfaces/step_datacontext.dart';
 
 class StepRepository implements IStepRepository{
-  final IStepProvider _stepProvider;
+  final IStepDataContext _stepProvider;
   final IHealthProvider _healthProvider;
 
   StepRepository(this._stepProvider, this._healthProvider);

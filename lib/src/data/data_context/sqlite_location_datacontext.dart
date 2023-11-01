@@ -1,9 +1,9 @@
-import 'package:flutter_health_app/domain/interfaces/location_provider.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'helpers/sqlite_database_helper.dart';
+import 'interfaces/location_datacontext.dart';
 
-class SqliteLocationProvider implements ILocationProvider {
+class LocationDataContext implements ILocationDataContext {
   final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
   final String _tableName = "locations";
 

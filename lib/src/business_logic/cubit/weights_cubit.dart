@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/data/models/weight.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/weight_repository.dart';
 
 part 'weights_state.dart';
 

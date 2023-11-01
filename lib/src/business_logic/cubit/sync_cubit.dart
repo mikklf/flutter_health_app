@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_health_app/domain/interfaces/heart_rate_repository.dart';
-import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'sync_state.dart';

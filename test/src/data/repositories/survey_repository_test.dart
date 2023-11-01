@@ -1,6 +1,6 @@
-import 'package:flutter_health_app/domain/interfaces/survey_entry_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/survey_provider.dart';
-import 'package:flutter_health_app/domain/surveys/surveys.dart';
+import 'package:flutter_health_app/survey_objects/surveys.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/survey_entry_datacontext.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/survey_provider.dart';
 import 'package:flutter_health_app/src/data/models/survery_entry.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,7 +9,7 @@ import 'package:research_package/model.dart';
 
 class MockSurveyProvider extends Mock implements ISurveyProvider {}
 
-class MockSurveyEntryProvider extends Mock implements ISurveyEntryProvider {}
+class MockSurveyEntryProvider extends Mock implements ISurveyEntryDataContext {}
 
 void main() {
   late MockSurveyProvider mockSurveyProvider;

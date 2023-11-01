@@ -3,9 +3,9 @@ import 'package:community_charts_flutter/community_charts_flutter.dart'
     as charts;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/weights_cubit.dart';
 import 'package:flutter_health_app/src/data/models/weight.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/data_card_box_widget.dart';
 import 'package:research_package/research_package.dart';
 

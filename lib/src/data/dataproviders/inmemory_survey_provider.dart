@@ -1,5 +1,5 @@
-import 'package:flutter_health_app/domain/interfaces/survey_provider.dart';
-import 'package:flutter_health_app/domain/surveys/surveys.dart';
+import 'package:flutter_health_app/survey_objects/surveys.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/survey_provider.dart';
 
 class InMemorySurveyProvider implements ISurveyProvider {
   final List<RPSurvey> _surveylist = [

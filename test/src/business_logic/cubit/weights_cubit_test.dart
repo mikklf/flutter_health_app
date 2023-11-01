@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/weights_cubit.dart';
 import 'package:flutter_health_app/src/data/models/weight.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/weight_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

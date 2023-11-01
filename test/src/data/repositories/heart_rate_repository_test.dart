@@ -1,12 +1,12 @@
-import 'package:flutter_health_app/domain/interfaces/health_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/heart_rate_provider.dart';
+import 'package:flutter_health_app/src/data/data_context/interfaces/heart_rate_datacontext.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/models/heart_rate.dart';
 import 'package:flutter_health_app/src/data/repositories/heart_rate_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:health/health.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockHeartRateProvider extends Mock implements IHeartRateProvider {}
+class MockHeartRateProvider extends Mock implements IHeartRateDataContext {}
 
 class MockHealthProvider extends Mock implements IHealthProvider {}
 

@@ -1,9 +1,10 @@
-import 'package:flutter_health_app/domain/interfaces/weight_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/data/models/weight.dart';
 
+import '../data_context/interfaces/weight_datacontext.dart';
+import 'interfaces/weight_repository.dart';
+
 class WeightRepository implements IWeightRepository {
-  final IWeightProvider _weightProvider;
+  final IWeightDataContext _weightProvider;
 
   WeightRepository(this._weightProvider);
 

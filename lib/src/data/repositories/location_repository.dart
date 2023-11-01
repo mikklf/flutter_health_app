@@ -1,9 +1,10 @@
-import 'package:flutter_health_app/domain/interfaces/location_provider.dart';
-import 'package:flutter_health_app/domain/interfaces/location_repository.dart';
 import 'package:flutter_health_app/src/data/models/location.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/location_repository.dart';
+
+import '../data_context/interfaces/location_datacontext.dart';
 
 class LocationRepository implements ILocationRepository {
-  final ILocationProvider _locationProvider;
+  final ILocationDataContext _locationProvider;
 
   final int _minimumIntervalBetweenInsertsInMinutes = 10;
 
