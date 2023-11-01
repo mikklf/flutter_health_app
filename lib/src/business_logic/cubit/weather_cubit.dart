@@ -34,7 +34,7 @@ class WeatherCubit extends Cubit<WeatherState> {
       return;
     }
 
-    var diff = lastest.timestamp.difference(DateTime.now()).inMinutes;
+    var diff = DateTime.now().difference(lastest.timestamp).inMinutes;
 
     if (diff > _minimumIntervalBetweenInsertsInMinutes) {
       await _saveWeatherFor(loc.latitude, loc.longitude);
