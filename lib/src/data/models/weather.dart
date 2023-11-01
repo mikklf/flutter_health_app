@@ -1,14 +1,14 @@
 class Weather {
-  final double? temperature;
-  final double? temperatureFeelsLike;
-  final double? humidity;
-  final double? cloudinessPercent;
+  final num? temperature;
+  final num? temperatureFeelsLike;
+  final num? humidity;
+  final num? cloudinessPercent;
 
   final String? weatherCondition;
   final String? weatherdescription;
 
-  final double? latitude;
-  final double? longitude;
+  final num? latitude;
+  final num? longitude;
 
   final DateTime timestamp;
 
@@ -48,14 +48,14 @@ class Weather {
 
   factory Weather.fromMap(Map<String, dynamic> map) {
     return Weather(
-      temperature: map['temperature'] as double,
-      temperatureFeelsLike: map['temperature_feels_like'] as double,
-      humidity: map['humidity'] as double,
-      cloudinessPercent: map['cloudiness_percent'] as double,
+      temperature: map['temperature'] as num,
+      temperatureFeelsLike: map['temperature_feels_like'] as num,
+      humidity: map['humidity'] as num,
+      cloudinessPercent: map['cloudiness_percent'] as num,
       weatherCondition: map['weather_condition'] as String,
       weatherdescription: map['weather_description'] as String,
-      latitude: map['latitude'] as double,
-      longitude: map['longitude'] as double,
+      latitude: map['latitude'] as num,
+      longitude: map['longitude'] as num,
       timestamp: DateTime.parse(map['timestamp']),
       sunrise: DateTime.parse(map['sunrise']),
       sunset: DateTime.parse(map['sunset']),
@@ -63,14 +63,14 @@ class Weather {
   }
 
   Weather copyWith({
-    double? temperature,
-    double? temperatureFeelsLike,
-    double? humidity,
-    double? cloudinessPercent,
+    num? temperature,
+    num? temperatureFeelsLike,
+    num? humidity,
+    num? cloudinessPercent,
     String? weatherCondition,
     String? weatherdescription,
-    double? latitude,
-    double? longitude,
+    num? latitude,
+    num? longitude,
     DateTime? timestamp,
     DateTime? sunrise,
     DateTime? sunset,

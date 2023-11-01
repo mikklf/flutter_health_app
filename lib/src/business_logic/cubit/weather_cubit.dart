@@ -14,10 +14,24 @@ class WeatherCubit extends Cubit<WeatherState> {
   final IWeatherRepository _weatherRepository;
   final int _minimumIntervalBetweenInsertsInMinutes = 60;
 
-  WeatherCubit(this._weatherRepository) : super(const WeatherState()) {
+  WeatherCubit(this._weatherRepository)
+      : super(WeatherState(timestamp: DateTime(0))) {
     locationSubscription = LocationManager()
         .locationStream
         .listen((LocationDto loc) => onLocationUpdates(loc));
+  }
+
+  Future<void> loadCurrentWeather() async {
+    var lastest = await _weatherRepository.getLastest();
+
+    if (lastest == null) {
+      return;
+    }
+
+    emit(state.copyWith(
+      weatherData: lastest,
+      timestamp: lastest.timestamp,
+    ));
   }
 
   @override
@@ -68,5 +82,10 @@ class WeatherCubit extends Cubit<WeatherState> {
     );
 
     _weatherRepository.insert(weather);
+
+    emit(state.copyWith(
+      weatherData: weather,
+      timestamp: weather.timestamp,
+    ));
   }
 }

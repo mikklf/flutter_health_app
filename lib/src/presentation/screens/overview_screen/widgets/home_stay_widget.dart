@@ -29,7 +29,8 @@ class HomeStayWidget extends StatelessWidget {
                       children: [
                         Text("Home stay",
                             style: Theme.of(context).textTheme.titleLarge),
-                        const Text("Percentage of time spent at home")
+                        Text("Percentage of time spent at home",
+                            style: Theme.of(context).textTheme.bodySmall),
                       ],
                     ),
                   ],

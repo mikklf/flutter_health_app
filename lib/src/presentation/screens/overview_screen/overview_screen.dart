@@ -7,6 +7,7 @@ import 'package:flutter_health_app/domain/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/heart_rate_widget.dart';
 import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/home_stay_widget.dart';
+import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/weather_widget.dart';
 import 'package:health/health.dart';
 
 import 'widgets/steps_widget.dart';
@@ -50,6 +51,7 @@ class OverviewScreen extends StatelessWidget {
         const WeightWidget(),
         const HomeStayWidget(),
         const HeartRateWidget(),
+        const WeatherWidget(),
       ],
     );
   }
