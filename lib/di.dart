@@ -14,6 +14,8 @@ import 'package:flutter_health_app/src/data/dataproviders/health_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/inmemory_survey_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/survey_provider.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/weather_provider.dart';
+import 'package:flutter_health_app/src/data/dataproviders/open_weather_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/heart_rate_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/location_repository.dart';
@@ -70,8 +72,10 @@ class ServiceLocator {
     services.registerSingleton<IWeightRepository>(
         WeightRepository(services<IWeightDataContext>()));
 
+    services.registerSingleton<IWeatherProvider>(OpenWeatherProvider());
     services.registerSingleton<IWeatherDataContext>(WeatherDataContext());
     services.registerSingleton<IWeatherRepository>(
         WeatherRepository(services<IWeatherDataContext>()));
+
   }
 }

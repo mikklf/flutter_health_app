@@ -31,5 +31,5 @@ class HealthHelper {
     return healthFactory;
   }
 
-  
+
 }

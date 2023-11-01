@@ -4,6 +4,7 @@ import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/location_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/business_logic/cubit/weather_cubit.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/weather_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/location_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';
@@ -98,7 +99,7 @@ void main() {
               LocationCubit(services.get<ILocationRepository>()),
         ),
         BlocProvider(
-          create: (context) => WeatherCubit(services.get<IWeatherRepository>()),
+          create: (context) => WeatherCubit(services.get<IWeatherRepository>(), services.get<IWeatherProvider>()),
         )
       ],
       child: const MaterialApp(

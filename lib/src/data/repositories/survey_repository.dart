@@ -7,9 +7,9 @@ import '../data_context/interfaces/survey_entry_datacontext.dart';
 
 class SurveyRepository implements ISurveyRepository {
   final ISurveyProvider _surveyProvider;
-  final ISurveyEntryDataContext _entryProvider;
+  final ISurveyEntryDataContext _surveyEntryContext;
 
-  SurveyRepository(this._surveyProvider, this._entryProvider);
+  SurveyRepository(this._surveyProvider, this._surveyEntryContext);
 
   @override
   Future<List<RPSurvey>> getActive() async {
@@ -17,7 +17,7 @@ class SurveyRepository implements ISurveyRepository {
     var activeSurveys = <RPSurvey>[];
 
     for (var survey in surveys) {
-      var result = await _entryProvider.getLastEntryOfType(survey.id);
+      var result = await _surveyEntryContext.getLastEntryOfType(survey.id);
 
       // If no entry exists, the survey has never been answered.
       if (result == null) {

@@ -4,18 +4,18 @@ import 'package:flutter_health_app/src/data/repositories/interfaces/weather_repo
 import '../data_context/interfaces/weather_datacontext.dart';
 
 class WeatherRepository implements IWeatherRepository {
-  final IWeatherDataContext _weatherProvider;
+  final IWeatherDataContext _weatherContext;
 
-  WeatherRepository(this._weatherProvider);
+  WeatherRepository(this._weatherContext);
   
   @override
   Future<void> insert(Weather weather) async {
-    await _weatherProvider.insert(weather.toMap());
+    await _weatherContext.insert(weather.toMap());
   }
 
   @override
   Future<Weather?> getLastest () async {
-    var result = await _weatherProvider.getLastest();
+    var result = await _weatherContext.getLastest();
 
     if (result == null) {
       return null;
@@ -23,4 +23,6 @@ class WeatherRepository implements IWeatherRepository {
 
     return Weather.fromMap(result);
   }
+
+
 }

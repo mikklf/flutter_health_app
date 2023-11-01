@@ -5,30 +5,30 @@ import 'package:flutter_health_app/src/data/repositories/interfaces/step_reposit
 import '../data_context/interfaces/step_datacontext.dart';
 
 class StepRepository implements IStepRepository{
-  final IStepDataContext _stepProvider;
+  final IStepDataContext _stepContext;
   final IHealthProvider _healthProvider;
 
-  StepRepository(this._stepProvider, this._healthProvider);
+  StepRepository(this._stepContext, this._healthProvider);
 
   @override
   Future<void> updateStepsForDay(DateTime date, int steps) async {
     // Check if we have steps for this date
-    var entry = await _stepProvider.getStepsForDay(date);
+    var entry = await _stepContext.getStepsForDay(date);
 
     if (entry == null) {
-      _stepProvider.insert(Steps(steps: steps, date: date).toMap());
+      _stepContext.insert(Steps(steps: steps, date: date).toMap());
       return;
     }
 
     var updatedEntry = Steps.fromMap(entry).copyWith(steps: steps);
 
-    _stepProvider.update(updatedEntry.toMap());
+    _stepContext.update(updatedEntry.toMap());
   }
 
   @override
   Future<List<Steps>> getStepsInRange(
       DateTime startDate, DateTime endDate) async {
-    var mapSteps = await _stepProvider.getSteps(startDate, endDate);
+    var mapSteps = await _stepContext.getSteps(startDate, endDate);
 
     if (mapSteps == null) return [];
 

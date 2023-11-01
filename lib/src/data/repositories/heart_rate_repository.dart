@@ -6,16 +6,16 @@ import '../data_context/interfaces/heart_rate_datacontext.dart';
 import '../models/heart_rate.dart';
 
 class HeartRateRepository implements IHeartRateRepository {
-  final IHeartRateDataContext _heartbeatProvider;
+  final IHeartRateDataContext _heartbeatContext;
   final IHealthProvider _healthProvider;
 
-  HeartRateRepository(this._heartbeatProvider, this._healthProvider);
+  HeartRateRepository(this._heartbeatContext, this._healthProvider);
 
   @override
   Future<List<HeartRate>> getHeartRatesInRange(
       DateTime startTime, DateTime endTime) async {
     var result =
-        await _heartbeatProvider.getHeartRatesInRange(startTime, endTime);
+        await _heartbeatContext.getHeartRatesInRange(startTime, endTime);
 
     if (result == null) {
       return [];
@@ -26,7 +26,7 @@ class HeartRateRepository implements IHeartRateRepository {
 
   @override
   Future<void> insert(HeartRate heartRate) async {
-    await _heartbeatProvider.insert(heartRate.toMap());
+    await _heartbeatContext.insert(heartRate.toMap());
   }
 
   @override
@@ -60,9 +60,5 @@ class HeartRateRepository implements IHeartRateRepository {
 
       await insert(heartRate);
     }
-
   }
-
-  
-
 }

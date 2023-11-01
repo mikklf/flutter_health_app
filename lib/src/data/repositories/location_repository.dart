@@ -4,20 +4,20 @@ import 'package:flutter_health_app/src/data/repositories/interfaces/location_rep
 import '../data_context/interfaces/location_datacontext.dart';
 
 class LocationRepository implements ILocationRepository {
-  final ILocationDataContext _locationProvider;
+  final ILocationDataContext _locationContext;
 
   final int _minimumIntervalBetweenInsertsInMinutes = 10;
 
-  LocationRepository(this._locationProvider);
+  LocationRepository(this._locationContext);
 
   /// Inserts a new [Location] into the database. If the last entry is less than 10 minutes old.
   /// Returns true if the location was inserted, false otherwise.
   @override
   Future<bool> insert(Location location) async {
-    var result = await _locationProvider.getLastest();
+    var result = await _locationContext.getLastest();
 
     if (result == null) {
-      _locationProvider.insert(location.toMap());
+      _locationContext.insert(location.toMap());
       return true;
     }
 
@@ -30,7 +30,7 @@ class LocationRepository implements ILocationRepository {
       return false;
     }
 
-    _locationProvider.insert(location.toMap());
+    _locationContext.insert(location.toMap());
 
     return true;
   }
@@ -38,7 +38,7 @@ class LocationRepository implements ILocationRepository {
   /// Returns a list of [Location] for a given day
   @override
   Future<List<Location>> getLocationsForDay(DateTime date) async {
-    var result = await _locationProvider.getLocationsForDay(date);
+    var result = await _locationContext.getLocationsForDay(date);
 
     if (result == null) {
       return [];

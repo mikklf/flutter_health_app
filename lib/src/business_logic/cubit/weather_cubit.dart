@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_health_app/src/data/dataproviders/interfaces/weather_provider.dart';
 import 'package:flutter_health_app/src/data/models/weather.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/weather_repository.dart';
-import 'package:weather/weather.dart' as open_weather;
 
 part 'weather_state.dart';
 
@@ -12,9 +12,10 @@ class WeatherCubit extends Cubit<WeatherState> {
   late StreamSubscription<LocationDto> locationSubscription;
 
   final IWeatherRepository _weatherRepository;
+  final IWeatherProvider _weatherProvider;
   final int _minimumIntervalBetweenInsertsInMinutes = 60;
 
-  WeatherCubit(this._weatherRepository)
+  WeatherCubit(this._weatherRepository, this._weatherProvider)
       : super(WeatherState(timestamp: DateTime(0))) {
     locationSubscription = LocationManager()
         .locationStream
@@ -55,31 +56,8 @@ class WeatherCubit extends Cubit<WeatherState> {
     }
   }
 
-  Future<open_weather.Weather> _fetchWeather(double lat, double long) async {
-    var weather =
-        open_weather.WeatherFactory("d4997e6222de1dec26fe9dc1109f5953");
-    var currentWeather = await weather.currentWeatherByLocation(lat, long);
-    return currentWeather;
-  }
-
   Future<void> _saveWeatherFor(double latitude, double longitude) async {
-    // Fetch current weather from weather package
-    var data = await _fetchWeather(latitude, longitude);
-
-    // Convert to our own Weather model
-    var weather = Weather(
-      temperature: data.temperature?.celsius,
-      temperatureFeelsLike: data.tempFeelsLike?.celsius,
-      humidity: data.humidity,
-      cloudinessPercent: data.cloudiness,
-      weatherCondition: data.weatherMain,
-      weatherdescription: data.weatherDescription,
-      latitude: data.latitude,
-      longitude: data.longitude,
-      timestamp: DateTime.now(),
-      sunrise: data.sunrise,
-      sunset: data.sunset,
-    );
+    var weather = await _weatherProvider.fetchWeather(latitude, longitude);
 
     _weatherRepository.insert(weather);
 
