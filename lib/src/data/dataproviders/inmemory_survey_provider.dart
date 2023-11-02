@@ -5,6 +5,7 @@ class InMemorySurveyProvider implements ISurveyProvider {
   final List<RPSurvey> _surveylist = [
     Surveys.kellner,
     Surveys.who5,
+    Surveys.sleepQuality,
   ];
 
   /// Returns the survey with the given id or [StateError] if no survey with the given id exists.

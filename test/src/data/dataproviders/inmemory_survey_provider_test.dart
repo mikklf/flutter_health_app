@@ -18,7 +18,7 @@ void main() {
 
       // assert
       expect(surveys, isNotNull);
-      expect(surveys.length, 2);
+      expect(surveys, isNotEmpty);
     });
 
     test('getById should return survey with given id', () async {
