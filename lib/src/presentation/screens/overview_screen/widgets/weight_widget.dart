@@ -43,7 +43,7 @@ class WeightWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Steps", style: Theme.of(context).textTheme.titleLarge),
+                Text("Weight", style: Theme.of(context).textTheme.titleLarge),
                 Text("Last 7 entries", style: Theme.of(context).textTheme.bodySmall),
               ],
             ),
