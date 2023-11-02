@@ -4,15 +4,15 @@ import 'package:flutter_health_app/src/data/repositories/weight_repository.dart'
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockWeightProvider extends Mock implements IWeightDataContext {}
+class MockWeightDataContext extends Mock implements IWeightDataContext {}
 
 void main() {
-  late MockWeightProvider mockWeightProvider;
+  late MockWeightDataContext mockWeightContext;
   late WeightRepository weightRepository;
 
   setUp(() {
-    mockWeightProvider = MockWeightProvider();
-    weightRepository = WeightRepository(mockWeightProvider);
+    mockWeightContext = MockWeightDataContext();
+    weightRepository = WeightRepository(mockWeightContext);
   });
 
   group('WeightRepository', () {
@@ -20,12 +20,12 @@ void main() {
       final date = DateTime.now();
       const weight = 70.0;
 
-      when(() => mockWeightProvider.getWeightsInRange(any(), any())).thenAnswer((_) async => []);
-      when(() => mockWeightProvider.insert(any())).thenAnswer((_) async => {});
+      when(() => mockWeightContext.getWeightsInRange(any(), any())).thenAnswer((_) async => []);
+      when(() => mockWeightContext.insert(any())).thenAnswer((_) async => {});
 
       await weightRepository.updateWeight(date, weight);
 
-      verify(() => mockWeightProvider.insert(any())).called(1);
+      verify(() => mockWeightContext.insert(any())).called(1);
     });
 
     test('updateWeight updates an existing weight entry for the given date', () async {
@@ -34,18 +34,18 @@ void main() {
 
       final existingWeightEntry = Weight(date: date, weight: 65.0);
 
-      when(() => mockWeightProvider.getWeightsInRange(any(), any())).thenAnswer((_) async => [existingWeightEntry.toMap()]);
-      when(() => mockWeightProvider.update(any())).thenAnswer((_) async => {});
+      when(() => mockWeightContext.getWeightsInRange(any(), any())).thenAnswer((_) async => [existingWeightEntry.toMap()]);
+      when(() => mockWeightContext.update(any())).thenAnswer((_) async => {});
 
       await weightRepository.updateWeight(date, weight);
 
-      verify(() => mockWeightProvider.update(any())).called(1);
+      verify(() => mockWeightContext.update(any())).called(1);
     });
 
     test('getWeightForDay returns null if no weight entry exists for the given date', () async {
       final date = DateTime.now();
 
-      when(() => mockWeightProvider.getWeightsInRange(any(), any())).thenAnswer((_) async => []);
+      when(() => mockWeightContext.getWeightsInRange(any(), any())).thenAnswer((_) async => []);
 
       final result = await weightRepository.getWeightForDay(date);
 
@@ -56,7 +56,7 @@ void main() {
       final date = DateTime.now();
       final weightEntry = Weight(date: date, weight: 70.0);
 
-      when(() => mockWeightProvider.getWeightsInRange(any(), any())).thenAnswer((_) async => [weightEntry.toMap()]);
+      when(() => mockWeightContext.getWeightsInRange(any(), any())).thenAnswer((_) async => [weightEntry.toMap()]);
 
       final result = await weightRepository.getWeightForDay(date);
 
@@ -68,7 +68,7 @@ void main() {
       final startDate = DateTime.now();
       final endDate = startDate.add(const Duration(days: 7));
 
-      when(() => mockWeightProvider.getWeightsInRange(any(), any())).thenAnswer((_) async => []);
+      when(() => mockWeightContext.getWeightsInRange(any(), any())).thenAnswer((_) async => []);
 
       final result = await weightRepository.getWeightsBetweenDates(startDate, endDate);
 
@@ -83,7 +83,7 @@ void main() {
       final weightEntry2 = Weight(date: startDate.add(const Duration(days: 3)), weight: 72.0);
       final weightEntry3 = Weight(date: endDate, weight: 68.0);
 
-      when(() => mockWeightProvider.getWeightsInRange(any(), any())).thenAnswer((_) async => [
+      when(() => mockWeightContext.getWeightsInRange(any(), any())).thenAnswer((_) async => [
         weightEntry1.toMap(),
         weightEntry2.toMap(),
         weightEntry3.toMap(),
@@ -102,7 +102,7 @@ void main() {
     test('getLatestWeights returns an empty list if no weight entry exists', () async {
       const numOfEntries = 5;
 
-      when(() => mockWeightProvider.getLastestWeights(any())).thenAnswer((_) async => []);
+      when(() => mockWeightContext.getLastestWeights(any())).thenAnswer((_) async => []);
 
       final result = await weightRepository.getLatestWeights(numOfEntries);
 
@@ -116,7 +116,7 @@ void main() {
       final weightEntry2 = Weight(date: DateTime.now().subtract(const Duration(days: 1)), weight: 72.0);
       final weightEntry3 = Weight(date: DateTime.now(), weight: 68.0);
 
-      when(() => mockWeightProvider.getLastestWeights(any())).thenAnswer((_) async => [
+      when(() => mockWeightContext.getLastestWeights(any())).thenAnswer((_) async => [
         weightEntry1.toMap(),
         weightEntry2.toMap(),
         weightEntry3.toMap(),

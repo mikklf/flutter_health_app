@@ -9,20 +9,20 @@ import 'package:research_package/model.dart';
 
 class MockSurveyProvider extends Mock implements ISurveyProvider {}
 
-class MockSurveyEntryProvider extends Mock implements ISurveyEntryDataContext {}
+class MockSurveyEntryDataContext extends Mock implements ISurveyEntryDataContext {}
 
 void main() {
   late MockSurveyProvider mockSurveyProvider;
-  late MockSurveyEntryProvider mockSurveyEntryProvider;
+  late MockSurveyEntryDataContext mockSurveyEntryContext;
   late SurveyRepository surveyRepository;
 
   late List<RPSurvey> surveys;
 
   setUp(() {
     mockSurveyProvider = MockSurveyProvider();
-    mockSurveyEntryProvider = MockSurveyEntryProvider();
+    mockSurveyEntryContext = MockSurveyEntryDataContext();
     surveyRepository =
-        SurveyRepository(mockSurveyProvider, mockSurveyEntryProvider);
+        SurveyRepository(mockSurveyProvider, mockSurveyEntryContext);
 
     surveys = [];
     surveys.add(Surveys.who5);
@@ -45,9 +45,9 @@ void main() {
           result: RPTaskResult(identifier: "who5")));
 
       when(() => mockSurveyProvider.getAll()).thenAnswer((_) async => surveys);
-      when(() => mockSurveyEntryProvider.getLastEntryOfType("kellner"))
+      when(() => mockSurveyEntryContext.getLastEntryOfType("kellner"))
           .thenAnswer((_) async => entries[0].toMap());
-      when(() => mockSurveyEntryProvider.getLastEntryOfType("who5"))
+      when(() => mockSurveyEntryContext.getLastEntryOfType("who5"))
           .thenAnswer((_) async => entries[1].toMap());
 
       // Act
@@ -67,9 +67,9 @@ void main() {
           result: RPTaskResult(identifier: "kellner")));
 
       when(() => mockSurveyProvider.getAll()).thenAnswer((_) async => surveys);
-      when(() => mockSurveyEntryProvider.getLastEntryOfType("kellner"))
+      when(() => mockSurveyEntryContext.getLastEntryOfType("kellner"))
           .thenAnswer((_) async => entries[0].toMap());
-      when(() => mockSurveyEntryProvider.getLastEntryOfType("who5"))
+      when(() => mockSurveyEntryContext.getLastEntryOfType("who5"))
           .thenAnswer((_) async => null);
 
       // Act

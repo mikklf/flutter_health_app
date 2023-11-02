@@ -4,25 +4,25 @@ import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockStepProvider extends Mock implements IStepDataContext {}
+class MockStepDataContext extends Mock implements IStepDataContext {}
 
 class MockHealthProvider extends Mock implements IHealthProvider {}
 
 void main() {
-  late IStepDataContext mockStepProvider;
+  late IStepDataContext mockStepContext;
   late IHealthProvider mockHealthProvider;
   late StepRepository stepRepository;
 
   setUp(() {
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    mockStepProvider = MockStepProvider();
+    mockStepContext = MockStepDataContext();
     mockHealthProvider = MockHealthProvider();
-    stepRepository = StepRepository(mockStepProvider, mockHealthProvider);
+    stepRepository = StepRepository(mockStepContext, mockHealthProvider);
 
-    when(() => mockStepProvider.update(any()))
+    when(() => mockStepContext.update(any()))
         .thenAnswer((_) => Future.value(null));
-    when(() => mockStepProvider.insert(any()))
+    when(() => mockStepContext.insert(any()))
         .thenAnswer((_) => Future.value(null));
   });
 
@@ -32,12 +32,12 @@ void main() {
       final date = DateTime.now();
       const steps = 1000;
 
-      when(() => mockStepProvider.getStepsForDay(date))
+      when(() => mockStepContext.getStepsForDay(date))
           .thenAnswer((_) => Future.value(null));
 
       await stepRepository.updateStepsForDay(date, steps);
 
-      verify(() => mockStepProvider.insert(any())).called(1);
+      verify(() => mockStepContext.insert(any())).called(1);
     });
 
     test('updateStepsForDay should update steps if entry is not null',
@@ -45,12 +45,12 @@ void main() {
       final date = DateTime.now();
       const steps = 1000;
 
-      when(() => mockStepProvider.getStepsForDay(date)).thenAnswer(
+      when(() => mockStepContext.getStepsForDay(date)).thenAnswer(
           (_) => Future.value({'steps': 500, 'date': date.toString()}));
 
       await stepRepository.updateStepsForDay(date, steps);
 
-      verify(() => mockStepProvider.update(any())).called(1);
+      verify(() => mockStepContext.update(any())).called(1);
     });
 
     test('getStepsInRange should return empty list if no steps are found',
@@ -58,7 +58,7 @@ void main() {
       final startDate = DateTime.now();
       final endDate = DateTime.now();
 
-      when(() => mockStepProvider.getSteps(startDate, endDate))
+      when(() => mockStepContext.getSteps(startDate, endDate))
           .thenAnswer((_) async => []);
 
       final result = await stepRepository.getStepsInRange(startDate, endDate);
@@ -75,7 +75,7 @@ void main() {
         {'steps': 1000, 'date': endDate.toString()},
       ];
 
-      when(() => mockStepProvider.getSteps(startDate, endDate))
+      when(() => mockStepContext.getSteps(startDate, endDate))
           .thenAnswer((_) => Future.value(mapSteps));
 
       final result = await stepRepository.getStepsInRange(startDate, endDate);
@@ -88,14 +88,14 @@ void main() {
       final startDate = DateTime.now().subtract(const Duration(days: 2));
       const steps = 1000;
 
-      when(() => mockStepProvider.getStepsForDay(any()))
+      when(() => mockStepContext.getStepsForDay(any()))
           .thenAnswer((_) => Future.value(null));
       when(() => mockHealthProvider.getSteps(any(), any()))
           .thenAnswer((_) => Future.value(steps));
 
       await stepRepository.syncSteps(startDate);
 
-      verify(() => mockStepProvider.insert(any())).called(3);
+      verify(() => mockStepContext.insert(any())).called(3);
     });
   });
 }

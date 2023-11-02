@@ -4,15 +4,15 @@ import 'package:flutter_health_app/src/data/repositories/location_repository.dar
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockLocationProvider extends Mock implements ILocationDataContext {}
+class MockLocationDataContext extends Mock implements ILocationDataContext {}
 
 void main() {
   late LocationRepository locationRepository;
-  late ILocationDataContext mockLocationProvider;
+  late ILocationDataContext mockLocationContext;
 
   setUp(() {
-    mockLocationProvider = MockLocationProvider();
-    locationRepository = LocationRepository(mockLocationProvider);
+    mockLocationContext = MockLocationDataContext();
+    locationRepository = LocationRepository(mockLocationContext);
   });
 
   group('LocationRepository', () {
@@ -21,9 +21,9 @@ void main() {
       // Arrange
       final location =
           Location(timestamp: DateTime.now(), latitude: 0.0, longitude: 0.0);
-      when(() => mockLocationProvider.getLastest())
+      when(() => mockLocationContext.getLastest())
           .thenAnswer((_) => Future.value(null));
-      when(() => mockLocationProvider.insert(location.toMap()))
+      when(() => mockLocationContext.insert(location.toMap()))
           .thenAnswer((_) async => {});
 
       // Act
@@ -31,7 +31,7 @@ void main() {
 
       // Assert
       expect(result, true);
-      verify(() => mockLocationProvider.insert(location.toMap()));
+      verify(() => mockLocationContext.insert(location.toMap()));
     });
 
     test(
@@ -44,9 +44,9 @@ void main() {
           timestamp: DateTime.now().subtract(const Duration(minutes: 5)),
           latitude: 0,
           longitude: 0);
-      when(() => mockLocationProvider.getLastest())
+      when(() => mockLocationContext.getLastest())
           .thenAnswer((_) => Future.value(lastLocation.toMap()));
-      when(() => mockLocationProvider.insert(location.toMap()))
+      when(() => mockLocationContext.insert(location.toMap()))
           .thenAnswer((_) async => {});
 
       // Act
@@ -54,7 +54,7 @@ void main() {
 
       // Assert
       expect(result, false);
-      verifyNever(() => mockLocationProvider.insert(location.toMap()));
+      verifyNever(() => mockLocationContext.insert(location.toMap()));
     });
 
     test(
@@ -67,9 +67,9 @@ void main() {
           timestamp: DateTime.now().subtract(const Duration(minutes: 15)),
           latitude: 0,
           longitude: 0);
-      when(() => mockLocationProvider.getLastest())
+      when(() => mockLocationContext.getLastest())
           .thenAnswer((_) => Future.value(lastLocation.toMap()));
-      when(() => mockLocationProvider.insert(location.toMap()))
+      when(() => mockLocationContext.insert(location.toMap()))
           .thenAnswer((_) async => {});
 
       // Act
@@ -77,7 +77,7 @@ void main() {
 
       // Assert
       expect(result, true);
-      verify(() => mockLocationProvider.insert(location.toMap()));
+      verify(() => mockLocationContext.insert(location.toMap()));
     });
 
     test(
@@ -85,7 +85,7 @@ void main() {
         () async {
       // Arrange
       final date = DateTime.now();
-      when(() => mockLocationProvider.getLocationsForDay(date))
+      when(() => mockLocationContext.getLocationsForDay(date))
           .thenAnswer((_) async => []);
 
       // Act
@@ -104,7 +104,7 @@ void main() {
         Location(timestamp: date, latitude: 0, longitude: 0),
         Location(timestamp: date, latitude: 1, longitude: 1),
       ];
-      when(() => mockLocationProvider.getLocationsForDay(date)).thenAnswer(
+      when(() => mockLocationContext.getLocationsForDay(date)).thenAnswer(
           (_) => Future.value(locations.map((e) => e.toMap()).toList()));
 
       // Act

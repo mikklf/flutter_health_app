@@ -6,21 +6,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:health/health.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockHeartRateProvider extends Mock implements IHeartRateDataContext {}
+class MockHeartRateDataContext extends Mock implements IHeartRateDataContext {}
 
 class MockHealthProvider extends Mock implements IHealthProvider {}
 
 void main() {
   group('HeartRateRepository', () {
-    final mockHeartRateProvider = MockHeartRateProvider();
+    final mockHeartRateContext = MockHeartRateDataContext();
     final mockHealthProvider = MockHealthProvider();
     final heartRateRepository =
-        HeartRateRepository(mockHeartRateProvider, mockHealthProvider);
+        HeartRateRepository(mockHeartRateContext, mockHealthProvider);
 
     test('getHeartRatesInRange returns empty list if no data is found',
         () async {
       // Arrange
-      when(() => mockHeartRateProvider.getHeartRatesInRange(any(), any()))
+      when(() => mockHeartRateContext.getHeartRatesInRange(any(), any()))
           .thenAnswer((_) async => []);
 
       // Act
@@ -34,7 +34,7 @@ void main() {
     test('getHeartRatesInRange returns list of HeartRate objects', () async {
       // Arrange
       final heartRateMap = {'beats_per_minute': 80, 'timestamp': DateTime.now().toString()};
-      when(() => mockHeartRateProvider.getHeartRatesInRange(any(), any())).thenAnswer(
+      when(() => mockHeartRateContext.getHeartRatesInRange(any(), any())).thenAnswer(
           (_) async => [heartRateMap]);
 
       // Act
@@ -51,14 +51,14 @@ void main() {
       // Arrange
       final heartRate = HeartRate(beatsPerMinute: 80, timestamp: DateTime.now());
 
-      when(() => mockHeartRateProvider.insert(any()))
+      when(() => mockHeartRateContext.insert(any()))
           .thenAnswer((_) async => {});
 
       // Act
       await heartRateRepository.insert(heartRate);
 
       // Assert
-      verify(() => mockHeartRateProvider.insert(heartRate.toMap())).called(1);
+      verify(() => mockHeartRateContext.insert(heartRate.toMap())).called(1);
     });
 
     test('syncHeartRates does nothing when health provider returns empty list',
@@ -66,14 +66,14 @@ void main() {
       // Arrange
       when(() => mockHealthProvider.getHeartbeats(any(), any()))
           .thenAnswer((_) async => []);
-      when(() => mockHeartRateProvider.insert(any()))
+      when(() => mockHeartRateContext.insert(any()))
           .thenAnswer((_) async => {});
 
       // Act
       await heartRateRepository.syncHeartRates(DateTime(2021, 1, 1));
 
       // Assert
-      verifyNever(() => mockHeartRateProvider.insert(any()));
+      verifyNever(() => mockHeartRateContext.insert(any()));
     });
 
     test('syncHeartRates inserts HeartRate objects when health provider returns data',
@@ -92,14 +92,14 @@ void main() {
 
       when(() => mockHealthProvider.getHeartbeats(any(), any()))
           .thenAnswer((_) async => [healthDataPoint]);
-      when(() => mockHeartRateProvider.insert(any()))
+      when(() => mockHeartRateContext.insert(any()))
           .thenAnswer((_) async => {});
 
       // Act
       await heartRateRepository.syncHeartRates(DateTime(2021, 1, 1));
 
       // Assert
-      verify(() => mockHeartRateProvider.insert(any())).called(1);
+      verify(() => mockHeartRateContext.insert(any())).called(1);
     });
   });
 }

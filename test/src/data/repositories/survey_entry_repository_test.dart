@@ -5,12 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:research_package/model.dart';
 
-class MockSurveyEntryProvider extends Mock implements ISurveyEntryDataContext {}
+class MockSurveyEntryDataContext extends Mock implements ISurveyEntryDataContext {}
 
 class SurveyEntryFake extends Fake implements SurveyEntry {}
 
 void main() {
-  late MockSurveyEntryProvider mockSurveyEntryProvider;
+  late MockSurveyEntryDataContext mockSurveyEntryContext;
   late SurveyEntryRepository entryRepository;
 
   setUpAll(() => {
@@ -18,8 +18,8 @@ void main() {
       });
 
   setUp(() {
-    mockSurveyEntryProvider = MockSurveyEntryProvider();
-    entryRepository = SurveyEntryRepository(mockSurveyEntryProvider);
+    mockSurveyEntryContext = MockSurveyEntryDataContext();
+    entryRepository = SurveyEntryRepository(mockSurveyEntryContext);
   });
 
   group('SurveyRepository', () {
@@ -28,14 +28,14 @@ void main() {
       var surveyId = "kellner";
       var result = RPTaskResult(identifier: "kellner");
 
-      when(() => mockSurveyEntryProvider.insert(any()))
+      when(() => mockSurveyEntryContext.insert(any()))
           .thenAnswer((_) async {});
 
       // Act
       await entryRepository.save(result, surveyId);
 
       // Assert
-      verify(() => mockSurveyEntryProvider.insert(any())).called(1);
+      verify(() => mockSurveyEntryContext.insert(any())).called(1);
     });
   });
 }
