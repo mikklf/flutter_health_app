@@ -12,7 +12,7 @@ class HeartRateCubit extends Cubit<HeartRateState> {
 
   HeartRateCubit(this._heartRateRepository) : super(const HeartRateState());
 
-
+  /// Loads and emits all [HeartRate] objects from the last 24 hours.
   Future<void> getHeartRatesForDay() async {
     var currentTime = DateTime.now();
     var startOfDay = DateTime(currentTime.year, currentTime.month, currentTime.day);

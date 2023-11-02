@@ -18,6 +18,7 @@ class LocationCubit extends Cubit<LocationState> {
         .listen((LocationDto loc) => onLocationUpdates(loc));
   }
 
+  /// Loads locations from the database, calculates and emits the home stay percentage.
   void loadLocations() async {
     emit(state.copyWith(homeStayPercent: await _calculateHomeStayPercentage()));
   }

@@ -32,11 +32,7 @@ class SurveyEntryDataContext implements ISurveyEntryDataContext {
       orderBy: "id DESC",
       limit: 1,
     );
-
-    if (maps.isEmpty) {
-      return null;
-    }
-
-    return maps.first;
+    
+    return maps.firstOrNull;
   }
 }

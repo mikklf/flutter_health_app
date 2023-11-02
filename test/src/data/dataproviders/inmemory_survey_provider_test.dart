@@ -11,34 +11,34 @@ void main() {
 
   group('InMemorySurveyProvider', () {
     test('getAll should return all surveys', () async {
-      //arrange
+      // Arrange
 
-      // act
+      // Act
       List<RPSurvey> surveys = await inMemorySurveyProvider.getAll();
 
-      // assert
+      // Assert
       expect(surveys, isNotNull);
       expect(surveys, isNotEmpty);
     });
 
     test('getById should return survey with given id', () async {
-      // arrange
+      // Arrange
       String validId = "kellner";
 
-      // act
+      // Act
       RPSurvey survey = await inMemorySurveyProvider.getById(validId);
 
-      // assert
+      // Assert
       expect(survey, isNotNull);
       expect(survey.id, 'kellner');
     });
 
     test('getById should throw StateError("No element") for invalid id',
         () async {
-      // arrange
+      // Arrange
       String invalidId = "invalidId";
 
-      // act & assert
+      // Act & Assert
       expect(() async => await inMemorySurveyProvider.getById(invalidId),
           throwsStateError);
     });
