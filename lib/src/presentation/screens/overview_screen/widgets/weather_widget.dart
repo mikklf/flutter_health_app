@@ -84,7 +84,7 @@ class WeatherWidget extends StatelessWidget {
 
   Widget _buildSunUpAt(BuildContext context, DateTime? sunrise) {
     String sunriseString = sunrise != null
-        ? "${sunrise.hour}:${sunrise.minute}"
+        ? "${sunrise.hour.toString().padLeft(2, '0')}:${sunrise.minute.toString().padLeft(2, '0')}"
         : "N/A";
 
     return _buildDataPoint(context, "Sun up at", sunriseString, Icons.sunny);
@@ -92,7 +92,7 @@ class WeatherWidget extends StatelessWidget {
 
   Widget _buildSunDownAt(BuildContext context, DateTime? sunset) {
     String sunsetString = sunset != null
-        ? "${sunset.hour}:${sunset.minute}"
+        ? "${sunset.hour.toString().padLeft(2, '0')}:${sunset.minute.toString().padLeft(2, '0')}"
         : "N/A";
 
     return _buildDataPoint(context, "Sun down at", sunsetString, Icons.nightlight_round);
