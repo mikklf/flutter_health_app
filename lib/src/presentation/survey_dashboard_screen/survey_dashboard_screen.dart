@@ -32,8 +32,7 @@ class SurveyDashboardScreen extends StatelessWidget {
 
             return RefreshIndicator(
               onRefresh: () {
-                context.read<SurveysCubit>().loadSurveys();
-                return Future.delayed(const Duration(seconds: 1));
+                return context.read<SurveysCubit>().loadSurveys();
               },
               child: state.activeSurveys.isEmpty
                   ? _buildNoSurveys(state)
