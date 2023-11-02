@@ -43,7 +43,7 @@ class ServiceLocator {
 
     services.registerSingleton<ISurveyProvider>(InMemorySurveyProvider());
     services
-        .registerSingleton<ISurveyEntryDataContext>(SurveyEntryDataContext());
+        .registerSingleton<ISurveyEntryDataContext>(SurveyEntryDataContext(services<IDatabaseHelper>()));
     services.registerSingleton<IHealthProvider>(HealthProvider());
 
     services.registerSingleton<ISurveyRepository>(SurveyRepository(

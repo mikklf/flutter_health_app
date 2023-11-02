@@ -1,11 +1,13 @@
-import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/survey_entry_datacontext.dart';
 
 class SurveyEntryDataContext implements ISurveyEntryDataContext {
-  final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
+  final IDatabaseHelper _databaseHelper;
   final String _tableName = "survey_entries";
+
+  SurveyEntryDataContext(this._databaseHelper);
 
   @override
   Future<void> insert(Map<String, Object?> values) async {
