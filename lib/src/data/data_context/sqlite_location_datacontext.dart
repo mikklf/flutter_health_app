@@ -1,11 +1,13 @@
-import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/location_datacontext.dart';
 
 class LocationDataContext implements ILocationDataContext {
-  final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
+  final IDatabaseHelper _databaseHelper;
   final String _tableName = "locations";
+
+  LocationDataContext(this._databaseHelper);
 
   /// Inserts a new location into the database
   @override
@@ -19,23 +21,9 @@ class LocationDataContext implements ILocationDataContext {
     );
   }
 
-  /// Updates a location in the database
-  @override
-  Future<void> update(Map<String, Object?> values) async {
-    final Database db = await _databaseHelper.getDatabase();
-
-    // Ensure that we have an id field
-    if (!values.containsKey("id")) {
-      throw ArgumentError("Values must contain an id field");
-    }
-
-    await db
-        .update(_tableName, values, where: "id = ?", whereArgs: [values["id"]]);
-  }
-
   /// Returns a list of locations for a given day
   @override
-  Future<List<Map<String, dynamic>>?> getLocationsForDay(DateTime date) async {
+  Future<List<Map<String, dynamic>>> getLocationsForDay(DateTime date) async {
     final Database db = await _databaseHelper.getDatabase();
 
     var startOfDay = DateTime(date.year, date.month, date.day, 0, 0, 0);
@@ -46,10 +34,6 @@ class LocationDataContext implements ILocationDataContext {
       where: "timestamp BETWEEN ? AND ?",
       whereArgs: [startOfDay.toString(), endOfDay.toString()],
     );
-
-    if (maps.isEmpty) {
-      return null;
-    }
 
     return maps;
   }
@@ -65,10 +49,6 @@ class LocationDataContext implements ILocationDataContext {
       limit: 1,
     );
 
-    if (maps.isEmpty) {
-      return null;
-    }
-
-    return maps.first;
+    return maps.firstOrNull;
   }
 }

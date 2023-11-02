@@ -62,7 +62,7 @@ class ServiceLocator {
       services<IHealthProvider>(),
     ));
 
-    services.registerSingleton<ILocationDataContext>(LocationDataContext());
+    services.registerSingleton<ILocationDataContext>(LocationDataContext(services<IDatabaseHelper>()));
     services.registerSingleton<ILocationRepository>(
         LocationRepository(services<ILocationDataContext>()));
 

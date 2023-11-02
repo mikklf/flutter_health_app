@@ -69,5 +69,4 @@ class SyncCubit extends Cubit<SyncState> with WidgetsBindingObserver {
 
     prefs.setString('lastSyncHeartRateDateTime', DateTime.now().toString());
   }
-
 }
