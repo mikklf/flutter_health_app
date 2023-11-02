@@ -1,11 +1,13 @@
-import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/weight_datacontext.dart';
 
 class WeightDataContext implements IWeightDataContext {
-  final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
+  final IDatabaseHelper _databaseHelper;
   final String _tableName = "weights";
+
+  WeightDataContext(this._databaseHelper);
 
   @override
   Future<void> insert(Map<String, Object?> values) async {

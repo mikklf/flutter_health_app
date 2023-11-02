@@ -72,7 +72,7 @@ class ServiceLocator {
       services<IHealthProvider>(),
     ));
 
-    services.registerSingleton<IWeightDataContext>(WeightDataContext());
+    services.registerSingleton<IWeightDataContext>(WeightDataContext(services<IDatabaseHelper>()));
     services.registerSingleton<IWeightRepository>(
         WeightRepository(services<IWeightDataContext>()));
 
