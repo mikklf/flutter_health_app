@@ -1,11 +1,14 @@
+import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/weather_datacontext.dart';
 
 class WeatherDataContext implements IWeatherDataContext {
-  final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
+  final IDatabaseHelper _databaseHelper;
   final String _tableName = "weather";
+
+  WeatherDataContext(this._databaseHelper);
 
   @override
   Future<void> insert(Map<String, Object?> values) async {

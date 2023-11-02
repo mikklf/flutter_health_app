@@ -17,7 +17,6 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.3
   get_it: ^7.6.4
-  mocktail: ^1.0.0
   health: ^8.0.0
   community_charts_flutter: ^1.0.1
   device_info_plus: ^9.0.3
@@ -32,6 +31,8 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
   bloc_test: ^9.1.4
+  mocktail: ^1.0.0
+  sqflite_common_ffi: ^2.3.0+2
 
 flutter:
   uses-material-design: true

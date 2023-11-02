@@ -1,3 +1,5 @@
+import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
 import 'package:flutter_health_app/src/data/data_context/interfaces/heart_rate_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/interfaces/location_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/interfaces/step_datacontext.dart';
@@ -37,6 +39,8 @@ final services = GetIt.instance;
 class ServiceLocator {
   static void setupDependencyInjection() {
     // Register services
+    services.registerSingleton<IDatabaseHelper>(SqliteDatabaseHelper());
+
     services.registerSingleton<ISurveyProvider>(InMemorySurveyProvider());
     services
         .registerSingleton<ISurveyEntryDataContext>(SurveyEntryDataContext());
@@ -73,7 +77,8 @@ class ServiceLocator {
         WeightRepository(services<IWeightDataContext>()));
 
     services.registerSingleton<IWeatherProvider>(OpenWeatherProvider());
-    services.registerSingleton<IWeatherDataContext>(WeatherDataContext());
+    services.registerSingleton<IWeatherDataContext>(WeatherDataContext(
+        services<IDatabaseHelper>()));
     services.registerSingleton<IWeatherRepository>(
         WeatherRepository(services<IWeatherDataContext>()));
 

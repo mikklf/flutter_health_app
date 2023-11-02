@@ -1,14 +1,24 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-class SqliteDatabaseHelper implements IDatabaseHelper {
-  final String _databaseName = "health_app_database.db";
+/// Initialize sqflite for test.
+void sqfliteTestInit() {
+  // Suppress warning
+  databaseFactoryOrNull = null;
 
+  // Initialize ffi implementation
+  sqfliteFfiInit();
+
+  // Set global factory for tests
+  databaseFactory = databaseFactoryFfi;
+}
+
+class MockDatabaseHelper implements IDatabaseHelper {
   @override
   Future<Database> getDatabase() async {
+    sqfliteTestInit();
     return openDatabase(
-      await _getSqliteDatabasePath(),
+      ':memory:',
       onCreate: _onDatabaseCreate,
       version: 1,
     );
@@ -32,9 +42,5 @@ class SqliteDatabaseHelper implements IDatabaseHelper {
     batch.commit();
 
     return;
-  }
-
-  Future<String> _getSqliteDatabasePath() async {
-    return join(await getDatabasesPath(), _databaseName);
   }
 }
