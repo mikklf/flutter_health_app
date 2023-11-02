@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
-import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/home_address_task_widget.dart';
-import 'package:flutter_health_app/src/presentation/screens/setup_screen/widgets/setup_task_widget.dart';
+import 'package:flutter_health_app/src/logic/cubit/setup_cubit.dart';
+import 'package:flutter_health_app/src/presentation/setup_screen/widgets/home_address_task_widget.dart';
+import 'package:flutter_health_app/src/presentation/setup_screen/widgets/setup_task_widget.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:research_package/research_package.dart';

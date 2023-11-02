@@ -1,4 +1,4 @@
-import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/tab_manager_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
 

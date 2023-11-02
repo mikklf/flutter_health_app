@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:carp_background_location/carp_background_location.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/location_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/location_cubit.dart';
 import 'package:flutter_health_app/src/data/models/location.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/location_repository.dart';
 import 'package:flutter_test/flutter_test.dart';

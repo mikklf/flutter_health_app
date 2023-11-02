@@ -1,21 +1,21 @@
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/weather_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/setup_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/weather_cubit.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/weather_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/location_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/weather_repository.dart';
-import 'package:flutter_health_app/src/presentation/screens/home_screen.dart';
+import 'package:flutter_health_app/src/presentation/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/location_cubit.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/location_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/sync_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/tab_manager_cubit.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/presentation/screens/overview_screen/overview_screen.dart';
-import 'package:flutter_health_app/src/presentation/screens/setup_screen/setup_screen.dart';
-import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
+import 'package:flutter_health_app/src/presentation/overview_screen/overview_screen.dart';
+import 'package:flutter_health_app/src/presentation/setup_screen/setup_screen.dart';
+import 'package:flutter_health_app/src/presentation/survey_dashboard_screen/survey_dashboard_screen.dart';
 
 import 'constants.dart';
 

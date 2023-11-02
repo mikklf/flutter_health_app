@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/survey_objects/surveys.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/tab_manager_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/tab_manager_cubit.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/survey_repository.dart';
-import 'package:flutter_health_app/src/presentation/screens/survey_dashboard_screen/survey_dashboard_screen.dart';
-import 'package:flutter_health_app/src/presentation/screens/survey_screen/survey_screen.dart';
+import 'package:flutter_health_app/src/presentation/survey_dashboard_screen/survey_dashboard_screen.dart';
+import 'package:flutter_health_app/src/presentation/survey_screen/survey_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

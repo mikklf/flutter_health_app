@@ -3,11 +3,11 @@ import 'package:community_charts_flutter/community_charts_flutter.dart'
     as charts;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/heart_rate_cubit.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/sync_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/heart_rate_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/sync_cubit.dart';
 import 'package:flutter_health_app/src/data/models/heart_rate.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
-import 'package:flutter_health_app/src/presentation/screens/overview_screen/widgets/data_card_box_widget.dart';
+import 'package:flutter_health_app/src/presentation/overview_screen/widgets/data_card_box_widget.dart';
 
 class HeartRateWidget extends StatelessWidget {
   const HeartRateWidget({

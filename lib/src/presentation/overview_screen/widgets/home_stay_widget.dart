@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/location_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/location_cubit.dart';
 
 class HomeStayWidget extends StatelessWidget {
   const HomeStayWidget({

@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/business_logic/cubit/setup_cubit.dart';
+import 'package:flutter_health_app/src/logic/cubit/setup_cubit.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geocoding/geocoding.dart';
