@@ -8,7 +8,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:research_package/research_package.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// ignore: depend_on_referenced_packages
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockGeocodingPlatform extends Mock
@@ -71,7 +70,7 @@ void main() {
   }
 
   group("ConsentTaskWidget", () {
-    testWidgets('Expect HomeAddressTaskWidget to contain a SetupTaskWidget',
+    testWidgets('Expect widget to contain a SetupTaskWidget',
         (tester) async {
 
       await tester.pumpWidget(createWidgetUnderTest());

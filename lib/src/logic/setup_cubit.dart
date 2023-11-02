@@ -84,7 +84,10 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
   }
 
   Future<void> saveConsent(RPTaskResult result) async {
-    // TODO: Consider how to save the consent result.
+    // NOTE: Consider if the consent document should be saved to the database
+    // or somewhere else. For now, we just save a bool indicating that
+    // the user has given consent.
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('consent_given', true);
 
@@ -155,6 +158,8 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
           snackbarMessage:
               "Always access to location is required to use the app effectively. Please enable it in your phone settings."));
     }
+
+    checkLocationPermission();
   }
 
   Future<void> requestHealthPermissions() async {

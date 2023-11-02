@@ -7,9 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:research_package/model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// ignore: depend_on_referenced_packages
 import 'package:permission_handler_platform_interface/permission_handler_platform_interface.dart';
-// ignore: depend_on_referenced_packages
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockPermissionHandlerPlatform extends Mock
@@ -260,7 +258,5 @@ void main() {
             .called(1);
       },
     );
-
-    // TODO: Implement test for requestLocationPermissions
   });
 }

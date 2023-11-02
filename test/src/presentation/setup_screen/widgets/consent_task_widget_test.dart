@@ -28,7 +28,7 @@ void main() {
   }
 
   group("ConsentTaskWidget", () {
-    testWidgets('Expect ConsentTaskWidget to contain a SetupTaskWidget',
+    testWidgets('Expect widget to contain a SetupTaskWidget',
         (tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
