@@ -61,7 +61,7 @@ void main() {
       final weight = {'date': '2022-01-01', 'weight': 70.0};
 
       // Act & Assert
-      expect(() => weightDataContext.insert(weight), throwsA(isA<ArgumentError>()));
+      expect(() => weightDataContext.update(weight), throwsA(isA<ArgumentError>()));
     });
 
     test('getWeightsInRange() should return weights within a date range',

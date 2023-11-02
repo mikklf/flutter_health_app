@@ -55,7 +55,7 @@ class ServiceLocator {
       services<ISurveyEntryDataContext>(),
     ));
 
-    services.registerSingleton<IStepDataContext>(StepDataContext());
+    services.registerSingleton<IStepDataContext>(StepDataContext(services<IDatabaseHelper>()));
 
     services.registerSingleton<IStepRepository>(StepRepository(
       services<IStepDataContext>(),

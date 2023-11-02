@@ -30,8 +30,6 @@ class StepRepository implements IStepRepository{
       DateTime startDate, DateTime endDate) async {
     var mapSteps = await _stepContext.getSteps(startDate, endDate);
 
-    if (mapSteps == null) return [];
-
     return mapSteps.map((e) => Steps.fromMap(e)).toList();
   }
 

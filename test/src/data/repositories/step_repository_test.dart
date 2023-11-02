@@ -53,20 +53,20 @@ void main() {
       verify(() => mockStepProvider.update(any())).called(1);
     });
 
-    test('getStepsInRange should return empty list if mapSteps is null',
+    test('getStepsInRange should return empty list if no steps are found',
         () async {
       final startDate = DateTime.now();
       final endDate = DateTime.now();
 
       when(() => mockStepProvider.getSteps(startDate, endDate))
-          .thenAnswer((_) => Future.value(null));
+          .thenAnswer((_) async => []);
 
       final result = await stepRepository.getStepsInRange(startDate, endDate);
 
       expect(result, isEmpty);
     });
 
-    test('getStepsInRange should return list of Steps if mapSteps is not null',
+    test('getStepsInRange should return list of Steps if steps are found',
         () async {
       final startDate = DateTime.now();
       final endDate = DateTime.now();

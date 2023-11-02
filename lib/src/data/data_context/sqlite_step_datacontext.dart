@@ -1,11 +1,13 @@
-import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/step_datacontext.dart';
 
 class StepDataContext implements IStepDataContext {
-  final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
+  final IDatabaseHelper _databaseHelper;
   final String _tableName = "steps";
+
+  StepDataContext(this._databaseHelper);
 
   @override
   Future<void> insert(Map<String, Object?> values) async {
@@ -35,12 +37,6 @@ class StepDataContext implements IStepDataContext {
   Future<Map<String, dynamic>?> getStepsForDay(DateTime date) async {
     final Database db = await _databaseHelper.getDatabase();
 
-    //  Alternative:
-    //  DateTime dt = DateTime.now();
-    //  final result = '${dt.year}-${dt.month}-${dt.day}';
-    //  print(result);
-    //  result = 2023-09-27
-
     var startOfDay = DateTime(date.year, date.month, date.day, 0, 0, 0);
     var endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
 
@@ -48,17 +44,14 @@ class StepDataContext implements IStepDataContext {
       _tableName,
       where: "date BETWEEN ? AND ?",
       whereArgs: [startOfDay.toString(), endOfDay.toString()],
+      limit: 1,
     );
 
-    if (maps.isEmpty) {
-      return null;
-    }
-
-    return maps.first;
+    return maps.firstOrNull;
   }
 
   @override
-  Future<List<Map<String, dynamic>>?> getSteps(
+  Future<List<Map<String, dynamic>>> getSteps(
       DateTime startTime, DateTime endTime) async {
     final Database db = await _databaseHelper.getDatabase();
 
@@ -71,11 +64,7 @@ class StepDataContext implements IStepDataContext {
       where: "date BETWEEN ? AND ?",
       whereArgs: [start.toString(), end.toString()],
     );
-
-    if (maps.isEmpty) {
-      return null;
-    }
-
+    
     return maps;
   }
 }
