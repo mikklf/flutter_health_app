@@ -17,11 +17,11 @@ void main() {
     final heartRateRepository =
         HeartRateRepository(mockHeartRateProvider, mockHealthProvider);
 
-    test('getHeartRatesInRange returns empty list when provider returns null',
+    test('getHeartRatesInRange returns empty list if no data is found',
         () async {
       // Arrange
       when(() => mockHeartRateProvider.getHeartRatesInRange(any(), any()))
-          .thenAnswer((_) async => null);
+          .thenAnswer((_) async => []);
 
       // Act
       final result = await heartRateRepository.getHeartRatesInRange(

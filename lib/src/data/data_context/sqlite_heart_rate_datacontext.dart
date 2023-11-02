@@ -1,14 +1,16 @@
-import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/heart_rate_datacontext.dart';
 
 class HeartRateDataContext implements IHeartRateDataContext {
-  final SqliteDatabaseHelper _databaseHelper = SqliteDatabaseHelper();
+  final IDatabaseHelper _databaseHelper;
   final String _tableName = "heart_rate";
 
+  HeartRateDataContext(this._databaseHelper);
+
   @override
-  Future<List<Map<String, dynamic>>?> getHeartRatesInRange(
+  Future<List<Map<String, dynamic>>> getHeartRatesInRange(
       DateTime startTime, DateTime endTime) async {
     final Database db = await _databaseHelper.getDatabase();
 
@@ -18,10 +20,6 @@ class HeartRateDataContext implements IHeartRateDataContext {
       whereArgs: [startTime.toString(), endTime.toString()],
       orderBy: "timestamp ASC",
     );
-
-    if (maps.isEmpty) {
-      return null;
-    }
 
     return maps;
   }

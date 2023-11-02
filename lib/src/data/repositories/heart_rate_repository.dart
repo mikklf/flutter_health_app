@@ -17,10 +17,6 @@ class HeartRateRepository implements IHeartRateRepository {
     var result =
         await _heartbeatContext.getHeartRatesInRange(startTime, endTime);
 
-    if (result == null) {
-      return [];
-    }
-
     return result.map((e) => HeartRate.fromMap(e)).toList();
   }
 

@@ -66,7 +66,7 @@ class ServiceLocator {
     services.registerSingleton<ILocationRepository>(
         LocationRepository(services<ILocationDataContext>()));
 
-    services.registerSingleton<IHeartRateDataContext>(HeartRateDataContext());
+    services.registerSingleton<IHeartRateDataContext>(HeartRateDataContext(services<IDatabaseHelper>()));
     services.registerSingleton<IHeartRateRepository>(HeartRateRepository(
       services<IHeartRateDataContext>(),
       services<IHealthProvider>(),
