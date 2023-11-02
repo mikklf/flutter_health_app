@@ -12,7 +12,6 @@ class HealthProvider implements IHealthProvider {
   late List<HealthDataAccess> permissions;
 
   HealthProvider() {
-    // TODO: Set permissions to READ only when done implementing
     permissions = types.map((e) => HealthDataAccess.READ_WRITE).toList();
   }
 
