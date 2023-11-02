@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/logic/cubit/weather_cubit.dart';
+import 'package:flutter_health_app/src/logic/weather_cubit.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/weather_provider.dart';
 import 'package:flutter_health_app/src/data/models/weather.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/weather_repository.dart';

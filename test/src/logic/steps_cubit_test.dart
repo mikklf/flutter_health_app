@@ -1,4 +1,4 @@
-import 'package:flutter_health_app/src/logic/cubit/steps_cubit.dart';
+import 'package:flutter_health_app/src/logic/steps_cubit.dart';
 import 'package:flutter_health_app/src/data/models/steps.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/src/logic/surveys_cubit.dart';
 import 'package:flutter_health_app/survey_objects/surveys.dart';
-import 'package:flutter_health_app/src/logic/bloc/surveys_bloc.dart';
-import 'package:flutter_health_app/src/logic/cubit/tab_manager_cubit.dart';
+import 'package:flutter_health_app/src/logic/tab_manager_cubit.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/survey_repository.dart';
 import 'package:flutter_health_app/src/presentation/survey_screen/survey_screen.dart';
@@ -15,24 +15,24 @@ class SurveyDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SurveysBloc(
+      create: (_) => SurveysCubit(
         services.get<ISurveyRepository>(),
       ),
       child: BlocConsumer<TabManagerCubit, TabManagerState>(
         listenWhen: (previous, current) => current.selectedTab == 1,
-        listener: (context, state) => context.read<SurveysBloc>().add(LoadSurveys()),
+        listener: (context, state) =>
+            context.read<SurveysCubit>().loadSurveys(),
         buildWhen: (previous, current) => current.selectedTab == 1,
         builder: (context, state) {
-          return BlocBuilder<SurveysBloc, SurveysState>(
+          return BlocBuilder<SurveysCubit, SurveysState>(
               builder: (context, state) {
-              
             if (state.isLoading && state.activeSurveys.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             }
-              
+
             return RefreshIndicator(
               onRefresh: () {
-                context.read<SurveysBloc>().add(LoadSurveys());
+                context.read<SurveysCubit>().loadSurveys();
                 return Future.delayed(const Duration(seconds: 1));
               },
               child: state.activeSurveys.isEmpty
@@ -47,22 +47,24 @@ class SurveyDashboardScreen extends StatelessWidget {
 
   ListView _buildNoSurveys(SurveysState state) {
     return ListView.builder(
-              physics:const AlwaysScrollableScrollPhysics(),
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return const Column(
-                  children: [
-                    SizedBox(height: 20,),
-                    Center(
-                      child: Text(
-                        "No surveys available",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            );
+      physics: const AlwaysScrollableScrollPhysics(),
+      itemCount: 1,
+      itemBuilder: (context, index) {
+        return const Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Text(
+                "No surveys available",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   ListView _buildSurveyListView(SurveysState state) {
@@ -94,7 +96,7 @@ class SurveyCard extends StatelessWidget {
                   builder: (_) => SurveyScreen(survey: survey)))
               .then((_) =>
                   // Refresh survey list upon return to dashboard
-                  BlocProvider.of<SurveysBloc>(context).add(LoadSurveys()));
+                  context.read<SurveysCubit>().loadSurveys());
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,

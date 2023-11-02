@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/logic/cubit/sync_cubit.dart';
+import 'package:flutter_health_app/src/logic/sync_cubit.dart';
 import 'package:flutter_health_app/src/data/models/steps.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';

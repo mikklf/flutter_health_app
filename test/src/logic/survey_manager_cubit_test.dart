@@ -1,4 +1,4 @@
-import 'package:flutter_health_app/src/logic/cubit/survey_manager_cubit.dart';
+import 'package:flutter_health_app/src/logic/survey_manager_cubit.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

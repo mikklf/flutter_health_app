@@ -1,4 +1,4 @@
-import 'package:flutter_health_app/src/logic/cubit/heart_rate_cubit.dart';
+import 'package:flutter_health_app/src/logic/heart_rate_cubit.dart';
 import 'package:flutter_health_app/src/data/models/heart_rate.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
 import 'package:mocktail/mocktail.dart';

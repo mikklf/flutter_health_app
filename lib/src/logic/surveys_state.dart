@@ -1,4 +1,4 @@
-part of 'surveys_bloc.dart';
+part of 'surveys_cubit.dart';
 
 final class SurveysState extends Equatable {
   /// Indicates whether the surveys are currently being loaded.

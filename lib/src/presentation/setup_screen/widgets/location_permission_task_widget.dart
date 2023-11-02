@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_health_app/src/logic/cubit/setup_cubit.dart';
+import 'package:flutter_health_app/src/logic/setup_cubit.dart';
 
 import 'setup_task_widget.dart';
 

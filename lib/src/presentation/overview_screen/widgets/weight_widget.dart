@@ -3,7 +3,7 @@ import 'package:community_charts_flutter/community_charts_flutter.dart'
     as charts;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/logic/cubit/weights_cubit.dart';
+import 'package:flutter_health_app/src/logic/weights_cubit.dart';
 import 'package:flutter_health_app/src/data/models/weight.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/presentation/overview_screen/widgets/data_card_box_widget.dart';
