@@ -6,6 +6,7 @@ import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_health_app/src/data/models/location.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/location_repository.dart';
+import 'package:flutter_health_app/src/logic/helpers/home_stay_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'location_state.dart';
@@ -85,29 +86,12 @@ class LocationCubit extends Cubit<LocationState> {
     var locations = await _locationRepository.getLocationsForDay(date);
 
     if (locations.isEmpty) {
-      return -1;
+      return double.nan;
     }
 
-    var homeStayDuration = 0;
-    var lastDataPointTime =
-        DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0);
+    var percentage = HomeStayHelper.calculateForDayUntil(locations, date);
 
-    for (var location in locations) {
-      if (location.isHome) {
-        homeStayDuration +=
-            location.timestamp.difference(lastDataPointTime).inSeconds;
-      }
-
-      lastDataPointTime = location.timestamp;
-    }
-
-    var elapsedTime = lastDataPointTime
-        .difference(DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0))
-        .inSeconds;
-
-    var percentage = (homeStayDuration / elapsedTime) * 100;
-
-    return percentage;
+    return percentage ?? double.nan;
   }
 
   double _calculateDistance(double fromLatitude, double fromLongitude, double toLatitude, double toLongitude) {

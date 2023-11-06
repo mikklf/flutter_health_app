@@ -36,7 +36,7 @@ class HomeStayWidget extends StatelessWidget {
                   ],
                 ),
                 Text(
-                    state.homeStayPercent == -1
+                    state.homeStayPercent.isNaN
                         ? ".. %"
                         : "${state.homeStayPercent.toStringAsFixed(0)} %",
                     style: Theme.of(context).textTheme.bodyLarge),

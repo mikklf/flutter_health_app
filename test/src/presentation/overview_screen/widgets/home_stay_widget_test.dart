@@ -28,6 +28,8 @@ void main() {
     );
   }
 
+
+  group('HomeStayWidget', () {
   testWidgets('Expect HomeStayWidget text when no locations exists',
       (tester) async {
     // Arrange
@@ -46,7 +48,6 @@ void main() {
     expect(find.text(".. %"), findsOneWidget);
   });
 
-  group('HomeStayWidget', () {
     testWidgets('Expect HomeStayWidget text when locations exists',
         (tester) async {
       // Arrange
