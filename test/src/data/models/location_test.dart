@@ -3,26 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Location', () {
-    test('distanceTo returns correct distance', () {
-      final location1 = Location(
-        latitude: 12.0,
-        longitude: 12.0,
-        timestamp: DateTime.now(),
-      );
-      final location2 = Location(
-        latitude: 10.0,
-        longitude: 10.0,
-        timestamp: DateTime.now(),
-      );
-      const expectedDistance = 311622.0; // meters
-
-      expect(location1.distanceTo(location2).toInt(), expectedDistance.toInt());
-    });
-
     test('copyWith returns new Location with updated values', () {
       final location1 = Location(
         latitude: 12.432,
         longitude: 10.462,
+        isHome: false,
         timestamp: DateTime(2023, 11, 1),
       );
       final location2 = location1.copyWith(
@@ -56,6 +41,7 @@ void main() {
       final location = Location(
         latitude: 37.7749,
         longitude: -122.4194,
+        isHome: false,
         timestamp: DateTime.now(),
         id: 1,
       );
@@ -63,6 +49,7 @@ void main() {
 
       expect(locationMap['latitude'], 37.7749);
       expect(locationMap['longitude'], -122.4194);
+      expect(locationMap['is_home'], 0);
       expect(locationMap['timestamp'], isA<String>());
       expect(locationMap['id'], 1);
     });

@@ -6,36 +6,24 @@ import '../data_context/interfaces/location_datacontext.dart';
 class LocationRepository implements ILocationRepository {
   final ILocationDataContext _locationContext;
 
-  final int _minimumIntervalBetweenInsertsInMinutes = 10;
-
   LocationRepository(this._locationContext);
 
-  /// Inserts a new [Location] into the database. If the last entry is less than 10 minutes old.
-  /// Returns true if the location was inserted, false otherwise.
   @override
-  Future<bool> insert(Location location) async {
+  Future<Location?> getLastest() async {
     var result = await _locationContext.getLastest();
 
     if (result == null) {
-      _locationContext.insert(location.toMap());
-      return true;
+      return null;
     }
 
-    var entry = Location.fromMap(result);
-
-    // If the last entry is less than 10 minutes old, don't insert
-    // to avoid overloading the database
-    if (location.timestamp.difference(entry.timestamp).inMinutes <
-        _minimumIntervalBetweenInsertsInMinutes) {
-      return false;
-    }
-
-    _locationContext.insert(location.toMap());
-
-    return true;
+    return Location.fromMap(result);
   }
 
-  /// Returns a list of [Location] for a given day
+  @override
+  Future<void> insert(Location location) async {
+    _locationContext.insert(location.toMap());
+  }
+
   @override
   Future<List<Location>> getLocationsForDay(DateTime date) async {
     var result = await _locationContext.getLocationsForDay(date);

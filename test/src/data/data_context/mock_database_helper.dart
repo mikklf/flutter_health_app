@@ -33,7 +33,7 @@ class MockDatabaseHelper implements IDatabaseHelper {
     batch.execute(
         "CREATE TABLE weights(id INTEGER PRIMARY KEY AUTOINCREMENT, weight REAL, date TEXT);");
     batch.execute(
-        "CREATE TABLE locations (id INTEGER PRIMARY KEY AUTOINCREMENT, latitude REAL, longitude REAL, timestamp TEXT);");
+        "CREATE TABLE locations (id INTEGER PRIMARY KEY AUTOINCREMENT, latitude REAL, longitude REAL, is_home INTEGER, timestamp TEXT);");
     batch.execute(
         "CREATE TABLE heart_rate (id INTEGER PRIMARY KEY AUTOINCREMENT, beats_per_minute INTEGER, timestamp TEXT);");
     batch.execute(

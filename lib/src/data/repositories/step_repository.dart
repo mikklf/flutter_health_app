@@ -20,6 +20,7 @@ class StepRepository implements IStepRepository{
       return;
     }
 
+    // Update existing entry with new steps
     var updatedEntry = Steps.fromMap(entry).copyWith(steps: steps);
 
     _stepContext.update(updatedEntry.toMap());
@@ -35,21 +36,18 @@ class StepRepository implements IStepRepository{
 
   @override
   Future<void> syncSteps(DateTime startDate) async {
-    // Count number of days since startDate
     var daysSinceStart = DateTime.now().difference(startDate).inDays;
 
-    // Get steps for each day
+    // Get steps for each day since startDate
     for (var i = 0; i <= daysSinceStart; i++) {
       var date = startDate.add(Duration(days: i));
 
-      // Set date variable to start of day and calculate end of day
       date = DateTime(date.year, date.month, date.day, 0, 0, 0);
       var midnight = DateTime(date.year, date.month, date.day, 23, 59, 59);
 
-      // Get steps from the Health package
+      // Get steps from mobile device
       var steps = await _healthProvider.getSteps(date, midnight);
 
-      // If zero steps, skip
       if (steps == 0) continue;
 
       await updateStepsForDay(date, steps);

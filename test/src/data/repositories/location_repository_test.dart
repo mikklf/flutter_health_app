@@ -16,67 +16,23 @@ void main() {
   });
 
   group('LocationRepository', () {
-    test('insert should return true if there is no previous location',
-        () async {
+    test('insert calls insert on location data context', () async {
       // Arrange
-      final location =
-          Location(timestamp: DateTime.now(), latitude: 0.0, longitude: 0.0);
+      final location = Location(
+        timestamp: DateTime.now(),
+        latitude: 0.0,
+        longitude: 0.0,
+        isHome: false,
+      );
       when(() => mockLocationContext.getLastest())
           .thenAnswer((_) => Future.value(null));
       when(() => mockLocationContext.insert(location.toMap()))
           .thenAnswer((_) async => {});
 
       // Act
-      final result = await locationRepository.insert(location);
+      await locationRepository.insert(location);
 
       // Assert
-      expect(result, true);
-      verify(() => mockLocationContext.insert(location.toMap()));
-    });
-
-    test(
-        'insert should return false if the last entry is less than 10 minutes old',
-        () async {
-      // Arrange
-      final location =
-          Location(timestamp: DateTime.now(), latitude: 0, longitude: 0);
-      final lastLocation = Location(
-          timestamp: DateTime.now().subtract(const Duration(minutes: 5)),
-          latitude: 0,
-          longitude: 0);
-      when(() => mockLocationContext.getLastest())
-          .thenAnswer((_) => Future.value(lastLocation.toMap()));
-      when(() => mockLocationContext.insert(location.toMap()))
-          .thenAnswer((_) async => {});
-
-      // Act
-      final result = await locationRepository.insert(location);
-
-      // Assert
-      expect(result, false);
-      verifyNever(() => mockLocationContext.insert(location.toMap()));
-    });
-
-    test(
-        'insert should insert the location if the last entry is more than 10 minutes old',
-        () async {
-      // Arrange
-      final location =
-          Location(timestamp: DateTime.now(), latitude: 0, longitude: 0);
-      final lastLocation = Location(
-          timestamp: DateTime.now().subtract(const Duration(minutes: 15)),
-          latitude: 0,
-          longitude: 0);
-      when(() => mockLocationContext.getLastest())
-          .thenAnswer((_) => Future.value(lastLocation.toMap()));
-      when(() => mockLocationContext.insert(location.toMap()))
-          .thenAnswer((_) async => {});
-
-      // Act
-      final result = await locationRepository.insert(location);
-
-      // Assert
-      expect(result, true);
       verify(() => mockLocationContext.insert(location.toMap()));
     });
 
@@ -101,8 +57,18 @@ void main() {
       // Arrange
       final date = DateTime.now();
       final locations = [
-        Location(timestamp: date, latitude: 0, longitude: 0),
-        Location(timestamp: date, latitude: 1, longitude: 1),
+        Location(
+          timestamp: date,
+          latitude: 0,
+          longitude: 0,
+          isHome: false,
+        ),
+        Location(
+          timestamp: date,
+          latitude: 1,
+          longitude: 1,
+          isHome: true,
+        ),
       ];
       when(() => mockLocationContext.getLocationsForDay(date)).thenAnswer(
           (_) => Future.value(locations.map((e) => e.toMap()).toList()));
@@ -113,5 +79,37 @@ void main() {
       // Assert
       expect(result.length, 2);
     });
+  });
+
+  test('getLastest should return null if no locations exist', () async {
+    // Arrange
+    when(() => mockLocationContext.getLastest()).thenAnswer((_) async => null);
+
+    // Act
+    final result = await locationRepository.getLastest();
+
+    // Assert
+    expect(result, isNull);
+  });
+
+  test(
+      'getLastest should return a Location object if data context returns a map',
+      () async {
+    // Arrange
+    final locationMap = {
+      'latitude': 0.0,
+      'longitude': 0.0,
+      'timestamp': DateTime(2023, 11, 1, 14, 00, 30).toString(),
+      'isHome': false,
+    };
+    final expectedLocation = Location.fromMap(locationMap);
+    when(() => mockLocationContext.getLastest())
+        .thenAnswer((_) async => locationMap);
+
+    // Act
+    final result = await locationRepository.getLastest();
+
+    // Assert
+    expect(result?.toMap(), expectedLocation.toMap());
   });
 }

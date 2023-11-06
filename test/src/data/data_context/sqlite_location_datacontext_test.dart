@@ -29,6 +29,7 @@ void main() {
       final location = Location(
         latitude: 37.7749,
         longitude: -122.4194,
+        isHome: false,
         timestamp: DateTime(2023, 11, 1, 12, 42, 17),
       );
 
@@ -36,11 +37,11 @@ void main() {
       await locationContext.insert(location.toMap());
 
       // Assert
-      final List<Map<String, dynamic>> maps =
-          await db.query("locations");
+      final List<Map<String, dynamic>> maps = await db.query("locations");
       expect(maps.length, 1);
       expect(maps.first["latitude"], location.latitude);
       expect(maps.first["longitude"], location.longitude);
+      expect(maps.first["is_home"], 0);
       expect(maps.first["timestamp"], location.timestamp.toString());
     });
 
@@ -49,16 +50,19 @@ void main() {
       final location1 = Location(
         latitude: 37.7749,
         longitude: -122.4194,
+        isHome: false,
         timestamp: DateTime(2022, 1, 1, 12, 0, 0),
       );
       final location2 = Location(
         latitude: 37.7749,
         longitude: -122.4194,
+        isHome: false,
         timestamp: DateTime(2022, 1, 2, 12, 0, 0),
       );
       final location3 = Location(
         latitude: 37.7749,
         longitude: -122.4194,
+        isHome: false,
         timestamp: DateTime(2022, 1, 2, 23, 59, 59),
       );
       await locationContext.insert(location1.toMap());
@@ -66,7 +70,8 @@ void main() {
       await locationContext.insert(location3.toMap());
 
       // Act
-      final locations = await locationContext.getLocationsForDay(DateTime(2022, 1, 2));
+      final locations =
+          await locationContext.getLocationsForDay(DateTime(2022, 1, 2));
 
       // Assert
       expect(locations.length, 2);
@@ -83,12 +88,14 @@ void main() {
       final location = Location(
         latitude: 37.7749,
         longitude: -122.4194,
+        isHome: false,
         timestamp: DateTime(2022, 1, 1, 12, 0, 0),
       );
       await locationContext.insert(location.toMap());
 
       // Act
-      final locations = await locationContext.getLocationsForDay(DateTime(2022, 1, 2));
+      final locations =
+          await locationContext.getLocationsForDay(DateTime(2022, 1, 2));
 
       // Assert
       expect(locations, isEmpty);
@@ -99,11 +106,13 @@ void main() {
       final location1 = Location(
         latitude: 37.7749,
         longitude: -122.4194,
+        isHome: false,
         timestamp: DateTime(2022, 1, 1, 12, 0, 0),
       );
       final location2 = Location(
         latitude: 37.7749,
         longitude: -122.4194,
+        isHome: false,
         timestamp: DateTime(2022, 1, 2, 12, 0, 0),
       );
       await locationContext.insert(location1.toMap());
