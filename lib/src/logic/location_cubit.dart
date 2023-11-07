@@ -38,12 +38,12 @@ class LocationCubit extends Cubit<LocationState> {
   /// Called when a new location is received from the background location plugin.
   /// Inserts the location into the database and recalculates the home stay percentage.
   void onLocationUpdates(LocationDto loc) async {
-
     var latestLocation = await _locationRepository.getLastest();
 
     if (latestLocation != null) {
       var date = clock.now();
-      var timeSinceLastInsert = date.difference(latestLocation.timestamp).inMinutes;
+      var timeSinceLastInsert =
+          date.difference(latestLocation.timestamp).inMinutes;
 
       if (timeSinceLastInsert < _minimumIntervalBetweenInsertsInMinutes) {
         return;
@@ -76,8 +76,8 @@ class LocationCubit extends Cubit<LocationState> {
     await _locationRepository.insert(location);
 
     emit(state.copyWith(
-        homeStayPercent: await _calculateHomeStayPercentage(),
-      ));
+      homeStayPercent: await _calculateHomeStayPercentage(),
+    ));
   }
 
   Future<double> _calculateHomeStayPercentage() async {
@@ -89,34 +89,35 @@ class LocationCubit extends Cubit<LocationState> {
       return double.nan;
     }
 
-    var percentage = HomeStayHelper.calculateForDayUntil(locations, date);
+    var percentage = HomeStayHelper.calculateHomestay(locations);
 
-    return percentage ?? double.nan;
+    return percentage;
   }
 
-  double _calculateDistance(double fromLatitude, double fromLongitude, double toLatitude, double toLongitude) {
-  // Earth radius in meters
-  const radius = 6371e3;
+  double _calculateDistance(double fromLatitude, double fromLongitude,
+      double toLatitude, double toLongitude) {
+    // Earth radius in meters
+    const radius = 6371e3;
 
-  // Convert degrees to radians for latitude of both locations
-  var lat1 = fromLatitude * pi / 180;
-  var lat2 = toLatitude * pi / 180;
+    // Convert degrees to radians for latitude of both locations
+    var lat1 = fromLatitude * pi / 180;
+    var lat2 = toLatitude * pi / 180;
 
-  // Calculate the difference in latitude and longitude between the two locations in radians
-  var deltaLat = (toLatitude - fromLatitude) * pi / 180;
-  var deltaLon = (toLongitude - fromLongitude) * pi / 180;
+    // Calculate the difference in latitude and longitude between the two locations in radians
+    var deltaLat = (toLatitude - fromLatitude) * pi / 180;
+    var deltaLon = (toLongitude - fromLongitude) * pi / 180;
 
-  // Haversine formula: 
-  // a is the square of half the chord length between the points
-  // c is the angular distance in radians
-  var a = sin(deltaLat / 2) * sin(deltaLat / 2) +
-      cos(lat1) * cos(lat2) * sin(deltaLon / 2) * sin(deltaLon / 2);
-  
-  var c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    // Haversine formula:
+    // a is the square of half the chord length between the points
+    // c is the angular distance in radians
+    var a = sin(deltaLat / 2) * sin(deltaLat / 2) +
+        cos(lat1) * cos(lat2) * sin(deltaLon / 2) * sin(deltaLon / 2);
 
-  // Calculate the distance in meters
-  var distance = radius * c;
+    var c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
-  return distance;
-}
+    // Calculate the distance in meters
+    var distance = radius * c;
+
+    return distance;
+  }
 }

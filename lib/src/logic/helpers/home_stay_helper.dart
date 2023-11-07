@@ -1,25 +1,23 @@
 import 'package:flutter_health_app/src/data/models/location.dart';
 
 class HomeStayHelper {
-  /// Calculates the percentage of time spent at home for a given day. 
-  /// 
-  /// [locationsForDay] is a list of locations for a given day. \
-  /// [until] is the time of day until which the percentage should be calculated. 
-  /// 
-  /// Returns the percentage of time spent at home. \
-  /// Returns null if [locationsForDay] is empty.
-  static double? calculateForDayUntil(List<Location> locationsForDay, DateTime until) {
-    var locations = locationsForDay
-        .where((element) => element.timestamp.isBefore(until) || element.timestamp.isAtSameMomentAs(until))
-        .toList();
-
+  /// Calculates the percentage of time spent at home for a range of [locations]. 
+  /// Returns the percentage of time spent at home or throws an [ArgumentError] if the list is empty.
+  static double calculateHomestay(List<Location> locations) {
     if (locations.isEmpty) {
-      return null;
+      throw ArgumentError("locations cannot be empty");
     }
 
+    // Sort the locations by timestamp on a copy of the list
+    var sortedLocations = List.from(locations);
+    sortedLocations.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+
+    var startOfDay = DateTime(sortedLocations.first.timestamp.year, sortedLocations.first.timestamp.month, sortedLocations.first.timestamp.day);
+    var lastEntry = sortedLocations.last;
+
+
     var homeStayDuration = 0;
-    var lastDataPointTime =
-        DateTime(until.year, until.month, until.day, 0, 0, 0, 0, 0);
+    var lastDataPointTime = startOfDay;
 
     for (var location in locations) {
       if (location.isHome) {
@@ -30,9 +28,7 @@ class HomeStayHelper {
       lastDataPointTime = location.timestamp;
     }
 
-    var elapsedTime = lastDataPointTime
-        .difference(DateTime(until.year, until.month, until.day, 0, 0, 0, 0, 0))
-        .inSeconds;
+    var elapsedTime = lastEntry.timestamp.difference(startOfDay).inSeconds;
 
     var percentage = (homeStayDuration / elapsedTime) * 100;
 
