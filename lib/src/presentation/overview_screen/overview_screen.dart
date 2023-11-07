@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/data_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/helpers/csv_helper.dart';
 import 'package:flutter_health_app/src/logic/setup_cubit.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
@@ -30,7 +32,7 @@ class OverviewScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       children: [
         // TESTING SHOULD BE REMOVED!
-        Row(
+        Column(
           children: [
             ElevatedButton(
                 onPressed: _healthHeartRateButtonPressed,
@@ -38,6 +40,8 @@ class OverviewScreen extends StatelessWidget {
             ElevatedButton(
                 onPressed: _healthStepsButtonPressed,
                 child: const Text("Test Steps")),
+            ElevatedButton(
+                onPressed: _testDbButtonPressed, child: const Text("Test db")),
             ElevatedButton(
                 onPressed: () async {
                   context.read<SetupCubit>().resetSetup();
@@ -108,5 +112,18 @@ class OverviewScreen extends StatelessWidget {
 
     debugPrint("Heart rate count in DB for day: $countDb");
     debugPrint("Heart rate count in Health for day: $countHealth");
+  }
+
+  /// TESTING SHOULD BE REMOVED!
+  void _testDbButtonPressed() async {
+    var processor = DataPreprocessor();
+
+    var heartrates = await processor.preprocessHeartRate();
+    var locations = await processor.preprocessLocation();
+    var steps = await processor.preprocessSteps();
+
+    debugPrint(CsvHelper.toCsv(heartrates));
+    debugPrint(CsvHelper.toCsv(locations));
+    debugPrint(CsvHelper.toCsv(steps));
   }
 }
