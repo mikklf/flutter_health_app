@@ -4,8 +4,25 @@ import 'package:flutter_health_app/src/data/models/weather.dart';
 import 'package:flutter_health_app/src/logic/helpers/home_stay_helper.dart';
 import 'package:intl/intl.dart';
 
-class DataPreprocessor {
-  Future<List<Map<String, Object?>>> preprocessHeartRate() async {
+import 'helpers/preprocessor_helper.dart';
+import 'interfaces/data_preprocessor.dart';
+
+class SqliteDataPreprocessor implements IDataPreprocessor {
+  @override
+  Future<List<Map<String, Object?>>> getPreprocessedData() async {
+    var heartrates = await _preprocessHeartRate();
+    var locations = await _preprocessLocation();
+    var steps = await _preprocessSteps();
+    var weather = await _preprocessWeather();
+    var weights = await _preprocessWeight();
+
+    var combined = await PreprocessorHelper.combineMapsByKey(
+        [heartrates, locations, steps, weather, weights], "Date");
+
+    return combined;
+  }
+
+  Future<List<Map<String, Object?>>> _preprocessHeartRate() async {
     var db = await SqliteDatabaseHelper().getDatabase();
 
     var data = await db.query(
@@ -16,12 +33,10 @@ class DataPreprocessor {
       groupBy: "DATE(timestamp)",
     );
 
-    // Handle missing data
-
     return data;
   }
 
-  Future<List<Map<String, Object?>>> preprocessLocation() async {
+  Future<List<Map<String, Object?>>> _preprocessLocation() async {
     var db = await SqliteDatabaseHelper().getDatabase();
 
     var data = await db.query(
@@ -29,7 +44,6 @@ class DataPreprocessor {
       orderBy: "timestamp ASC",
     );
 
-    // convert to a list of Location objects
     var locations = data.map((e) => Location.fromMap(e)).toList();
 
     // Group the locations by date
@@ -53,7 +67,7 @@ class DataPreprocessor {
     return processedData;
   }
 
-  Future<List<Map<String, Object?>>> preprocessSteps() async {
+  Future<List<Map<String, Object?>>> _preprocessSteps() async {
     var db = await SqliteDatabaseHelper().getDatabase();
 
     var data = await db.query(
@@ -63,13 +77,11 @@ class DataPreprocessor {
       orderBy: "date ASC",
     );
 
-    // Handle missing data
-
     return data;
   }
 
   // process weather data
-  Future<List<Map<String, Object?>>> preprocessWeather() async {
+  Future<List<Map<String, Object?>>> _preprocessWeather() async {
     var db = await SqliteDatabaseHelper().getDatabase();
 
     var data = await db.query(
@@ -87,49 +99,51 @@ class DataPreprocessor {
     }
 
     List<Map<String, dynamic>> processedData = [];
-    groupedByDate.forEach((date, weather) {
-      weather.removeWhere((element) => element.temperature == null);
+    groupedByDate.forEach((date, dayEntries) {
+      dayEntries.removeWhere((element) => element.temperature == null);
       var averageTemperature =
-          weather.map((e) => e.temperature!).reduce((a, b) => a + b) /
-              weather.length;
+          dayEntries.map((e) => e.temperature!).reduce((a, b) => a + b) /
+              dayEntries.length;
       averageTemperature = (averageTemperature * 10).round() / 10;
       var minTemperature =
-          weather.map((e) => e.temperature!).reduce((a, b) => a < b ? a : b);
+          dayEntries.map((e) => e.temperature!).reduce((a, b) => a < b ? a : b);
       minTemperature = (minTemperature * 10).round() / 10;
       var maxTemperature =
-          weather.map((e) => e.temperature!).reduce((a, b) => a > b ? a : b);
+          dayEntries.map((e) => e.temperature!).reduce((a, b) => a > b ? a : b);
       maxTemperature = (maxTemperature * 10).round() / 10;
 
-      weather.removeWhere((element) => element.temperatureFeelsLike == null);
-      var averageTemperatureFeelsLike =
-          weather.map((e) => e.temperatureFeelsLike!).reduce((a, b) => a + b) /
-              weather.length;
+      dayEntries.removeWhere((element) => element.temperatureFeelsLike == null);
+      var averageTemperatureFeelsLike = dayEntries
+              .map((e) => e.temperatureFeelsLike!)
+              .reduce((a, b) => a + b) /
+          dayEntries.length;
       averageTemperatureFeelsLike =
           (averageTemperatureFeelsLike * 10).round() / 10;
 
-      weather.removeWhere((element) => element.humidity == null);
+      dayEntries.removeWhere((element) => element.humidity == null);
       var averageHumidity =
-          weather.map((e) => e.humidity!).reduce((a, b) => a + b) /
-              weather.length;
+          dayEntries.map((e) => e.humidity!).reduce((a, b) => a + b) /
+              dayEntries.length;
       averageHumidity = (averageHumidity * 10).round() / 10;
 
-      weather.removeWhere((element) => element.cloudinessPercent == null);
+      dayEntries.removeWhere((element) => element.cloudinessPercent == null);
       var averageCloudinessPercent =
-          weather.map((e) => e.cloudinessPercent!).reduce((a, b) => a + b) /
-              weather.length;
+          dayEntries.map((e) => e.cloudinessPercent!).reduce((a, b) => a + b) /
+              dayEntries.length;
       averageCloudinessPercent = (averageCloudinessPercent * 10).round() / 10;
 
-      weather.removeWhere(
+      dayEntries.removeWhere(
           (element) => element.sunrise == null || element.sunset == null);
-      var daylightTime = weather
+      var daylightTime = dayEntries
               .map((e) => e.sunset!.difference(e.sunrise!))
               .reduce((a, b) => a + b)
               .inHours /
-          weather.length;
+          dayEntries.length;
 
       // Use the most common weather condition as the weather condition for the day
-      weather.removeWhere((element) => element.weatherCondition == null);
-      var weatherConditions = weather.map((e) => e.weatherCondition!).toList();
+      dayEntries.removeWhere((element) => element.weatherCondition == null);
+      var weatherConditions =
+          dayEntries.map((e) => e.weatherCondition!).toList();
       var mostCommonWeatherCondition = weatherConditions
           .fold<Map<String, int>>({}, (previousValue, element) {
             previousValue[element] = (previousValue[element] ?? 0) + 1;
@@ -156,7 +170,7 @@ class DataPreprocessor {
     return processedData;
   }
 
-  Future<List<Map<String, Object?>>> preprocessWeight() async {
+  Future<List<Map<String, Object?>>> _preprocessWeight() async {
     var db = await SqliteDatabaseHelper().getDatabase();
 
     var data = await db.query(
@@ -168,27 +182,4 @@ class DataPreprocessor {
 
     return data;
   }
-
-  static Future<List<Map<String, Object?>>> combine(
-      List<List<Map<String, Object?>>> mapsList) async {
-    // Combine the maps
-    var combinedMaps = <String, Map<String, Object?>>{};
-    for (var maps in mapsList) {
-      for (var map in maps) {
-        var date = map['Date'] as String;
-        combinedMaps.putIfAbsent(date, () => {}).addAll(map);
-      }
-    }
-
-    // Convert to a list
-    var combinedList = combinedMaps.values.toList();
-
-    // Sort the list
-    combinedList
-        .sort((a, b) => a['Date'].toString().compareTo(b['Date'].toString()));
-
-    return combinedList;
-  }
 }
-
-

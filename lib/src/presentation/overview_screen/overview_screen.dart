@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/data_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/helpers/csv_helper.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/helpers/preprocessor_helper.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
 import 'package:flutter_health_app/src/logic/setup_cubit.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
@@ -116,22 +116,7 @@ class OverviewScreen extends StatelessWidget {
 
   /// TESTING SHOULD BE REMOVED!
   void _testDbButtonPressed() async {
-    var processor = DataPreprocessor();
-
-    var heartrates = await processor.preprocessHeartRate();
-    var locations = await processor.preprocessLocation();
-    var steps = await processor.preprocessSteps();
-    var weather = await processor.preprocessWeather();
-    var weights = await processor.preprocessWeight();
-
-    debugPrint(CsvHelper.toCsv(heartrates));
-    debugPrint(CsvHelper.toCsv(locations));
-    debugPrint(CsvHelper.toCsv(steps));
-    debugPrint(CsvHelper.toCsv(weather));
-    debugPrint(CsvHelper.toCsv(weights));
-
-    var combined = await DataPreprocessor.combine([heartrates, locations, steps, weather, weights]);
-    debugPrint("Combined:");
-    debugPrint(CsvHelper.toCsv(combined));
+    var processor = services.get<IDataPreprocessor>();
+    debugPrint(PreprocessorHelper.toCsv(await processor.getPreprocessedData()));
   }
 }
