@@ -25,5 +25,10 @@ data['CloudinessPercent'] = data['CloudinessPercent'] / 100
 data['HomestayPercent'] = data['HomestayPercent'] / 100
 
 # List of numerical columns to scale (excluding 'Date' which is not a feature and 'WeatherCondition' which is categorical)
-print(data.head())
+numerical_columns = ['AverageHeartRate', 'MinHeartRate', 'MaxHeartRate', 'Steps', 
+                     'AverageTemperature', 'MinTemperature', 'MaxTemperature', 'DaylightTimeInHours', 'Weight']
 
+
+data[numerical_columns] = scaler.fit_transform(data[numerical_columns])
+
+print(data.head())
