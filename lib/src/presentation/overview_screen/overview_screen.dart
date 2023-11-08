@@ -121,9 +121,17 @@ class OverviewScreen extends StatelessWidget {
     var heartrates = await processor.preprocessHeartRate();
     var locations = await processor.preprocessLocation();
     var steps = await processor.preprocessSteps();
+    var weather = await processor.preprocessWeather();
+    var weights = await processor.preprocessWeight();
 
     debugPrint(CsvHelper.toCsv(heartrates));
     debugPrint(CsvHelper.toCsv(locations));
     debugPrint(CsvHelper.toCsv(steps));
+    debugPrint(CsvHelper.toCsv(weather));
+    debugPrint(CsvHelper.toCsv(weights));
+
+    var combined = await DataPreprocessor.combine([heartrates, locations, steps, weather, weights]);
+    debugPrint("Combined:");
+    debugPrint(CsvHelper.toCsv(combined));
   }
 }
