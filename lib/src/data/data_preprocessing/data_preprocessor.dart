@@ -42,6 +42,7 @@ class DataPreprocessor {
     List<Map<String, dynamic>> processedData = [];
     groupedByDate.forEach((date, locations) {
       var homestayPercent = HomeStayHelper.calculateHomestay(locations);
+      homestayPercent = (homestayPercent * 10).round() / 10;
 
       processedData.add({
         'Date': date,
@@ -92,6 +93,12 @@ class DataPreprocessor {
           weather.map((e) => e.temperature!).reduce((a, b) => a + b) /
               weather.length;
       averageTemperature = (averageTemperature * 10).round() / 10;
+      var minTemperature =
+          weather.map((e) => e.temperature!).reduce((a, b) => a < b ? a : b);
+      minTemperature = (minTemperature * 10).round() / 10;
+      var maxTemperature =
+          weather.map((e) => e.temperature!).reduce((a, b) => a > b ? a : b);
+      maxTemperature = (maxTemperature * 10).round() / 10;
 
       weather.removeWhere((element) => element.temperatureFeelsLike == null);
       var averageTemperatureFeelsLike =
@@ -110,8 +117,7 @@ class DataPreprocessor {
       var averageCloudinessPercent =
           weather.map((e) => e.cloudinessPercent!).reduce((a, b) => a + b) /
               weather.length;
-      averageCloudinessPercent =
-          (averageCloudinessPercent * 10).round() / 10;
+      averageCloudinessPercent = (averageCloudinessPercent * 10).round() / 10;
 
       weather.removeWhere(
           (element) => element.sunrise == null || element.sunset == null);
@@ -132,15 +138,18 @@ class DataPreprocessor {
           .entries
           .reduce((a, b) => a.value > b.value ? a : b)
           .key;
+      var isRainyOrSnowy = mostCommonWeatherCondition == 'Rain' ||
+          mostCommonWeatherCondition == 'Snow';
 
       processedData.add({
         'Date': date,
         'AverageTemperature': averageTemperature,
-        'AverageTemperatureFeelsLike': averageTemperatureFeelsLike,
-        'AverageHumidity': averageHumidity,
-        'AverageCloudinessPercent': averageCloudinessPercent,
+        'MinTemperature': minTemperature,
+        'MaxTemperature': maxTemperature,
+        'HumidityPercent': averageHumidity,
+        'CloudinessPercent': averageCloudinessPercent,
         'DaylightTimeInHours': daylightTime,
-        'WeatherCondition': mostCommonWeatherCondition,
+        'isRainyOrSnowy': isRainyOrSnowy ? 1 : 0,
       });
     });
 
@@ -158,12 +167,10 @@ class DataPreprocessor {
     );
 
     return data;
-
   }
 
-
-  static Future<List<Map<String, Object?>>> combine(List<List<Map<String, Object?>>> mapsList) async {
-
+  static Future<List<Map<String, Object?>>> combine(
+      List<List<Map<String, Object?>>> mapsList) async {
     // Combine the maps
     var combinedMaps = <String, Map<String, Object?>>{};
     for (var maps in mapsList) {
@@ -177,11 +184,11 @@ class DataPreprocessor {
     var combinedList = combinedMaps.values.toList();
 
     // Sort the list
-    combinedList.sort((a, b) => a['Date'].toString().compareTo(b['Date'].toString()));
+    combinedList
+        .sort((a, b) => a['Date'].toString().compareTo(b['Date'].toString()));
 
     return combinedList;
-
   }
-
-
 }
+
+
