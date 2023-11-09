@@ -27,7 +27,11 @@ class HeartRateRepository implements IHeartRateRepository {
 
   @override
   Future<void> syncHeartRates(DateTime startTime) async {
-    
+
+    if (startTime.isAfter(DateTime.now())) {
+      return;
+    }
+
     var heartrates = await _healthProvider.getHeartbeats(startTime, DateTime.now());
 
     if (heartrates.isEmpty) {
