@@ -12,8 +12,13 @@ import 'package:flutter_health_app/src/data/data_context/sqlite_step_datacontext
 import 'package:flutter_health_app/src/data/data_context/sqlite_weather_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_survey_entry_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_weight_datacontext.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/sqlite_data_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/data_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/heart_rate_preprocessor.dart';
 import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/location_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/steps_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/weather_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/weight_preprocessor.dart';
 import 'package:flutter_health_app/src/data/dataproviders/health_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/inmemory_survey_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
@@ -84,7 +89,13 @@ class ServiceLocator {
     services.registerSingleton<IWeatherRepository>(
         WeatherRepository(services<IWeatherDataContext>()));
 
-    services.registerSingleton<IDataPreprocessor>(SqliteDataPreprocessor());
+    services.registerFactory<IDataPreprocessor>(() => DataPreprocessor([
+      HeartRatePreprocessor(),
+      LocationPreprocessor(),
+      StepsPreprocessor(),
+      WeatherPreprocessor(),
+      WeightPreprocessor(),
+    ]));
 
   }
 }
