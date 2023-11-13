@@ -6,15 +6,13 @@ class PreprocessorHelper {
       return '';
     }
 
-    // Create a set to hold all unique keys
     final Set<String> allKeys = {};
 
     // Iterate through each map and add its keys to the set
     for (final map in data) {
       allKeys.addAll(map.keys);
     }
-
-    // Convert the set of all keys to a list for the headers
+    
     final headers = allKeys.toList();
 
     final csvData = [];
