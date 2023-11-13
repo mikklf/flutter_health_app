@@ -105,26 +105,6 @@ class SqliteDataPreprocessor implements IDataPreprocessor {
           dayEntries.map((e) => e.temperature!).reduce((a, b) => a + b) /
               dayEntries.length;
       averageTemperature = (averageTemperature * 10).round() / 10;
-      var minTemperature =
-          dayEntries.map((e) => e.temperature!).reduce((a, b) => a < b ? a : b);
-      minTemperature = (minTemperature * 10).round() / 10;
-      var maxTemperature =
-          dayEntries.map((e) => e.temperature!).reduce((a, b) => a > b ? a : b);
-      maxTemperature = (maxTemperature * 10).round() / 10;
-
-      dayEntries.removeWhere((element) => element.temperatureFeelsLike == null);
-      var averageTemperatureFeelsLike = dayEntries
-              .map((e) => e.temperatureFeelsLike!)
-              .reduce((a, b) => a + b) /
-          dayEntries.length;
-      averageTemperatureFeelsLike =
-          (averageTemperatureFeelsLike * 10).round() / 10;
-
-      dayEntries.removeWhere((element) => element.humidity == null);
-      var averageHumidity =
-          dayEntries.map((e) => e.humidity!).reduce((a, b) => a + b) /
-              dayEntries.length;
-      averageHumidity = (averageHumidity * 10).round() / 10;
 
       dayEntries.removeWhere((element) => element.cloudinessPercent == null);
       var averageCloudinessPercent =
@@ -158,9 +138,6 @@ class SqliteDataPreprocessor implements IDataPreprocessor {
       processedData.add({
         'Date': date,
         'AverageTemperature': averageTemperature,
-        'MinTemperature': minTemperature,
-        'MaxTemperature': maxTemperature,
-        'HumidityPercent': averageHumidity,
         'CloudinessPercent': averageCloudinessPercent,
         'DaylightTimeInHours': daylightTime,
         'isRainyOrSnowy': isRainyOrSnowy ? 1 : 0,
