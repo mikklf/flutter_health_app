@@ -7,6 +7,8 @@ class WeightPreprocessor implements IDataPreprocessor  {
   Future<List<Map<String, Object?>>> getPreprocessedData() async {
     var db = await SqliteDatabaseHelper().getDatabase();
 
+    // Database should only have one entry per day
+    // However in case there are multiple entries per day, we take the average
     var data = await db.query(
       "weights",
       columns: ["DATE(date) as Date, AVG(weight) as Weight"],

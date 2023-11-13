@@ -45,48 +45,47 @@ final services = GetIt.instance;
 
 class ServiceLocator {
   static void setupDependencyInjection() {
-    // Register services
-    services.registerSingleton<IDatabaseHelper>(SqliteDatabaseHelper());
+    services.registerFactory<IDatabaseHelper>(() => SqliteDatabaseHelper());
 
-    services.registerSingleton<ISurveyProvider>(InMemorySurveyProvider());
+    services.registerFactory<ISurveyProvider>(() => InMemorySurveyProvider());
     services
-        .registerSingleton<ISurveyEntryDataContext>(SurveyEntryDataContext(services<IDatabaseHelper>()));
-    services.registerSingleton<IHealthProvider>(HealthProvider());
+        .registerFactory<ISurveyEntryDataContext>(() => SurveyEntryDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<IHealthProvider>(() => HealthProvider());
 
-    services.registerSingleton<ISurveyRepository>(SurveyRepository(
+    services.registerFactory<ISurveyRepository>(() => SurveyRepository(
       services<ISurveyProvider>(),
       services<ISurveyEntryDataContext>(),
     ));
 
-    services.registerSingleton<ISurveyEntryRepository>(SurveyEntryRepository(
+    services.registerFactory<ISurveyEntryRepository>(() => SurveyEntryRepository(
       services<ISurveyEntryDataContext>(),
     ));
 
-    services.registerSingleton<IStepDataContext>(StepDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<IStepDataContext>(() => StepDataContext(services<IDatabaseHelper>()));
 
-    services.registerSingleton<IStepRepository>(StepRepository(
+    services.registerFactory<IStepRepository>(() => StepRepository(
       services<IStepDataContext>(),
       services<IHealthProvider>(),
     ));
 
-    services.registerSingleton<ILocationDataContext>(LocationDataContext(services<IDatabaseHelper>()));
-    services.registerSingleton<ILocationRepository>(
+    services.registerFactory<ILocationDataContext>(() => LocationDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<ILocationRepository>(() => 
         LocationRepository(services<ILocationDataContext>()));
 
-    services.registerSingleton<IHeartRateDataContext>(HeartRateDataContext(services<IDatabaseHelper>()));
-    services.registerSingleton<IHeartRateRepository>(HeartRateRepository(
+    services.registerFactory<IHeartRateDataContext>(() => HeartRateDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<IHeartRateRepository>(() => HeartRateRepository(
       services<IHeartRateDataContext>(),
       services<IHealthProvider>(),
     ));
 
-    services.registerSingleton<IWeightDataContext>(WeightDataContext(services<IDatabaseHelper>()));
-    services.registerSingleton<IWeightRepository>(
+    services.registerFactory<IWeightDataContext>(() => WeightDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<IWeightRepository>(() =>
         WeightRepository(services<IWeightDataContext>()));
 
-    services.registerSingleton<IWeatherProvider>(OpenWeatherProvider());
-    services.registerSingleton<IWeatherDataContext>(WeatherDataContext(
+    services.registerFactory<IWeatherProvider>(() => OpenWeatherProvider());
+    services.registerFactory<IWeatherDataContext>(() => WeatherDataContext(
         services<IDatabaseHelper>()));
-    services.registerSingleton<IWeatherRepository>(
+    services.registerFactory<IWeatherRepository>(() => 
         WeatherRepository(services<IWeatherDataContext>()));
 
     services.registerFactory<IDataPreprocessor>(() => DataPreprocessor([
