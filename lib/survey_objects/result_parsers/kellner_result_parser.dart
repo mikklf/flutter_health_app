@@ -49,7 +49,6 @@ class KellnerResultParser {
   }
 
   static int _calculateScore(Map<int, int> answers, List<int> normalScoreQuestions, List<int> reverseScoreQuestions) {
-
     // Calculate score based on weather the question is a normal or reverse score question
     int score = 0;
     answers.forEach((questionId, value) {

@@ -1,34 +1,53 @@
 import pandas as pd
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 
 # Read the data from file using read_csv
-data = pd.read_csv('C:\\Users\\mikke\\Desktop\\data.csv')
+data = pd.read_csv('python\data2.txt')
 
-print(data.head())
+# Drop the columns that only contain NaN values
+data.dropna(axis=1, how='all', inplace=True)
 
-# Create an imputer object with a median filling strategy for heart rates
-imputer_heart_rate = SimpleImputer(strategy='median')
+# Convert 'Date' to datetime for manipulation
+data['Date'] = pd.to_datetime(data['Date'])
 
-# Apply the imputer to our data
-data[['AverageHeartRate', 'MinHeartRate', 'MaxHeartRate']] = imputer_heart_rate.fit_transform(
-    data[['AverageHeartRate', 'MinHeartRate', 'MaxHeartRate']])
+# Sort the data by date to ensure proper backfilling
+data.sort_values(by='Date', inplace=True)
 
-# For 'Weight', we will forward-fill the missing values
-data['Weight'] = data['Weight'].fillna(method='ffill')
+# Drop the 'Date' column
+data.drop(columns=['Date'], inplace=True)
 
-# Create a StandardScaler object
-scaler = StandardScaler()
+# Backfill the specific columns up to 7 days
+for col in ['DepressionScaleScore', 'DepressionSubscaleScore', 'ContentmentSubscaleScore']:
+    data[col] = data[col].bfill(limit=7)
 
-data['HumidityPercent'] = data['HumidityPercent'] / 100
-data['CloudinessPercent'] = data['CloudinessPercent'] / 100
-data['HomestayPercent'] = data['HomestayPercent'] / 100
+# Drop rows where these columns are still NaN (indicating no record within 7 days)
+data.dropna(subset=['DepressionScaleScore', 'DepressionSubscaleScore', 'ContentmentSubscaleScore'], inplace=True)
 
-# List of numerical columns to scale (excluding 'Date' which is not a feature and 'WeatherCondition' which is categorical)
-numerical_columns = ['AverageHeartRate', 'MinHeartRate', 'MaxHeartRate', 'Steps', 
-                     'AverageTemperature', 'MinTemperature', 'MaxTemperature', 'DaylightTimeInHours', 'Weight']
+# For 'Weight', we will forward-fill the missing values first and then backward-fill the remaining
+data['Weight'] = data['Weight'].ffill()
+data['Weight'] = data['Weight'].bfill()
+
+numerical_cols = ['Steps', 'AverageHeartRate', 'MinHeartRate', 'MaxHeartRate', 
+                  'HomestayPercent', 'AverageTemperature', 'CloudinessPercent', 
+                  'DaylightTimeInHours']
+# Update the list to include only those columns that are present in the dataframe
+numerical_cols = [col for col in numerical_cols if col in data.columns]
+categorical_cols = ['isRainyOrSnowy']
+# Update the list to include only those columns that are present in the dataframe
+categorical_cols = [col for col in categorical_cols if col in data.columns]
+
+# Imputing missing values
+# For numerical columns, we'll use the median (to avoid the influence of outliers)
+# For categorical columns, we'll use the mode (most frequent value)
+num_imputer = SimpleImputer(strategy='median')
+cat_imputer = SimpleImputer(strategy='most_frequent')
+
+# Apply the imputers
+data[numerical_cols] = num_imputer.fit_transform(data[numerical_cols])
+data[categorical_cols] = cat_imputer.fit_transform(data[categorical_cols])
 
 
-data[numerical_columns] = scaler.fit_transform(data[numerical_columns])
+print(data.head(n = 30))
 
-print(data.head())
+print(data.isnull().sum())

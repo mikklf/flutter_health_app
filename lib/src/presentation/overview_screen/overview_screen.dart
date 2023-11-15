@@ -118,8 +118,8 @@ class OverviewScreen extends StatelessWidget {
   void _testDbButtonPressed() async {
     var processor = services.get<IDataPreprocessor>();
 
-    var startTime = DateTime(1994, 1, 1);
-    var endTime = DateTime(2023, 11, 16);
+    var startTime = DateTime(2023, 1, 1);
+    var endTime = DateTime.now();
 
     debugPrint(PreprocessorHelper.toCsv(
         await processor.getPreprocessedData(startTime, endTime)));
