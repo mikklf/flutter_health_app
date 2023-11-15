@@ -21,11 +21,6 @@ class KellnerSurvey implements RPSurvey {
     RPChoice(text: "No", value: 0),
   ];
 
-  final List<RPChoice> _noYes = [
-    RPChoice(text: "Yes", value: 0),
-    RPChoice(text: "No", value: 1),
-  ];
-
   final List<RPChoice> _trueFalse = [
     RPChoice(text: "True", value: 1),
     RPChoice(text: "False", value: 0),
@@ -63,7 +58,7 @@ Don't think much before answering. Thank you.
                 title: "Cheerful",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _noYes,
+                  choices: _yesNo,
                 ),
               ),
               RPQuestionStep(
@@ -79,7 +74,7 @@ Don't think much before answering. Thank you.
                 title: "Happy",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _noYes,
+                  choices: _yesNo,
                 ),
               ),
               RPQuestionStep(
@@ -111,7 +106,7 @@ Don't think much before answering. Thank you.
                 title: "Feeling well",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _noYes,
+                  choices: _yesNo,
                 ),
               ),
               RPQuestionStep(
@@ -119,7 +114,7 @@ Don't think much before answering. Thank you.
                 title: "Contented",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _noYes,
+                  choices: _yesNo,
                 ),
               ),
               RPQuestionStep(
@@ -143,7 +138,7 @@ Don't think much before answering. Thank you.
                 title: "Enjoying yourself",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _noYes,
+                  choices: _yesNo,
                 ),
               ),
               RPQuestionStep(
@@ -191,7 +186,7 @@ Don't think much before answering. Thank you.
                 title: "Looking forward toward the future",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _noYes,
+                  choices: _yesNo,
                 ),
               ),
               RPQuestionStep(
