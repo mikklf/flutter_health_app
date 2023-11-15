@@ -8,11 +8,13 @@ import 'package:intl/intl.dart';
 /// Preprocessor for [Location] data stored inside a SQLite database.
 class LocationPreprocessor implements IDataPreprocessor {
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData() async {
+  Future<List<Map<String, Object?>>> getPreprocessedData(DateTime startTime, DateTime endTime) async {
     var db = await SqliteDatabaseHelper().getDatabase();
 
     var data = await db.query(
       "locations",
+      where: "timestamp BETWEEN ? AND ?",
+      whereArgs: [startTime.toString(), endTime.toString()],
       orderBy: "timestamp ASC",
     );
 

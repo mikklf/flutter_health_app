@@ -10,10 +10,10 @@ class DataPreprocessor implements IDataPreprocessor {
   DataPreprocessor(this._preprocessors);
 
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData() async {
+  Future<List<Map<String, Object?>>> getPreprocessedData(DateTime startTime, DateTime endTime) async {
     
     /// Loop through all the registered preprocessors and get their data
-    var data = await Future.wait(_preprocessors.map((e) => e.getPreprocessedData()));
+    var data = await Future.wait(_preprocessors.map((e) => e.getPreprocessedData(startTime, endTime)));
 
     var combinedData = PreprocessorHelper.combineMapsByKey(data, 'Date');
 

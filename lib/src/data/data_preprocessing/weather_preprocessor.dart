@@ -6,11 +6,13 @@ import 'package:intl/intl.dart';
 /// Preprocessor for [Weather] data stored inside a SQLite database.
 class WeatherPreprocessor implements IDataPreprocessor {
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData() async {
+  Future<List<Map<String, Object?>>> getPreprocessedData(DateTime startTime, DateTime endTime) async {
     var db = await SqliteDatabaseHelper().getDatabase();
 
     var data = await db.query(
       "weather",
+      where: "timestamp BETWEEN ? AND ?",
+      whereArgs: [startTime.toString(), endTime.toString()],
       orderBy: "timestamp ASC",
     );
 

@@ -4,12 +4,14 @@ import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_p
 /// Preprocessor for [Steps] data stored inside a SQLite database.
 class StepsPreprocessor implements IDataPreprocessor {
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData() async {
+  Future<List<Map<String, Object?>>> getPreprocessedData(DateTime startTime, DateTime endTime) async {
     var db = await SqliteDatabaseHelper().getDatabase();
 
     var data = await db.query(
       "steps",
       columns: ["DATE(date) as Date, SUM(steps) as Steps"],
+      where: "date BETWEEN ? AND ?",
+      whereArgs: [startTime.toString(), endTime.toString()],
       groupBy: "DATE(date)",
       orderBy: "date ASC",
     );

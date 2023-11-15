@@ -17,6 +17,7 @@ import 'package:flutter_health_app/src/data/data_preprocessing/heart_rate_prepro
 import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
 import 'package:flutter_health_app/src/data/data_preprocessing/location_preprocessor.dart';
 import 'package:flutter_health_app/src/data/data_preprocessing/steps_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_preprocessing/survey_result_preprocessor/kellner_result_preprocessor.dart';
 import 'package:flutter_health_app/src/data/data_preprocessing/weather_preprocessor.dart';
 import 'package:flutter_health_app/src/data/data_preprocessing/weight_preprocessor.dart';
 import 'package:flutter_health_app/src/data/dataproviders/health_provider.dart';
@@ -94,6 +95,7 @@ class ServiceLocator {
       StepsPreprocessor(),
       WeatherPreprocessor(),
       WeightPreprocessor(),
+      KellnerResultPreprocessor(),
     ]));
 
   }

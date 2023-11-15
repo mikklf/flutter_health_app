@@ -4,7 +4,7 @@ import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_p
 /// Preprocessor for [Weight] data stored inside a SQLite database.
 class WeightPreprocessor implements IDataPreprocessor  {
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData() async {
+  Future<List<Map<String, Object?>>> getPreprocessedData(DateTime startTime, DateTime endTime) async {
     var db = await SqliteDatabaseHelper().getDatabase();
 
     // Database should only have one entry per day
@@ -12,6 +12,8 @@ class WeightPreprocessor implements IDataPreprocessor  {
     var data = await db.query(
       "weights",
       columns: ["DATE(date) as Date, AVG(weight) as Weight"],
+      where: "date BETWEEN ? AND ?",
+      whereArgs: [startTime.toString(), endTime.toString()],
       groupBy: "DATE(date)",
       orderBy: "date ASC",
     );
