@@ -21,6 +21,11 @@ class KellnerSurvey implements RPSurvey {
     RPChoice(text: "No", value: 0),
   ];
 
+  final List<RPChoice> _noYes = [
+    RPChoice(text: "Yes", value: 0),
+    RPChoice(text: "No", value: 1),
+  ];
+
   final List<RPChoice> _trueFalse = [
     RPChoice(text: "True", value: 1),
     RPChoice(text: "False", value: 0),
@@ -46,15 +51,7 @@ Don't think much before answering. Thank you.
             title: "The Symtom Questionnaire by R. Kellner",
             questions: [
               RPQuestionStep(
-                identifier: "kellnerStep1",
-                title: "Nervous",
-                answerFormat: RPChoiceAnswerFormat(
-                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _yesNo,
-                ),
-              ),
-              RPQuestionStep(
-                identifier: "kellnerStep2",
+                identifier: "kellnerItem2",
                 title: "Weary",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
@@ -62,31 +59,15 @@ Don't think much before answering. Thank you.
                 ),
               ),
               RPQuestionStep(
-                identifier: "kellnerStep3",
-                title: "Irritable",
-                answerFormat: RPChoiceAnswerFormat(
-                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _yesNo,
-                ),
-              ),
-              RPQuestionStep(
-                identifier: "kellnerStep4",
+                identifier: "kellnerItem4",
                 title: "Cheerful",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _yesNo,
+                  choices: _noYes,
                 ),
               ),
               RPQuestionStep(
-                identifier: "kellnerStep5",
-                title: "Tense, Tensed up",
-                answerFormat: RPChoiceAnswerFormat(
-                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _yesNo,
-                ),
-              ),
-              RPQuestionStep(
-                identifier: "kellnerStep6",
+                identifier: "kellnerItem6",
                 title: "Sad, blue",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
@@ -94,51 +75,163 @@ Don't think much before answering. Thank you.
                 ),
               ),
               RPQuestionStep(
-                identifier: "kellnerStep7",
+                identifier: "kellnerItem7",
                 title: "Happy",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _yesNo,
+                  choices: _noYes,
                 ),
               ),
               RPQuestionStep(
-                identifier: "kellnerStep8",
-                title: "Frightened",
+                identifier: "kellnerItem24",
+                title: "Feeling unworthy",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
                   choices: _yesNo,
                 ),
               ),
               RPQuestionStep(
-                identifier: "kellnerStep9",
-                title: "Feeling calm",
-                answerFormat: RPChoiceAnswerFormat(
-                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _yesNo,
-                ),
-              ),
-              RPQuestionStep(
-                identifier: "kellnerStep10",
-                title: "Feeling healthy",
-                answerFormat: RPChoiceAnswerFormat(
-                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _yesNo,
-                ),
-              ),
-              RPQuestionStep(
-                identifier: "kellnerStep11",
-                title: "Losing temper easily",
-                answerFormat: RPChoiceAnswerFormat(
-                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
-                  choices: _yesNo,
-                ),
-              ),
-              RPQuestionStep(
-                identifier: "kellnerStep12",
-                title: "Feeling of not enough air",
+                identifier: "kellnerItem27",
+                title: "Cannot enjoy yourself",
                 answerFormat: RPChoiceAnswerFormat(
                   answerStyle: RPChoiceAnswerStyle.SingleChoice,
                   choices: _trueFalse,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem39",
+                title: "Feeling guilty",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem40",
+                title: "Feeling well",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _noYes,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem43",
+                title: "Contented",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _noYes,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem45",
+                title: "Feeling desperate, terrible",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem47",
+                title: "Thinking of death or dying",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem51",
+                title: "Enjoying yourself",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _noYes,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem58",
+                title: "Depressed",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem60",
+                title: "Feeling a failure",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem61",
+                title: "Not interested in things",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _trueFalse,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem66",
+                title: "Blaming yourself",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem67",
+                title: "Thoughts of ending your life",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem71",
+                title: "Looking forward toward the future",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _noYes,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem73",
+                title: "Feeling that life is bad",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem75",
+                title: "Feeling inferior to others",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem76",
+                title: "Feeling useless",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem84",
+                title: "Feel like crying",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
+                ),
+              ),
+              RPQuestionStep(
+                identifier: "kellnerItem91",
+                title: "Feeling of hopelesness",
+                answerFormat: RPChoiceAnswerFormat(
+                  answerStyle: RPChoiceAnswerStyle.SingleChoice,
+                  choices: _yesNo,
                 ),
               ),
             ]),

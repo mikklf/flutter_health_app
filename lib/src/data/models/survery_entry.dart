@@ -17,7 +17,7 @@ class SurveyEntry {
     return {
       'survey_id': surveyId,
       'date': date.toString(),
-      'result': jsonEncode(result),
+      'result': jsonEncode(result.toJson()),
     };
   }
 
