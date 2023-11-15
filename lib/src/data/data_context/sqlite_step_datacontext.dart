@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/step_datacontext.dart';
 
+/// SQLite implementation of the [IStepDataContext].
 class StepDataContext implements IStepDataContext {
   final IDatabaseHelper _databaseHelper;
   final String _tableName = "steps";

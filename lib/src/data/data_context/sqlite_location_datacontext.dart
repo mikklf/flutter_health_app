@@ -3,13 +3,13 @@ import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/location_datacontext.dart';
 
+/// SQLite implementation of the [ILocationDataContext].
 class LocationDataContext implements ILocationDataContext {
   final IDatabaseHelper _databaseHelper;
   final String _tableName = "locations";
 
   LocationDataContext(this._databaseHelper);
 
-  /// Inserts a new location into the database
   @override
   Future<void> insert(Map<String, Object?> values) async {
     final Database db = await _databaseHelper.getDatabase();
@@ -21,7 +21,6 @@ class LocationDataContext implements ILocationDataContext {
     );
   }
 
-  /// Returns a list of locations for a given day
   @override
   Future<List<Map<String, dynamic>>> getLocationsForDay(DateTime date) async {
     final Database db = await _databaseHelper.getDatabase();
@@ -38,7 +37,6 @@ class LocationDataContext implements ILocationDataContext {
     return maps;
   }
 
-  /// Returns the last entry in the database
   @override
   Future<Map<String, dynamic>?> getLastest() async {
     final Database db = await _databaseHelper.getDatabase();

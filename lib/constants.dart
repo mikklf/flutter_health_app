@@ -1,3 +1,3 @@
 class Constants {  
-  static String appName = "Flutter Health App";
+  static String appName = "Mobile Health App";
 }

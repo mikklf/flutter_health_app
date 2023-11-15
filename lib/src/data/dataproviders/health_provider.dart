@@ -15,8 +15,6 @@ class HealthProvider implements IHealthProvider {
     permissions = types.map((e) => HealthDataAccess.READ_WRITE).toList();
   }
 
-  /// Requests authorization to read health data from the user.
-  /// Returns true if the user granted permission, false otherwise.
   @override
   Future<bool> requestAuthorization() async {
     var health = await HealthHelper.getHealthFactory();
@@ -34,8 +32,6 @@ class HealthProvider implements IHealthProvider {
     return true;
   }
 
-  /// Returns the total number of steps taken between [startTime] and [endTime].
-  /// If no steps were taken, 0 is returned.
   @override
   Future<int> getSteps(DateTime startTime, DateTime endTime) async {
     final types = [

@@ -10,6 +10,7 @@ class SurveysCubit extends Cubit<SurveysState> {
   
   SurveysCubit(this._surveyRepository) : super(const SurveysState());
 
+  /// Loads all active surveys from the repository and updates the state.
   Future<void> loadSurveys() async {
     emit(state.copyWith(isLoading: true));
 

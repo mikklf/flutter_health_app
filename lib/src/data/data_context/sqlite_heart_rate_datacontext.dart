@@ -3,12 +3,14 @@ import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/heart_rate_datacontext.dart';
 
+/// SQLite implementation of the [IHeartRateDataContext].
 class HeartRateDataContext implements IHeartRateDataContext {
   final IDatabaseHelper _databaseHelper;
   final String _tableName = "heart_rate";
 
   HeartRateDataContext(this._databaseHelper);
 
+  
   @override
   Future<List<Map<String, dynamic>>> getHeartRatesInRange(
       DateTime startTime, DateTime endTime) async {

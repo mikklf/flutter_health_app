@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/weight_datacontext.dart';
 
+/// SQLite implementation of the [IWeightDataContext].
 class WeightDataContext implements IWeightDataContext {
   final IDatabaseHelper _databaseHelper;
   final String _tableName = "weights";

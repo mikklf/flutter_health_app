@@ -31,24 +31,29 @@ class OverviewScreen extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+
         // TESTING SHOULD BE REMOVED!
-        Column(
+        const Text("Debug buttons", style: TextStyle(fontSize: 20, color: Colors.red),),
+        Wrap(
+          spacing: 4,
           children: [
-            ElevatedButton(
-                onPressed: _healthHeartRateButtonPressed,
-                child: const Text("Test Heart rate")),
-            ElevatedButton(
-                onPressed: _healthStepsButtonPressed,
-                child: const Text("Test Steps")),
-            ElevatedButton(
-                onPressed: _testDbButtonPressed, child: const Text("Test db")),
-            ElevatedButton(
-                onPressed: () async {
-                  context.read<SetupCubit>().resetSetup();
-                },
-                child: const Text("Reset setup"))
-          ],
-        ),
+              ElevatedButton(
+                  onPressed: _healthHeartRateButtonPressed,
+                  child: const Text("Add Heart rate")),
+              ElevatedButton(
+                  onPressed: _healthStepsButtonPressed,
+                  child: const Text("Add Steps")),
+              ElevatedButton(
+                  onPressed: _testDbButtonPressed, child: const Text("Test Preprocessing")),
+              ElevatedButton(
+                  onPressed: () async {
+                    context.read<SetupCubit>().resetSetup();
+                  },
+                  child: const Text("Reset setup"))
+            ],
+          ),
+        const Divider(),
+        // Testing code end
 
         // Register widgets here
         const StepsWidget(),

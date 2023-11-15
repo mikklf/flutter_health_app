@@ -20,7 +20,7 @@ class WeightsCubit extends Cubit<WeightsCubitState> {
     emit(state.copyWith(weightList: weightsData));
   }
 
-  /// Adds a new weight entry.
+  /// Adds a new weight entry and calls [getLatestWeights] to update the state.
   Future<void> updateWeight(DateTime date, double weight) async {
     await _weightRepository.updateWeight(date, weight);
     await getLatestWeights();

@@ -28,29 +28,34 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     }
   }
 
+  /// Checks if the location permission is granted and updates the state.
   checkLocationPermission() async {
     var status = await Permission.locationAlways.status;
     emit(state.copyWith(isLocationPermissionGranted: status.isGranted));
   }
 
+  /// Checks if consent has been given and updates the state.
   checkConstentGiven() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var status = prefs.getBool('consent_given') ?? false;
     emit(state.copyWith(isConsentGiven: status));
   }
 
+  /// Checks if the home address has been set and updates the state.
   checkHomeAddressSet() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var address = prefs.getString('home_address') ?? "";
     emit(state.copyWith(homeAddress: address));
   }
 
+  /// Checks if the health permission is granted and updates the state.
   checkHealthPermissionStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var status = prefs.getBool('health_permission_given') ?? false;
     emit(state.copyWith(isHealthPermissionGranted: status));
   }
 
+  /// Checks if the setup is completed and updates the state.
   checkSetupStatus() async {
     emit(state.copyWith(isLoading: true));
 
@@ -71,18 +76,21 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     emit(state.copyWith(isSetupCompleted: isSetupCompleted, isLoading: false));
   }
 
+  /// Completes the setup process and updates the state.
   completeSetup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('setup_completed', true);
     emit(state.copyWith(isSetupCompleted: true));
   }
 
+  // TESTING SHOULD BE REMOVED!
   resetSetup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('setup_completed', false);
     emit(state.copyWith(isSetupCompleted: false));
   }
 
+  /// Saves the provided [RPTaskResult] and updates the state.
   Future<void> saveConsent(RPTaskResult result) async {
     // NOTE: Consider if the consent document should be saved to the database
     // or somewhere else. For now, we just save a bool indicating that
@@ -94,6 +102,10 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     emit(state.copyWith(isConsentGiven: true));
   }
 
+  /// Updates the home address and updates the state.
+  /// If the address is found, the coordinates are saved to shared preferences. \
+  /// If the address is not found, the home address is set to "No location found". \
+  /// If address does not have a name, the coordinates are used instead.
   Future<void> updateHomeAddress(String address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -132,9 +144,11 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     emit(state.copyWith(homeAddress: addressName));
   }
 
+  /// Prompts the user for location permissions and updates the state on completion.
+  /// 
+  /// NOTE: This is a minimal implementation of the location permission request.
+  /// It works but does not provide a good user experience.
   Future<void> requestLocationPermissions() async {
-    // NOTE: This is a basic implementation of the location permission request.
-    // It works but does not provide a good user experience.
     var status = await Permission.location.status;
 
     await Permission.location.request();
@@ -162,9 +176,11 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     checkLocationPermission();
   }
 
+  /// Prompts the user for health permissions and updates the state on completion.
+  /// 
+  /// NOTE: This is a minimal implementation of the health permission request.
+  /// It works but does not provide a good user experience.
   Future<void> requestHealthPermissions() async {
-    // NOTE: This is a minimal implementation of the health permission request.
-    // It works but does not provide a good user experience.
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var success = await services.get<IHealthProvider>().requestAuthorization();

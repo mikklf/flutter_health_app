@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/weather_datacontext.dart';
 
+/// SQLite implementation of the [IWeatherDataContext].
 class WeatherDataContext implements IWeatherDataContext {
   final IDatabaseHelper _databaseHelper;
   final String _tableName = "weather";

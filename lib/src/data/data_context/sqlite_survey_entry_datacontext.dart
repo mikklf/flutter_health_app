@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'interfaces/survey_entry_datacontext.dart';
 
+/// SQLite implementation of the [ISurveyEntryDataContext].
 class SurveyEntryDataContext implements ISurveyEntryDataContext {
   final IDatabaseHelper _databaseHelper;
   final String _tableName = "survey_entries";

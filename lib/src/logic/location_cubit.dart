@@ -35,8 +35,9 @@ class LocationCubit extends Cubit<LocationState> {
     super.close();
   }
 
-  /// Called when a new location is received from the background location plugin.
-  /// Inserts the location into the database and recalculates the home stay percentage.
+  /// This method is called whenever a new location update is received. \
+  /// It checks the time since the last location insert and if it's less than the minimum interval between inserts, \
+  /// it returns without doing anything. Otherwise, inserts the location into the database and emits the new home stay percentage.
   void onLocationUpdates(LocationDto loc) async {
     var latestLocation = await _locationRepository.getLastest();
 

@@ -22,6 +22,7 @@ class WeatherCubit extends Cubit<WeatherState> {
         .listen((LocationDto loc) => onLocationUpdates(loc));
   }
 
+  /// Loads the current weather from the repository and updates the state.
   Future<void> loadCurrentWeather() async {
     var lastest = await _weatherRepository.getLastest();
 
@@ -41,6 +42,9 @@ class WeatherCubit extends Cubit<WeatherState> {
     super.close();
   }
 
+  /// Called when a new location is received from the background location plugin.
+  /// Checks if the lastest entry in the database is older than the minimum interval between inserts.
+  /// If it is, it saves the weather data for the given location. Otherwise, it returns does nothing.
   void onLocationUpdates(LocationDto loc) async {
     var lastest = await _weatherRepository.getLastest();
 

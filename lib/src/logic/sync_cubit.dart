@@ -56,6 +56,7 @@ class SyncCubit extends Cubit<SyncState> with WidgetsBindingObserver {
     prefs.setString('lastSyncStepsDateTime', DateTime.now().toString());
   }
 
+  /// Syncs heart rates with backend
   Future<void> syncHeartRates() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 

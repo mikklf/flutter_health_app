@@ -7,5 +7,6 @@ abstract interface class ISurveyProvider {
   Future<RPSurvey> getById(String id);
 
   /// Returns a list of all [RPSurvey].
+  /// Returns an empty list if no surveys are found.
   Future<List<RPSurvey>> getAll();
 }
