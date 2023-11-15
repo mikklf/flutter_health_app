@@ -1,6 +1,5 @@
 import pandas as pd
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import MinMaxScaler
 
 # Read the data from file using read_csv
 data = pd.read_csv('python\data2.txt')
@@ -47,6 +46,7 @@ cat_imputer = SimpleImputer(strategy='most_frequent')
 data[numerical_cols] = num_imputer.fit_transform(data[numerical_cols])
 data[categorical_cols] = cat_imputer.fit_transform(data[categorical_cols])
 
+# Scaling is not needed for decision trees
 
 print(data.head(n = 30))
 
