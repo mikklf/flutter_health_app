@@ -31,10 +31,10 @@ void main() {
 
       // read data from testResult1.txt
       var testData1 = await File(
-              '${Directory.current.path}\\test\\src\\data\\data_preprocessing\\survey_result_preprocessor\\testResult1.txt')
+              '${Directory.current.path}/test/src/data/data_preprocessing/survey_result_preprocessor/testResult1.txt')
           .readAsString();
       var testData2 = await File(
-              '${Directory.current.path}\\test\\src\\data\\data_preprocessing\\survey_result_preprocessor\\testResult2.txt')
+              '${Directory.current.path}/test/src/data/data_preprocessing/survey_result_preprocessor/testResult2.txt')
           .readAsString();
 
       // insert data into database
