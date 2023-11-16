@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:research_package/research_package.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'mock_database_helper.dart';
+import '../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
@@ -29,7 +29,10 @@ void main() {
   group('SurveyEntryDataContext', () {
     test('insert should insert a survey entry into the database', () async {
       // Arrange
-      final surveyEntry = SurveyEntry(surveyId: '1', result: RPTaskResult(identifier: "test_insert_entry"), date: DateTime(2023, 11, 1));
+      final surveyEntry = SurveyEntry(
+          surveyId: '1',
+          result: RPTaskResult(identifier: "test_insert_entry"),
+          date: DateTime(2023, 11, 1));
 
       // Act
       await surveyEntryContext.insert(surveyEntry.toMap());
@@ -46,8 +49,14 @@ void main() {
         () async {
       // Arrange
       const surveyId = 'dummy_survey';
-      final surveyEntry1 = SurveyEntry(surveyId: surveyId, result: RPTaskResult(identifier: "test_insert_entry"), date: DateTime(2023, 11, 1));
-      final surveyEntry2 = SurveyEntry(surveyId: surveyId, result: RPTaskResult(identifier: "test_insert_entry"), date: DateTime(2023, 11, 2));
+      final surveyEntry1 = SurveyEntry(
+          surveyId: surveyId,
+          result: RPTaskResult(identifier: "test_insert_entry"),
+          date: DateTime(2023, 11, 1));
+      final surveyEntry2 = SurveyEntry(
+          surveyId: surveyId,
+          result: RPTaskResult(identifier: "test_insert_entry"),
+          date: DateTime(2023, 11, 2));
       await surveyEntryContext.insert(surveyEntry1.toMap());
       await surveyEntryContext.insert(surveyEntry2.toMap());
 

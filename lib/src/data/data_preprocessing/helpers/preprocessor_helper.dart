@@ -1,5 +1,4 @@
 class PreprocessorHelper {
-
   /// Converts a list of maps to a CSV string
   static String toCsv(List<Map<String, dynamic>> data) {
     if (data.isEmpty) {
@@ -12,7 +11,7 @@ class PreprocessorHelper {
     for (final map in data) {
       allKeys.addAll(map.keys);
     }
-    
+
     final headers = allKeys.toList();
 
     final csvData = [];
@@ -33,21 +32,24 @@ class PreprocessorHelper {
   ///
   /// The method takes in a list of lists of maps and a string representing the key to combine the maps by.
   /// It then combines the maps by the given key and returns a sorted list of the combined maps.
-  static Future<List<Map<String, Object?>>> combineMapsByKey(
-      List<List<Map<String, Object?>>> mapsList, String mapKey) async {
+  static List<Map<String, Object?>> combineMapsByKey(
+      List<List<Map<String, Object?>>> mapsList, String mapKey) {
     // Combine the maps
     var combinedMaps = <String, Map<String, Object?>>{};
     for (var maps in mapsList) {
       for (var map in maps) {
-        var date = map[mapKey] as String;
-        combinedMaps.putIfAbsent(date, () => {}).addAll(map);
+        if (!map.containsKey(mapKey)) {
+          throw ArgumentError('mapKey $mapKey not found in map $map');
+        }
+        var key = map[mapKey] as String;
+        combinedMaps.putIfAbsent(key, () => {}).addAll(map);
       }
     }
 
     var combinedList = combinedMaps.values.toList();
 
-    combinedList.sort(
-        (a, b) => a[mapKey].toString().compareTo(b[mapKey].toString()));
+    combinedList
+        .sort((a, b) => a[mapKey].toString().compareTo(b[mapKey].toString()));
 
     return combinedList;
   }

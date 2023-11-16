@@ -1,12 +1,15 @@
+import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
-
-import '../data_context/helpers/sqlite_database_helper.dart';
 
 /// Preprocessor for [HeartRate] data stored inside a SQLite database.
 class HeartRatePreprocessor implements IDataPreprocessor {
+  final IDatabaseHelper _databaseHelper;
+  HeartRatePreprocessor(this._databaseHelper);
+
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData(DateTime startTime, DateTime endTime) async {
-    var db = await SqliteDatabaseHelper().getDatabase();
+  Future<List<Map<String, Object?>>> getPreprocessedData(
+      DateTime startTime, DateTime endTime) async {
+    var db = await _databaseHelper.getDatabase();
 
     var data = await db.query(
       "heart_rate",
@@ -20,5 +23,4 @@ class HeartRatePreprocessor implements IDataPreprocessor {
 
     return data;
   }
-
 }
