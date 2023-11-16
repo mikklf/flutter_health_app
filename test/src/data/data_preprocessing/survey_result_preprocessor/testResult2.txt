@@ -1,0 +1,824 @@
+{
+  "identifier": "kellner",
+  "start_date": "2023-11-16T11:30:56.839706",
+  "end_date": "2023-11-16T11:31:18.342735",
+  "results": {
+    "kellnerQuestions": {
+      "identifier": "kellnerQuestions",
+      "start_date": "2023-11-16T11:30:57.738325",
+      "end_date": "2023-11-16T11:30:57.738614",
+      "question_title": "Form Step - See titles for every question included",
+      "results": {
+        "kellnerItem2": {
+          "identifier": "kellnerItem2",
+          "start_date": "2023-11-16T11:30:57.738334",
+          "end_date": "2023-11-16T11:30:58.649130",
+          "question_title": "Weary",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem4": {
+          "identifier": "kellnerItem4",
+          "start_date": "2023-11-16T11:30:57.738348",
+          "end_date": "2023-11-16T11:30:59.224128",
+          "question_title": "Cheerful",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem6": {
+          "identifier": "kellnerItem6",
+          "start_date": "2023-11-16T11:30:57.738360",
+          "end_date": "2023-11-16T11:30:59.972070",
+          "question_title": "Sad, blue",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem7": {
+          "identifier": "kellnerItem7",
+          "start_date": "2023-11-16T11:30:57.738373",
+          "end_date": "2023-11-16T11:31:00.705622",
+          "question_title": "Happy",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem24": {
+          "identifier": "kellnerItem24",
+          "start_date": "2023-11-16T11:30:57.738385",
+          "end_date": "2023-11-16T11:31:01.421916",
+          "question_title": "Feeling unworthy",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem27": {
+          "identifier": "kellnerItem27",
+          "start_date": "2023-11-16T11:30:57.738397",
+          "end_date": "2023-11-16T11:31:02.202192",
+          "question_title": "Cannot enjoy yourself",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "False",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "True",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "False",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem39": {
+          "identifier": "kellnerItem39",
+          "start_date": "2023-11-16T11:30:57.738410",
+          "end_date": "2023-11-16T11:31:02.941772",
+          "question_title": "Feeling guilty",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem40": {
+          "identifier": "kellnerItem40",
+          "start_date": "2023-11-16T11:30:57.738423",
+          "end_date": "2023-11-16T11:31:03.753745",
+          "question_title": "Feeling well",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem43": {
+          "identifier": "kellnerItem43",
+          "start_date": "2023-11-16T11:30:57.738435",
+          "end_date": "2023-11-16T11:31:04.501836",
+          "question_title": "Contented",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem45": {
+          "identifier": "kellnerItem45",
+          "start_date": "2023-11-16T11:30:57.738448",
+          "end_date": "2023-11-16T11:31:05.216790",
+          "question_title": "Feeling desperate, terrible",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem47": {
+          "identifier": "kellnerItem47",
+          "start_date": "2023-11-16T11:30:57.738460",
+          "end_date": "2023-11-16T11:31:05.944378",
+          "question_title": "Thinking of death or dying",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem51": {
+          "identifier": "kellnerItem51",
+          "start_date": "2023-11-16T11:30:57.738472",
+          "end_date": "2023-11-16T11:31:06.697886",
+          "question_title": "Enjoying yourself",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem58": {
+          "identifier": "kellnerItem58",
+          "start_date": "2023-11-16T11:30:57.738485",
+          "end_date": "2023-11-16T11:31:07.486303",
+          "question_title": "Depressed",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem60": {
+          "identifier": "kellnerItem60",
+          "start_date": "2023-11-16T11:30:57.738498",
+          "end_date": "2023-11-16T11:31:08.437224",
+          "question_title": "Feeling a failure",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem61": {
+          "identifier": "kellnerItem61",
+          "start_date": "2023-11-16T11:30:57.738510",
+          "end_date": "2023-11-16T11:31:09.151410",
+          "question_title": "Not interested in things",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "False",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "True",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "False",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem66": {
+          "identifier": "kellnerItem66",
+          "start_date": "2023-11-16T11:30:57.738522",
+          "end_date": "2023-11-16T11:31:10.060423",
+          "question_title": "Blaming yourself",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem67": {
+          "identifier": "kellnerItem67",
+          "start_date": "2023-11-16T11:30:57.738534",
+          "end_date": "2023-11-16T11:31:10.752786",
+          "question_title": "Thoughts of ending your life",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem71": {
+          "identifier": "kellnerItem71",
+          "start_date": "2023-11-16T11:30:57.738547",
+          "end_date": "2023-11-16T11:31:11.449772",
+          "question_title": "Looking forward toward the future",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem73": {
+          "identifier": "kellnerItem73",
+          "start_date": "2023-11-16T11:30:57.738559",
+          "end_date": "2023-11-16T11:31:12.217182",
+          "question_title": "Feeling that life is bad",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem75": {
+          "identifier": "kellnerItem75",
+          "start_date": "2023-11-16T11:30:57.738572",
+          "end_date": "2023-11-16T11:31:13.051973",
+          "question_title": "Feeling inferior to others",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem76": {
+          "identifier": "kellnerItem76",
+          "start_date": "2023-11-16T11:30:57.738584",
+          "end_date": "2023-11-16T11:31:13.790329",
+          "question_title": "Feeling useless",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem84": {
+          "identifier": "kellnerItem84",
+          "start_date": "2023-11-16T11:30:57.738596",
+          "end_date": "2023-11-16T11:31:14.558415",
+          "question_title": "Feel like crying",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        },
+        "kellnerItem91": {
+          "identifier": "kellnerItem91",
+          "start_date": "2023-11-16T11:30:57.738608",
+          "end_date": "2023-11-16T11:31:15.423287",
+          "question_title": "Feeling of hopelesness",
+          "results": {
+            "answer": [
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ]
+          },
+          "answer_format": {
+            "__type": "RPChoiceAnswerFormat",
+            "question_type": "SingleChoice",
+            "choices": [
+              {
+                "__type": "RPChoice",
+                "text": "Yes",
+                "value": 1,
+                "is_free_text": false
+              },
+              {
+                "__type": "RPChoice",
+                "text": "No",
+                "value": 0,
+                "is_free_text": false
+              }
+            ],
+            "answer_style": "SingleChoice"
+          }
+        }
+      },
+      "answer_format": {
+        "__type": "RPFormAnswerFormat",
+        "question_type": "Form"
+      }
+    }
+  }
+}

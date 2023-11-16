@@ -49,54 +49,58 @@ class ServiceLocator {
     services.registerFactory<IDatabaseHelper>(() => SqliteDatabaseHelper());
 
     services.registerFactory<ISurveyProvider>(() => InMemorySurveyProvider());
-    services
-        .registerFactory<ISurveyEntryDataContext>(() => SurveyEntryDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<ISurveyEntryDataContext>(
+        () => SurveyEntryDataContext(services<IDatabaseHelper>()));
     services.registerFactory<IHealthProvider>(() => HealthProvider());
 
     services.registerFactory<ISurveyRepository>(() => SurveyRepository(
-      services<ISurveyProvider>(),
-      services<ISurveyEntryDataContext>(),
-    ));
+          services<ISurveyProvider>(),
+          services<ISurveyEntryDataContext>(),
+        ));
 
-    services.registerFactory<ISurveyEntryRepository>(() => SurveyEntryRepository(
-      services<ISurveyEntryDataContext>(),
-    ));
+    services
+        .registerFactory<ISurveyEntryRepository>(() => SurveyEntryRepository(
+              services<ISurveyEntryDataContext>(),
+            ));
 
-    services.registerFactory<IStepDataContext>(() => StepDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<IStepDataContext>(
+        () => StepDataContext(services<IDatabaseHelper>()));
 
     services.registerFactory<IStepRepository>(() => StepRepository(
-      services<IStepDataContext>(),
-      services<IHealthProvider>(),
-    ));
+          services<IStepDataContext>(),
+          services<IHealthProvider>(),
+        ));
 
-    services.registerFactory<ILocationDataContext>(() => LocationDataContext(services<IDatabaseHelper>()));
-    services.registerFactory<ILocationRepository>(() => 
-        LocationRepository(services<ILocationDataContext>()));
+    services.registerFactory<ILocationDataContext>(
+        () => LocationDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<ILocationRepository>(
+        () => LocationRepository(services<ILocationDataContext>()));
 
-    services.registerFactory<IHeartRateDataContext>(() => HeartRateDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<IHeartRateDataContext>(
+        () => HeartRateDataContext(services<IDatabaseHelper>()));
     services.registerFactory<IHeartRateRepository>(() => HeartRateRepository(
-      services<IHeartRateDataContext>(),
-      services<IHealthProvider>(),
-    ));
+          services<IHeartRateDataContext>(),
+          services<IHealthProvider>(),
+        ));
 
-    services.registerFactory<IWeightDataContext>(() => WeightDataContext(services<IDatabaseHelper>()));
-    services.registerFactory<IWeightRepository>(() =>
-        WeightRepository(services<IWeightDataContext>()));
+    services.registerFactory<IWeightDataContext>(
+        () => WeightDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<IWeightRepository>(
+        () => WeightRepository(services<IWeightDataContext>()));
 
     services.registerFactory<IWeatherProvider>(() => OpenWeatherProvider());
-    services.registerFactory<IWeatherDataContext>(() => WeatherDataContext(
-        services<IDatabaseHelper>()));
-    services.registerFactory<IWeatherRepository>(() => 
-        WeatherRepository(services<IWeatherDataContext>()));
+    services.registerFactory<IWeatherDataContext>(
+        () => WeatherDataContext(services<IDatabaseHelper>()));
+    services.registerFactory<IWeatherRepository>(
+        () => WeatherRepository(services<IWeatherDataContext>()));
 
     services.registerFactory<IDataPreprocessor>(() => DataPreprocessor([
-      HeartRatePreprocessor(),
-      LocationPreprocessor(),
-      StepsPreprocessor(),
-      WeatherPreprocessor(),
-      WeightPreprocessor(),
-      KellnerResultPreprocessor(),
-    ]));
-
+          HeartRatePreprocessor(services<IDatabaseHelper>()),
+          LocationPreprocessor(services<IDatabaseHelper>()),
+          StepsPreprocessor(services<IDatabaseHelper>()),
+          WeatherPreprocessor(services<IDatabaseHelper>()),
+          WeightPreprocessor(services<IDatabaseHelper>()),
+          KellnerResultPreprocessor(services<IDatabaseHelper>()),
+        ]));
   }
 }

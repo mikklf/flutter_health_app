@@ -1,15 +1,18 @@
-import 'package:flutter_health_app/src/data/data_context/helpers/sqlite_database_helper.dart';
+import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
 import 'package:flutter_health_app/src/data/models/location.dart';
 import 'package:flutter_health_app/src/logic/helpers/home_stay_helper.dart';
 import 'package:intl/intl.dart';
 
-
 /// Preprocessor for [Location] data stored inside a SQLite database.
 class LocationPreprocessor implements IDataPreprocessor {
+  final IDatabaseHelper _databaseHelper;
+  LocationPreprocessor(this._databaseHelper);
+
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData(DateTime startTime, DateTime endTime) async {
-    var db = await SqliteDatabaseHelper().getDatabase();
+  Future<List<Map<String, Object?>>> getPreprocessedData(
+      DateTime startTime, DateTime endTime) async {
+    var db = await _databaseHelper.getDatabase();
 
     var data = await db.query(
       "locations",
@@ -40,5 +43,4 @@ class LocationPreprocessor implements IDataPreprocessor {
 
     return processedData;
   }
-
 }

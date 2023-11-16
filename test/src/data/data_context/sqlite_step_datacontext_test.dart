@@ -4,7 +4,7 @@ import 'package:flutter_health_app/src/data/data_context/sqlite_step_datacontext
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'mock_database_helper.dart';
+import '../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
@@ -34,8 +34,7 @@ void main() {
       await stepContext.insert(values);
 
       // Assert
-      final List<Map<String, dynamic>> result =
-          await db.query('steps');
+      final List<Map<String, dynamic>> result = await db.query('steps');
       expect(result.length, 1);
       expect(result.first['date'], values['date']);
       expect(result.first['steps'], values['steps']);
@@ -47,7 +46,7 @@ void main() {
         'date': DateTime(2023, 11, 1, 11, 00).toString(),
         'steps': 1000,
       });
-      
+
       final Map<String, Object?> values = {
         'id': 1,
         'date': DateTime(2023, 11, 1, 12, 00).toString(),
@@ -65,9 +64,14 @@ void main() {
       expect(result.first['steps'], values['steps']);
     });
 
-    test('update() should throw an ArgumentError if values does not contain an id field', () async {
+    test(
+        'update() should throw an ArgumentError if values does not contain an id field',
+        () async {
       // Arrange
-      final steps = {'date': DateTime(2023, 11, 1, 12, 00).toString(), 'steps': 2000};
+      final steps = {
+        'date': DateTime(2023, 11, 1, 12, 00).toString(),
+        'steps': 2000
+      };
 
       // Act & Assert
       expect(() => stepContext.update(steps), throwsA(isA<ArgumentError>()));
@@ -107,8 +111,8 @@ void main() {
       await db.insert('steps', values2);
 
       // Act
-      final List<Map<String, dynamic>> result =
-          await stepContext.getSteps(date.subtract(const Duration(days: 1)), date);
+      final List<Map<String, dynamic>> result = await stepContext.getSteps(
+          date.subtract(const Duration(days: 1)), date);
 
       // Assert
       expect(result.length, 2);
