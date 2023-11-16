@@ -16,7 +16,7 @@ def index():
 
     # Preprocess the data
     try:
-        preprocessd_data = preprocess(filedata)
+        preprocessd_data = preprocess(data)
     except Exception as e:
         print(f"Error preprocessing data: {e}")
         return str(e), 400
