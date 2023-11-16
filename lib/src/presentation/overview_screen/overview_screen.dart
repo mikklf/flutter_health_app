@@ -11,6 +11,7 @@ import 'package:flutter_health_app/src/presentation/overview_screen/widgets/hear
 import 'package:flutter_health_app/src/presentation/overview_screen/widgets/home_stay_widget.dart';
 import 'package:flutter_health_app/src/presentation/overview_screen/widgets/weather_widget.dart';
 import 'package:health/health.dart';
+import 'package:http/http.dart' as http;
 
 import 'widgets/steps_widget.dart';
 import 'widgets/weight_widget.dart';
@@ -31,27 +32,32 @@ class OverviewScreen extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-
         // TESTING SHOULD BE REMOVED!
-        const Text("Debug buttons", style: TextStyle(fontSize: 20, color: Colors.red),),
+        const Text(
+          "Debug buttons",
+          style: TextStyle(fontSize: 20, color: Colors.red),
+        ),
         Wrap(
           spacing: 4,
           children: [
-              ElevatedButton(
-                  onPressed: _healthHeartRateButtonPressed,
-                  child: const Text("Add Heart rate")),
-              ElevatedButton(
-                  onPressed: _healthStepsButtonPressed,
-                  child: const Text("Add Steps")),
-              ElevatedButton(
-                  onPressed: _testDbButtonPressed, child: const Text("Test Preprocessing")),
-              ElevatedButton(
-                  onPressed: () async {
-                    context.read<SetupCubit>().resetSetup();
-                  },
-                  child: const Text("Reset setup"))
-            ],
-          ),
+            ElevatedButton(
+                onPressed: _healthHeartRateButtonPressed,
+                child: const Text("Add Heart rate")),
+            ElevatedButton(
+                onPressed: _healthStepsButtonPressed,
+                child: const Text("Add Steps")),
+            ElevatedButton(
+                onPressed: () {
+                  _testPreprocessButtonPressed(context);
+                },
+                child: const Text("Test Preprocessing")),
+            ElevatedButton(
+                onPressed: () async {
+                  context.read<SetupCubit>().resetSetup();
+                },
+                child: const Text("Reset setup"))
+          ],
+        ),
         const Divider(),
         // Testing code end
 
@@ -120,13 +126,30 @@ class OverviewScreen extends StatelessWidget {
   }
 
   /// TESTING SHOULD BE REMOVED!
-  void _testDbButtonPressed() async {
+  void _testPreprocessButtonPressed(BuildContext context) async {
     var processor = services.get<IDataPreprocessor>();
 
     var startTime = DateTime(2023, 1, 1);
     var endTime = DateTime.now();
 
-    debugPrint(PreprocessorHelper.toCsv(
-        await processor.getPreprocessedData(startTime, endTime)));
+    var csv = PreprocessorHelper.toCsv(
+        await processor.getPreprocessedData(startTime, endTime));
+
+    // 10.0.2.2 allows localhost to be accessed from emulator
+    // If using Android Studio emulator with default settings.
+    var url = "http://10.0.2.2:5000";
+    var response = await http.post(Uri.parse(url), body: csv, headers: {
+      "Content-Type": "text/csv",
+    });
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: response.statusCode == 200
+              ? const Text("OK 200: Data has been sent")
+              : Text("Error: ${response.statusCode}"),
+        ),
+      );
+    }
   }
 }

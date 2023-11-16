@@ -28,6 +28,7 @@
         android:label="flutter_health_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        
         <!-- configuration of background_locator_2 -->
         <receiver android:name="yukams.app.background_locator_2.BootBroadcastReceiver"
             android:enabled="true"
