@@ -138,7 +138,8 @@ class OverviewScreen extends StatelessWidget {
     // 10.0.2.2 allows localhost to be accessed from emulator
     // If using Android Studio emulator with default settings.
     var url = "http://10.0.2.2:5000";
-    var response = await http.post(Uri.parse(url), body: csv, headers: {
+    var response = 
+    await http.post(Uri.parse(url), body: csv, headers: {
       "Content-Type": "text/csv",
     });
 
@@ -147,7 +148,7 @@ class OverviewScreen extends StatelessWidget {
         SnackBar(
           content: response.statusCode == 200
               ? const Text("OK 200: Data has been sent")
-              : Text("Error: ${response.statusCode}"),
+              : Text("Error: ${response.statusCode} ${response.body}"),
         ),
       );
     }

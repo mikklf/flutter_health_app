@@ -59,15 +59,14 @@ class WeatherPreprocessor implements IDataPreprocessor {
           .entries
           .reduce((a, b) => a.value > b.value ? a : b)
           .key;
-      var isRainyOrSnowy = mostCommonWeatherCondition == 'Rain' ||
-          mostCommonWeatherCondition == 'Snow';
 
       processedData.add({
         'Date': date,
         'AverageTemperature': averageTemperature,
         'CloudinessPercent': averageCloudinessPercent,
         'DaylightTimeInHours': daylightTime,
-        'isRainyOrSnowy': isRainyOrSnowy ? 1 : 0,
+        'IsRaining': mostCommonWeatherCondition == 'Rain' ? 1 : 0,
+        'IsSnowing': mostCommonWeatherCondition == 'Snow' ? 1 : 0,
       });
     });
 
