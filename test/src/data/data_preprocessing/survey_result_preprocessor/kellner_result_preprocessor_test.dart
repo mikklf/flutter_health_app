@@ -24,7 +24,17 @@ void main() {
     await db.close();
   });
 
-  group("HeartRatePreprocessor", () {
+  group("KellnerResultPreprocessor", () {
+    test("getPreprocessedData with no data", () async {
+      var startTime = DateTime(2022, 1, 1, 0, 0, 0);
+      var endTime = DateTime(2023, 1, 2, 23, 59, 59);
+
+      var data = await kellnerResultPreprocessor.getPreprocessedData(
+          startTime, endTime);
+
+      expect(data, isEmpty);
+    });
+
     test("getPreprocessedData with data", () async {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2023, 1, 2, 23, 59, 59);

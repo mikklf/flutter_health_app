@@ -98,14 +98,16 @@ void main() {
           'AverageTemperature': 21,
           'CloudinessPercent': 1.0,
           'DaylightTimeInHours': 14.0,
-          'isRainyOrSnowy': 0
+          'IsRaining': 0,
+          'IsSnowing': 0
         },
         {
           'Date': '2022-01-02',
           'AverageTemperature': 8.5,
           'CloudinessPercent': 54.0,
           'DaylightTimeInHours': 14.0,
-          'isRainyOrSnowy': 1
+          'IsRaining': 1,
+          'IsSnowing': 0
         }
       ];
 
