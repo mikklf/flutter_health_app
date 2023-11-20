@@ -4,7 +4,7 @@ import 'package:flutter_health_app/src/data/data_preprocessing/location_preproce
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../mock_database_helper.dart';
+import '../../../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;

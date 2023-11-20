@@ -4,7 +4,7 @@ import 'package:flutter_health_app/src/data/data_context/helpers/database_helper
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import '../mock_database_helper.dart';
+import '../../../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;

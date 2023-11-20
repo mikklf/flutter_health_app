@@ -7,6 +7,7 @@ import 'package:flutter_health_app/src/logic/setup_cubit.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';
+import 'package:flutter_health_app/src/logic/sync_cubit.dart';
 import 'package:flutter_health_app/src/presentation/overview_screen/widgets/heart_rate_widget.dart';
 import 'package:flutter_health_app/src/presentation/overview_screen/widgets/home_stay_widget.dart';
 import 'package:flutter_health_app/src/presentation/overview_screen/widgets/weather_widget.dart';
@@ -29,45 +30,48 @@ class OverviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        // TESTING SHOULD BE REMOVED!
-        const Text(
-          "Debug buttons",
-          style: TextStyle(fontSize: 20, color: Colors.red),
-        ),
-        Wrap(
-          spacing: 4,
-          children: [
-            ElevatedButton(
-                onPressed: _healthHeartRateButtonPressed,
-                child: const Text("Add Heart rate")),
-            ElevatedButton(
-                onPressed: _healthStepsButtonPressed,
-                child: const Text("Add Steps")),
-            ElevatedButton(
-                onPressed: () {
-                  _testPreprocessButtonPressed(context);
-                },
-                child: const Text("Test Preprocessing")),
-            ElevatedButton(
-                onPressed: () async {
-                  context.read<SetupCubit>().resetSetup();
-                },
-                child: const Text("Reset setup"))
-          ],
-        ),
-        const Divider(),
-        // Testing code end
-
-        // Register widgets here
-        const StepsWidget(),
-        const WeightWidget(),
-        const HomeStayWidget(),
-        const HeartRateWidget(),
-        const WeatherWidget(),
-      ],
+    return RefreshIndicator(
+      onRefresh: context.read<SyncCubit>().syncAll,
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          // TESTING SHOULD BE REMOVED!
+          const Text(
+            "Debug buttons",
+            style: TextStyle(fontSize: 20, color: Colors.red),
+          ),
+          Wrap(
+            spacing: 4,
+            children: [
+              ElevatedButton(
+                  onPressed: _healthHeartRateButtonPressed,
+                  child: const Text("Add Heart rate")),
+              ElevatedButton(
+                  onPressed: _healthStepsButtonPressed,
+                  child: const Text("Add Steps")),
+              ElevatedButton(
+                  onPressed: () {
+                    _testPreprocessButtonPressed(context);
+                  },
+                  child: const Text("Test Preprocessing")),
+              ElevatedButton(
+                  onPressed: () async {
+                    context.read<SetupCubit>().resetSetup();
+                  },
+                  child: const Text("Reset setup"))
+            ],
+          ),
+          const Divider(),
+          // Testing code end
+    
+          // Register widgets here
+          const StepsWidget(),
+          const WeightWidget(),
+          const HomeStayWidget(),
+          const HeartRateWidget(),
+          const WeatherWidget(),
+        ],
+      ),
     );
   }
 

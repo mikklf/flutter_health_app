@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:research_package/research_package.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import '../mock_database_helper.dart';
+import '../../../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;

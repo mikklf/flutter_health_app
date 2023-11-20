@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_weather_datacontext.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import '../mock_database_helper.dart';
+import '../../../mock_database_helper.dart';
 
 void main() {
   group('SQLite Weather DataContext', () {
