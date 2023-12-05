@@ -12,7 +12,7 @@ import 'package:flutter_health_app/src/data/data_context/sqlite_step_datacontext
 import 'package:flutter_health_app/src/data/data_context/sqlite_weather_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_survey_entry_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_weight_datacontext.dart';
-import 'package:flutter_health_app/src/data/data_extraction/data_data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/heart_rate_data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/location_data_extractor.dart';
