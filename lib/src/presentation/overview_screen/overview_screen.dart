@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/data/data_extraction/helpers/data_extractor_helper.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_sender.dart';
 import 'package:flutter_health_app/src/logic/setup_cubit.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
@@ -11,7 +11,6 @@ import 'package:flutter_health_app/src/presentation/overview_screen/widgets/hear
 import 'package:flutter_health_app/src/presentation/overview_screen/widgets/home_stay_widget.dart';
 import 'package:flutter_health_app/src/presentation/overview_screen/widgets/weather_widget.dart';
 import 'package:health/health.dart';
-import 'package:http/http.dart' as http;
 
 import 'widgets/steps_widget.dart';
 import 'widgets/weight_widget.dart';
@@ -127,28 +126,22 @@ class OverviewScreen extends StatelessWidget {
 
   /// TESTING SHOULD BE REMOVED!
   void _testPreprocessButtonPressed(BuildContext context) async {
-    var processor = services.get<IDataExtractor>();
+    var extractor = services.get<IDataExtractor>();
+    var dataSender = services.get<IDataSender>();
 
     var startTime = DateTime(2023, 1, 1);
     var endTime = DateTime.now();
 
-    var csv = DataExtractorHelper.toCsv(
-        await processor.getData(startTime, endTime));
+    var data = await extractor.getData(startTime, endTime);
 
-    // 10.0.2.2 allows localhost to be accessed from emulator
-    // If using Android Studio emulator with default settings.
-    var url = "http://10.0.2.2:5000";
-    var response = 
-    await http.post(Uri.parse(url), body: csv, headers: {
-      "Content-Type": "text/csv",
-    });
+    var result = await dataSender.sendData(data);
 
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: response.statusCode == 200
+          content: result == true
               ? const Text("OK 200: Data has been sent")
-              : Text("Error: ${response.statusCode} ${response.body}"),
+              : const Text("Error: Data has not been sent"),
         ),
       );
     }

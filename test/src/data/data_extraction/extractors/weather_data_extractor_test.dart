@@ -1,10 +1,10 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
+import 'package:flutter_health_app/src/data/data_extraction/extractors/weather_data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
-import 'package:flutter_health_app/src/data/data_extraction/weather_data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../mock_database_helper.dart';
+import '../../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;

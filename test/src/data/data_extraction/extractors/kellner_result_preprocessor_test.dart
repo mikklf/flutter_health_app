@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
-import 'package:flutter_health_app/src/data/data_extraction/survey_result_data_extractor/kellner_result_data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/extractors/kellner_result_data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -41,10 +41,10 @@ void main() {
 
       // read data from testResult1.txt
       var testData1 = await File(
-              '${Directory.current.path}/test/src/data/data_extraction/survey_result_data_extractor/testResult1.txt')
+              '${Directory.current.path}/test/src/data/data_extraction/extractors/test_files/testResult1.txt')
           .readAsString();
       var testData2 = await File(
-              '${Directory.current.path}/test/src/data/data_extraction/survey_result_data_extractor/testResult2.txt')
+              '${Directory.current.path}/test/src/data/data_extraction/extractors/test_files/testResult2.txt')
           .readAsString();
 
       // insert data into database

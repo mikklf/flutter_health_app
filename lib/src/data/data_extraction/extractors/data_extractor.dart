@@ -1,5 +1,5 @@
-import 'helpers/data_extractor_helper.dart';
-import 'interfaces/data_extractor.dart';
+import '../helpers/data_extractor_helper.dart';
+import '../interfaces/data_extractor.dart';
 
 /// Executes all the registered [IDataExtractor]s and 
 /// combines their data into a single list of maps.
@@ -19,4 +19,5 @@ class DataExtractor implements IDataExtractor {
 
     return combinedData;
   }
+
 }
