@@ -3,13 +3,13 @@ from sklearn.impute import SimpleImputer
 from io import StringIO
 
 
-def preprocess(csvText):
+def preprocess_csv(file_path):
     """
-    Preprocess the data and return a dataframe
+    Preprocess the csv file and return a dataframe
     """
 
     # Read the data into a dataframe
-    data = pd.read_csv(StringIO(csvText))
+    data = pd.read_csv(file_path)
 
     # Drop the columns that only contain NaN values
     data.dropna(axis=1, how='all', inplace=True)
@@ -51,5 +51,4 @@ def preprocess(csvText):
     data[numerical_cols] = num_imputer.fit_transform(data[numerical_cols])
 
     # Scaling is not needed for decision trees
-    
     return data
