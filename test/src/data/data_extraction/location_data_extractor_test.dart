@@ -8,12 +8,12 @@ import '../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
-  late IDataExtractor locationPreprocessor;
+  late IDataExtractor locationDataExtractor;
   late Database db;
 
   setUp(() async {
     databaseHelper = MockDatabaseHelper();
-    locationPreprocessor = LocationDataExtractor(databaseHelper);
+    locationDataExtractor = LocationDataExtractor(databaseHelper);
     db = await databaseHelper.getDatabase();
   });
 
@@ -22,18 +22,18 @@ void main() {
     await db.close();
   });
 
-  group("LocationPreprocessor", () {
-    test("getPreprocessedData with no data", () async {
+  group("LocationDataExtractor", () {
+    test("getData with no data", () async {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2022, 1, 2, 23, 59, 59);
 
       var data =
-          await locationPreprocessor.getData(startTime, endTime);
+          await locationDataExtractor.getData(startTime, endTime);
 
       expect(data, isEmpty);
     });
 
-    test("getPreprocessedData with data", () async {
+    test("getData with data", () async {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2022, 1, 2, 23, 59, 59);
 
@@ -63,7 +63,7 @@ void main() {
       });
 
       var data =
-          await locationPreprocessor.getData(startTime, endTime);
+          await locationDataExtractor.getData(startTime, endTime);
 
       var expected = [
         {'Date': '2022-01-01', 'HomestayPercent': 100.0},

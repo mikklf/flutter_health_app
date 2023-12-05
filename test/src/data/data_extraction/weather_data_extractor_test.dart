@@ -8,12 +8,12 @@ import '../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
-  late IDataExtractor weatherPreprocessor;
+  late IDataExtractor weatherDataExtractor;
   late Database db;
 
   setUp(() async {
     databaseHelper = MockDatabaseHelper();
-    weatherPreprocessor = WeatherDataExtractor(databaseHelper);
+    weatherDataExtractor = WeatherDataExtractor(databaseHelper);
     db = await databaseHelper.getDatabase();
   });
 
@@ -22,17 +22,17 @@ void main() {
     await db.close();
   });
 
-  group("WeatherPreprocessor", () {
-    test("getPreprocessedData with no data", () async {
+  group("WeatherDataExtractor", () {
+    test("getData with no data", () async {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2022, 1, 3, 23, 59, 59);
 
       var data =
-          await weatherPreprocessor.getData(startTime, endTime);
+          await weatherDataExtractor.getData(startTime, endTime);
       expect(data, isEmpty);
     });
 
-    test("getPreprocessedData with data", () async {
+    test("getData with data", () async {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2022, 1, 3, 23, 59, 59);
 
@@ -90,7 +90,7 @@ void main() {
       });
 
       var data =
-          await weatherPreprocessor.getData(startTime, endTime);
+          await weatherDataExtractor.getData(startTime, endTime);
 
       var expectedData = [
         {

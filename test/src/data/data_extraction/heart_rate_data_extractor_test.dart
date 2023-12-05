@@ -8,12 +8,12 @@ import '../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
-  late IDataExtractor heartRatePreprocessor;
+  late IDataExtractor heartRateDataExtractor;
   late Database db;
 
   setUp(() async {
     databaseHelper = MockDatabaseHelper();
-    heartRatePreprocessor = HeartRateDataExtractor(databaseHelper);
+    heartRateDataExtractor = HeartRateDataExtractor(databaseHelper);
     db = await databaseHelper.getDatabase();
   });
 
@@ -22,18 +22,18 @@ void main() {
     await db.close();
   });
 
-  group("HeartRatePreprocessor", () {
-    test("getPreprocessedData with no data", () async {
+  group("HeartRateDataExtractor", () {
+    test("getData with no data", () async {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2022, 1, 3, 23, 59, 59);
 
       var data =
-          await heartRatePreprocessor.getData(startTime, endTime);
+          await heartRateDataExtractor.getData(startTime, endTime);
 
       expect(data, isEmpty);
     });
 
-    test("getPreprocessedData with data", () async {
+    test("getData with data", () async {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2022, 1, 3, 23, 59, 59);
 
@@ -47,7 +47,7 @@ void main() {
           {'beats_per_minute': 90, 'timestamp': "2022-01-02 11:30:55"});
 
       var data =
-          await heartRatePreprocessor.getData(startTime, endTime);
+          await heartRateDataExtractor.getData(startTime, endTime);
 
       var expected = [
         {
