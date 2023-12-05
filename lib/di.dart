@@ -12,14 +12,14 @@ import 'package:flutter_health_app/src/data/data_context/sqlite_step_datacontext
 import 'package:flutter_health_app/src/data/data_context/sqlite_weather_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_survey_entry_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_weight_datacontext.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/data_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/heart_rate_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/location_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/steps_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/survey_result_preprocessor/kellner_result_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/weather_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/weight_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/data_data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/heart_rate_data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/location_data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/steps_data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/survey_result_data_extractor/kellner_result_data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/weather_data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/weight_data_extractor.dart';
 import 'package:flutter_health_app/src/data/dataproviders/health_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/inmemory_survey_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
@@ -94,13 +94,13 @@ class ServiceLocator {
     services.registerFactory<IWeatherRepository>(
         () => WeatherRepository(services<IWeatherDataContext>()));
 
-    services.registerFactory<IDataPreprocessor>(() => DataPreprocessor([
-          HeartRatePreprocessor(services<IDatabaseHelper>()),
-          LocationPreprocessor(services<IDatabaseHelper>()),
-          StepsPreprocessor(services<IDatabaseHelper>()),
-          WeatherPreprocessor(services<IDatabaseHelper>()),
-          WeightPreprocessor(services<IDatabaseHelper>()),
-          KellnerResultPreprocessor(services<IDatabaseHelper>()),
+    services.registerFactory<IDataExtractor>(() => DataExtractor([
+          HeartRateDataExtractor(services<IDatabaseHelper>()),
+          LocationDataExtractor(services<IDatabaseHelper>()),
+          StepsDataExtractor(services<IDatabaseHelper>()),
+          WeatherDataExtractor(services<IDatabaseHelper>()),
+          WeightDataExtractor(services<IDatabaseHelper>()),
+          KellnerResultDataExtractor(services<IDatabaseHelper>()),
         ]));
   }
 }

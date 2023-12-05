@@ -1,13 +1,13 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 
-/// Preprocessor for [HeartRate] data stored inside a SQLite database.
-class HeartRatePreprocessor implements IDataPreprocessor {
+/// Data extractor for [HeartRate] data stored inside a SQLite database.
+class HeartRateDataExtractor implements IDataExtractor {
   final IDatabaseHelper _databaseHelper;
-  HeartRatePreprocessor(this._databaseHelper);
+  HeartRateDataExtractor(this._databaseHelper);
 
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData(
+  Future<List<Map<String, Object?>>> getData(
       DateTime startTime, DateTime endTime) async {
     var db = await _databaseHelper.getDatabase();
 

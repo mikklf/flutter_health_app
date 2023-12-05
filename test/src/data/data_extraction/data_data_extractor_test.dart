@@ -1,41 +1,41 @@
-import 'package:flutter_health_app/src/data/data_preprocessing/data_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/data_data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockDataPreprocessor extends Mock implements IDataPreprocessor {}
+class MockDataDataExtractor extends Mock implements IDataExtractor {}
 
 void main() {
-  late IDataPreprocessor dataPreprocessor;
-  late IDataPreprocessor mockPreprocessor1;
-  late IDataPreprocessor mockPreprocessor2;
+  late IDataExtractor dataExtractor;
+  late IDataExtractor mockExtractor1;
+  late IDataExtractor mockExtractor2;
 
   setUp(() {
-    mockPreprocessor1 = MockDataPreprocessor();
-    mockPreprocessor2 = MockDataPreprocessor();
-    dataPreprocessor = DataPreprocessor([mockPreprocessor1, mockPreprocessor2]);
+    mockExtractor1 = MockDataDataExtractor();
+    mockExtractor2 = MockDataDataExtractor();
+    dataExtractor = DataExtractor([mockExtractor1, mockExtractor2]);
   });
 
-  group("DataPreprocessor", () {
-    test("getPreprocessedData", () async {
+  group("DataDataExtractor", () {
+    test("getData", () async {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2022, 1, 3, 23, 59, 59);
 
-      when(() => mockPreprocessor1.getPreprocessedData(any(), any()))
+      when(() => mockExtractor1.getData(any(), any()))
           .thenAnswer((_) async => [
                 {'Date': '2022-01-01', 'Data1': 1},
                 {'Date': '2022-01-02', 'Data1': 2},
                 {'Date': '2022-01-03', 'Data1': 3},
               ]);
 
-      when(() => mockPreprocessor2.getPreprocessedData(any(), any()))
+      when(() => mockExtractor2.getData(any(), any()))
           .thenAnswer((_) async => [
                 {'Date': '2022-01-01', 'Data2': 4},
                 {'Date': '2022-01-02', 'Data2': 5},
                 {'Date': '2022-01-03', 'Data2': 6},
               ]);
 
-      var data = await dataPreprocessor.getPreprocessedData(startTime, endTime);
+      var data = await dataExtractor.getData(startTime, endTime);
 
       var expected = [
         {'Date': '2022-01-01', 'Data1': 1, 'Data2': 4},

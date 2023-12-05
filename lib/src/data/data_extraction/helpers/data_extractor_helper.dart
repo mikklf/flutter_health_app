@@ -1,4 +1,4 @@
-class PreprocessorHelper {
+class DataExtractorHelper {
   /// Converts a list of maps to a CSV string
   static String toCsv(List<Map<String, dynamic>> data) {
     if (data.isEmpty) {

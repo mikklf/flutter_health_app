@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/survey_result_preprocessor/kellner_result_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/survey_result_data_extractor/kellner_result_data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -10,12 +10,12 @@ import '../../../../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
-  late IDataPreprocessor kellnerResultPreprocessor;
+  late IDataExtractor kellnerResultDataExtractor;
   late Database db;
 
   setUp(() async {
     databaseHelper = MockDatabaseHelper();
-    kellnerResultPreprocessor = KellnerResultPreprocessor(databaseHelper);
+    kellnerResultDataExtractor = KellnerResultDataExtractor(databaseHelper);
     db = await databaseHelper.getDatabase();
   });
 
@@ -24,27 +24,27 @@ void main() {
     await db.close();
   });
 
-  group("KellnerResultPreprocessor", () {
-    test("getPreprocessedData with no data", () async {
+  group("KellnerResultDataExtractor", () {
+    test("getData with no data", () async {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2023, 1, 2, 23, 59, 59);
 
-      var data = await kellnerResultPreprocessor.getPreprocessedData(
+      var data = await kellnerResultDataExtractor.getData(
           startTime, endTime);
 
       expect(data, isEmpty);
     });
 
-    test("getPreprocessedData with data", () async {
+    test("getData with data", () async {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2023, 1, 2, 23, 59, 59);
 
       // read data from testResult1.txt
       var testData1 = await File(
-              '${Directory.current.path}/test/src/data/data_preprocessing/survey_result_preprocessor/testResult1.txt')
+              '${Directory.current.path}/test/src/data/data_extraction/survey_result_data_extractor/testResult1.txt')
           .readAsString();
       var testData2 = await File(
-              '${Directory.current.path}/test/src/data/data_preprocessing/survey_result_preprocessor/testResult2.txt')
+              '${Directory.current.path}/test/src/data/data_extraction/survey_result_data_extractor/testResult2.txt')
           .readAsString();
 
       // insert data into database
@@ -59,7 +59,7 @@ void main() {
         "result": testData2,
       });
 
-      var processedData = await kellnerResultPreprocessor.getPreprocessedData(
+      var extractedData = await kellnerResultDataExtractor.getData(
           startTime, endTime);
 
       var expected = [
@@ -77,7 +77,7 @@ void main() {
         },
       ];
 
-      expect(processedData, expected);
+      expect(extractedData, expected);
     });
   });
 }

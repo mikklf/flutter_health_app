@@ -1,15 +1,15 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 import 'package:flutter_health_app/src/data/models/weather.dart';
 import 'package:intl/intl.dart';
 
-/// Preprocessor for [Weather] data stored inside a SQLite database.
-class WeatherPreprocessor implements IDataPreprocessor {
+/// Data extractor for [Weather] data stored inside a SQLite database.
+class WeatherDataExtractor implements IDataExtractor {
   final IDatabaseHelper _databaseHelper;
-  WeatherPreprocessor(this._databaseHelper);
+  WeatherDataExtractor(this._databaseHelper);
 
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData(
+  Future<List<Map<String, Object?>>> getData(
       DateTime startTime, DateTime endTime) async {
     var db = await _databaseHelper.getDatabase();
 
