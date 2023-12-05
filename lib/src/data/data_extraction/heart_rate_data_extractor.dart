@@ -1,7 +1,7 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 
-/// Preprocessor for [HeartRate] data stored inside a SQLite database.
+/// Data extractor for [HeartRate] data stored inside a SQLite database.
 class HeartRateDataExtractor implements IDataExtractor {
   final IDatabaseHelper _databaseHelper;
   HeartRateDataExtractor(this._databaseHelper);

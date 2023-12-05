@@ -1,6 +1,6 @@
 abstract interface class IDataExtractor {
-  /// Preprocesses the data between [startTime] and [endTime]
-  /// and returns a list of maps with the preprocessed data.
+  /// Extracts the data between [startTime] and [endTime]
+  /// and returns a list of maps with the extracted data.
   /// 
   /// The maps should have the following format: \
   /// {                        \

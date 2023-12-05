@@ -3,7 +3,7 @@ import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extr
 import 'package:flutter_health_app/src/data/models/weather.dart';
 import 'package:intl/intl.dart';
 
-/// Preprocessor for [Weather] data stored inside a SQLite database.
+/// Data extractor for [Weather] data stored inside a SQLite database.
 class WeatherDataExtractor implements IDataExtractor {
   final IDatabaseHelper _databaseHelper;
   WeatherDataExtractor(this._databaseHelper);

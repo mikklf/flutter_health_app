@@ -4,7 +4,7 @@ import 'package:flutter_health_app/src/data/models/location.dart';
 import 'package:flutter_health_app/src/logic/helpers/home_stay_helper.dart';
 import 'package:intl/intl.dart';
 
-/// Preprocessor for [Location] data stored inside a SQLite database.
+/// Data extractor for [Location] data stored inside a SQLite database.
 class LocationDataExtractor implements IDataExtractor {
   final IDatabaseHelper _databaseHelper;
   LocationDataExtractor(this._databaseHelper);

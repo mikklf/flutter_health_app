@@ -1,7 +1,7 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 
-/// Preprocessor for [Steps] data stored inside a SQLite database.
+/// Data extractor for [Steps] data stored inside a SQLite database.
 class StepsDataExtractor implements IDataExtractor {
   final IDatabaseHelper _databaseHelper;
   StepsDataExtractor(this._databaseHelper);

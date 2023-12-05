@@ -2,7 +2,7 @@ import 'package:flutter_health_app/src/data/data_context/helpers/database_helper
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 import 'package:flutter_health_app/survey_objects/result_parsers/kellner_result_parser.dart';
 
-/// Preprocessor for [KellnerSurvey] results stored inside a SQLite database.
+/// Data extractor for [KellnerSurvey] results stored inside a SQLite database.
 class KellnerResultDataExtractor implements IDataExtractor {
   final IDatabaseHelper _databaseHelper;
   KellnerResultDataExtractor(this._databaseHelper);
