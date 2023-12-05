@@ -1,4 +1,4 @@
-abstract interface class IDataPreprocessor {
+abstract interface class IDataExtractor {
   /// Preprocesses the data between [startTime] and [endTime]
   /// and returns a list of maps with the preprocessed data.
   /// 
@@ -10,5 +10,5 @@ abstract interface class IDataPreprocessor {
   ///   ...                    \
   ///   'DataPointN': value,   \
   /// }
-  Future<List<Map<String, Object?>>> getPreprocessedData(DateTime startTime, DateTime endTime);
+  Future<List<Map<String, Object?>>> getData(DateTime startTime, DateTime endTime);
 }

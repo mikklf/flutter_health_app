@@ -1,6 +1,6 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/weight_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/weight_data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -8,12 +8,12 @@ import '../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
-  late IDataPreprocessor weightPreprocessor;
+  late IDataExtractor weightPreprocessor;
   late Database db;
 
   setUp(() async {
     databaseHelper = MockDatabaseHelper();
-    weightPreprocessor = WeightPreprocessor(databaseHelper);
+    weightPreprocessor = WeightDataExtractor(databaseHelper);
     db = await databaseHelper.getDatabase();
   });
 
@@ -28,7 +28,7 @@ void main() {
       var endTime = DateTime(2022, 1, 3, 23, 59, 59);
 
       var data =
-          await weightPreprocessor.getPreprocessedData(startTime, endTime);
+          await weightPreprocessor.getData(startTime, endTime);
       expect(data, isEmpty);
     });
 
@@ -44,7 +44,7 @@ void main() {
           'weights', {'date': '2022-01-03 04:28:20.432647', 'weight': 72});
 
       var data =
-          await weightPreprocessor.getPreprocessedData(startTime, endTime);
+          await weightPreprocessor.getData(startTime, endTime);
       var expectedData = [
         {'Date': '2022-01-01', 'Weight': 70.0},
         {'Date': '2022-01-02', 'Weight': 71.0},

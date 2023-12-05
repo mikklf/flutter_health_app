@@ -1,6 +1,6 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/heart_rate_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/heart_rate_data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -8,12 +8,12 @@ import '../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
-  late IDataPreprocessor heartRatePreprocessor;
+  late IDataExtractor heartRatePreprocessor;
   late Database db;
 
   setUp(() async {
     databaseHelper = MockDatabaseHelper();
-    heartRatePreprocessor = HeartRatePreprocessor(databaseHelper);
+    heartRatePreprocessor = HeartRateDataExtractor(databaseHelper);
     db = await databaseHelper.getDatabase();
   });
 
@@ -28,7 +28,7 @@ void main() {
       var endTime = DateTime(2022, 1, 3, 23, 59, 59);
 
       var data =
-          await heartRatePreprocessor.getPreprocessedData(startTime, endTime);
+          await heartRatePreprocessor.getData(startTime, endTime);
 
       expect(data, isEmpty);
     });
@@ -47,7 +47,7 @@ void main() {
           {'beats_per_minute': 90, 'timestamp': "2022-01-02 11:30:55"});
 
       var data =
-          await heartRatePreprocessor.getPreprocessedData(startTime, endTime);
+          await heartRatePreprocessor.getData(startTime, endTime);
 
       var expected = [
         {

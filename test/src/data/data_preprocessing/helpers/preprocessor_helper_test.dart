@@ -1,4 +1,4 @@
-import 'package:flutter_health_app/src/data/data_preprocessing/helpers/preprocessor_helper.dart';
+import 'package:flutter_health_app/src/data/data_extraction/helpers/data_extractor_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -8,7 +8,7 @@ void main() {
 
   group('PreprocessorHelper', () {
     test("toCsv should return empty string for empty data", () {
-      expect(PreprocessorHelper.toCsv([]), '');
+      expect(DataExtractorHelper.toCsv([]), '');
     });
 
     test("toCsv - Single row", () {
@@ -16,7 +16,7 @@ void main() {
         {'name': 'John', 'age': 30}
       ];
       var expected = 'name,age\nJohn,30';
-      expect(PreprocessorHelper.toCsv(data), expected);
+      expect(DataExtractorHelper.toCsv(data), expected);
     });
 
     test("toCsv - Multiple rows", () {
@@ -25,11 +25,11 @@ void main() {
         {'name': 'Jane', 'age': 25}
       ];
       var expected = 'name,age,weight\nJohn,30,80\nJane,25,null';
-      expect(PreprocessorHelper.toCsv(data), expected);
+      expect(DataExtractorHelper.toCsv(data), expected);
     });
 
     test("combineMapsByKey should return empty list for empty input", () {
-      expect(PreprocessorHelper.combineMapsByKey([], "date"), isEmpty);
+      expect(DataExtractorHelper.combineMapsByKey([], "date"), isEmpty);
     });
 
     test(
@@ -45,7 +45,7 @@ void main() {
           {'date': '2022-01-03', 'value2': 4},
         ],
       ];
-      expect(() => PreprocessorHelper.combineMapsByKey(mapsList, ""),
+      expect(() => DataExtractorHelper.combineMapsByKey(mapsList, ""),
           throwsA(isA<ArgumentError>()));
     });
 
@@ -66,7 +66,7 @@ void main() {
         {'date': '2022-01-02', 'value1': 2},
         {'date': '2022-01-03', 'value2': 4},
       ];
-      expect(PreprocessorHelper.combineMapsByKey(mapsList, "date"), expected);
+      expect(DataExtractorHelper.combineMapsByKey(mapsList, "date"), expected);
     });
   });
 }

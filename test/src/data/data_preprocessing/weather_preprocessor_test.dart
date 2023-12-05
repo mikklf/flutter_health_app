@@ -1,6 +1,6 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/weather_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/weather_data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -8,12 +8,12 @@ import '../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
-  late IDataPreprocessor weatherPreprocessor;
+  late IDataExtractor weatherPreprocessor;
   late Database db;
 
   setUp(() async {
     databaseHelper = MockDatabaseHelper();
-    weatherPreprocessor = WeatherPreprocessor(databaseHelper);
+    weatherPreprocessor = WeatherDataExtractor(databaseHelper);
     db = await databaseHelper.getDatabase();
   });
 
@@ -28,7 +28,7 @@ void main() {
       var endTime = DateTime(2022, 1, 3, 23, 59, 59);
 
       var data =
-          await weatherPreprocessor.getPreprocessedData(startTime, endTime);
+          await weatherPreprocessor.getData(startTime, endTime);
       expect(data, isEmpty);
     });
 
@@ -90,7 +90,7 @@ void main() {
       });
 
       var data =
-          await weatherPreprocessor.getPreprocessedData(startTime, endTime);
+          await weatherPreprocessor.getData(startTime, endTime);
 
       var expectedData = [
         {

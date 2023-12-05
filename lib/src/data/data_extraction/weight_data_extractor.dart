@@ -1,13 +1,13 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 
 /// Preprocessor for [Weight] data stored inside a SQLite database.
-class WeightPreprocessor implements IDataPreprocessor {
+class WeightDataExtractor implements IDataExtractor {
   final IDatabaseHelper _databaseHelper;
-  WeightPreprocessor(this._databaseHelper);
+  WeightDataExtractor(this._databaseHelper);
 
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData(
+  Future<List<Map<String, Object?>>> getData(
       DateTime startTime, DateTime endTime) async {
     var db = await _databaseHelper.getDatabase();
 

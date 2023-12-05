@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/survey_result_preprocessor/kellner_result_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/survey_result_data_extractor/kellner_result_data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -10,12 +10,12 @@ import '../../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
-  late IDataPreprocessor kellnerResultPreprocessor;
+  late IDataExtractor kellnerResultPreprocessor;
   late Database db;
 
   setUp(() async {
     databaseHelper = MockDatabaseHelper();
-    kellnerResultPreprocessor = KellnerResultPreprocessor(databaseHelper);
+    kellnerResultPreprocessor = KellnerResultDataExtractor(databaseHelper);
     db = await databaseHelper.getDatabase();
   });
 
@@ -29,7 +29,7 @@ void main() {
       var startTime = DateTime(2022, 1, 1, 0, 0, 0);
       var endTime = DateTime(2023, 1, 2, 23, 59, 59);
 
-      var data = await kellnerResultPreprocessor.getPreprocessedData(
+      var data = await kellnerResultPreprocessor.getData(
           startTime, endTime);
 
       expect(data, isEmpty);
@@ -59,7 +59,7 @@ void main() {
         "result": testData2,
       });
 
-      var processedData = await kellnerResultPreprocessor.getPreprocessedData(
+      var processedData = await kellnerResultPreprocessor.getData(
           startTime, endTime);
 
       var expected = [

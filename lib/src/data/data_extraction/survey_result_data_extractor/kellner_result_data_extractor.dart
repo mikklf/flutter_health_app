@@ -1,14 +1,14 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 import 'package:flutter_health_app/survey_objects/result_parsers/kellner_result_parser.dart';
 
 /// Preprocessor for [KellnerSurvey] results stored inside a SQLite database.
-class KellnerResultPreprocessor implements IDataPreprocessor {
+class KellnerResultDataExtractor implements IDataExtractor {
   final IDatabaseHelper _databaseHelper;
-  KellnerResultPreprocessor(this._databaseHelper);
+  KellnerResultDataExtractor(this._databaseHelper);
 
   @override
-  Future<List<Map<String, Object?>>> getPreprocessedData(
+  Future<List<Map<String, Object?>>> getData(
       DateTime startTime, DateTime endTime) async {
     var db = await _databaseHelper.getDatabase();
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/helpers/preprocessor_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/helpers/data_extractor_helper.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 import 'package:flutter_health_app/src/logic/setup_cubit.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
@@ -127,13 +127,13 @@ class OverviewScreen extends StatelessWidget {
 
   /// TESTING SHOULD BE REMOVED!
   void _testPreprocessButtonPressed(BuildContext context) async {
-    var processor = services.get<IDataPreprocessor>();
+    var processor = services.get<IDataExtractor>();
 
     var startTime = DateTime(2023, 1, 1);
     var endTime = DateTime.now();
 
-    var csv = PreprocessorHelper.toCsv(
-        await processor.getPreprocessedData(startTime, endTime));
+    var csv = DataExtractorHelper.toCsv(
+        await processor.getData(startTime, endTime));
 
     // 10.0.2.2 allows localhost to be accessed from emulator
     // If using Android Studio emulator with default settings.

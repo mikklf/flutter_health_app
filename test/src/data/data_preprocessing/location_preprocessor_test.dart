@@ -1,6 +1,6 @@
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/interfaces/data_preprocessor.dart';
-import 'package:flutter_health_app/src/data/data_preprocessing/location_preprocessor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/location_data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -8,12 +8,12 @@ import '../mock_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
-  late IDataPreprocessor locationPreprocessor;
+  late IDataExtractor locationPreprocessor;
   late Database db;
 
   setUp(() async {
     databaseHelper = MockDatabaseHelper();
-    locationPreprocessor = LocationPreprocessor(databaseHelper);
+    locationPreprocessor = LocationDataExtractor(databaseHelper);
     db = await databaseHelper.getDatabase();
   });
 
@@ -28,7 +28,7 @@ void main() {
       var endTime = DateTime(2022, 1, 2, 23, 59, 59);
 
       var data =
-          await locationPreprocessor.getPreprocessedData(startTime, endTime);
+          await locationPreprocessor.getData(startTime, endTime);
 
       expect(data, isEmpty);
     });
@@ -63,7 +63,7 @@ void main() {
       });
 
       var data =
-          await locationPreprocessor.getPreprocessedData(startTime, endTime);
+          await locationPreprocessor.getData(startTime, endTime);
 
       var expected = [
         {'Date': '2022-01-01', 'HomestayPercent': 100.0},
