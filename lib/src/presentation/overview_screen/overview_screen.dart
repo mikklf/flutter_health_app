@@ -47,9 +47,9 @@ class OverviewScreen extends StatelessWidget {
                 child: const Text("Add Steps")),
             ElevatedButton(
                 onPressed: () {
-                  _testPreprocessButtonPressed(context);
+                  _testSendDataButtonPressed(context);
                 },
-                child: const Text("Test Preprocessing")),
+                child: const Text("Send Data")),
             ElevatedButton(
                 onPressed: () async {
                   context.read<SetupCubit>().resetSetup();
@@ -125,7 +125,7 @@ class OverviewScreen extends StatelessWidget {
   }
 
   /// TESTING SHOULD BE REMOVED!
-  void _testPreprocessButtonPressed(BuildContext context) async {
+  void _testSendDataButtonPressed(BuildContext context) async {
     var extractor = services.get<IDataExtractor>();
     var dataSender = services.get<IDataSender>();
 

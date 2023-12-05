@@ -96,7 +96,7 @@ class ServiceLocator {
     services.registerFactory<IWeatherRepository>(
         () => WeatherRepository(services<IWeatherDataContext>()));
 
-    services.registerFactory<IDataSender>(() => ExampleSender());
+    services.registerFactory<IDataSender>(() => ExampleCsvSender());
 
     var extractors = [
       HeartRateDataExtractor(services<IDatabaseHelper>()),
