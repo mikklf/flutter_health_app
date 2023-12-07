@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
@@ -48,7 +49,7 @@ class SyncCubit extends Cubit<SyncState> with WidgetsBindingObserver {
     final String? lastSyncTime = prefs.getString('lastSyncStepsDateTime');
 
     if (lastSyncTime == null) {
-      await _stepRepository.syncSteps(DateTime.now());
+      await _stepRepository.syncSteps(clock.now());
     } else {
       await _stepRepository.syncSteps(DateTime.parse(lastSyncTime));
     }

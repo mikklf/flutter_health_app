@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:research_package/research_package.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import '../mock_database_helper.dart';
+import '../../../in_memory_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
@@ -16,7 +16,7 @@ void main() {
   late Database db;
 
   setUp(() async {
-    databaseHelper = MockDatabaseHelper();
+    databaseHelper = InMemoryDatabaseHelper();
     surveyEntryContext = SurveyEntryDataContext(databaseHelper);
     db = await databaseHelper.getDatabase();
   });

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/survey_repository.dart';
+import 'package:flutter_health_app/src/logic/surveys_cubit.dart';
 import 'package:flutter_health_app/survey_objects/surveys.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
@@ -49,10 +52,19 @@ void main() {
       expect(find.byType(SurveyScreen), findsNothing);
     });
 
+    Widget createWidgetUnderTest() {
+      return MaterialApp(
+          title: 'survey screen test',
+          home: BlocProvider(
+            create: (context) =>
+                SurveysCubit(services.get<ISurveyRepository>(), services.get<ISurveyEntryRepository>()),
+            child: SurveyScreen(survey: Surveys.dummy),
+          ));
+    }
+
     testWidgets('Survey screen pops when submitting', (tester) async {
       // Arrange
-      await tester
-          .pumpWidget(MaterialApp(home: SurveyScreen(survey: Surveys.dummy)));
+      await tester.pumpWidget(createWidgetUnderTest());
 
       when(() => services<ISurveyEntryRepository>().save(any(), any()))
           .thenAnswer((_) async => {});

@@ -5,7 +5,7 @@ import 'package:flutter_health_app/src/data/models/location.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import '../mock_database_helper.dart';
+import '../../../in_memory_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
@@ -13,7 +13,7 @@ void main() {
   late Database db;
 
   setUp(() async {
-    databaseHelper = MockDatabaseHelper();
+    databaseHelper = InMemoryDatabaseHelper();
     locationContext = LocationDataContext(databaseHelper);
     db = await databaseHelper.getDatabase();
   });

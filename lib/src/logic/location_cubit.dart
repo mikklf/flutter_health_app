@@ -25,7 +25,7 @@ class LocationCubit extends Cubit<LocationState> {
   }
 
   /// Loads locations from the database, calculates and emits the home stay percentage.
-  void loadLocations() async {
+  Future<void> loadLocations() async {
     emit(state.copyWith(homeStayPercent: await _calculateHomeStayPercentage()));
   }
 
@@ -38,7 +38,7 @@ class LocationCubit extends Cubit<LocationState> {
   /// This method is called whenever a new location update is received. \
   /// It checks the time since the last location insert and if it's less than the minimum interval between inserts, \
   /// it returns without doing anything. Otherwise, inserts the location into the database and emits the new home stay percentage.
-  void onLocationUpdates(LocationDto loc) async {
+  Future<void> onLocationUpdates(LocationDto loc) async {
     var latestLocation = await _locationRepository.getLastest();
 
     if (latestLocation != null) {
