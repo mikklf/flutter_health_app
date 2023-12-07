@@ -1,20 +1,28 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/logic/surveys_cubit.dart';
 import 'package:flutter_health_app/survey_objects/surveys.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/survey_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:research_package/model.dart';
 
 class MockSurveyRepository extends Mock implements ISurveyRepository {}
 
+class MockSurveyEntryRepository extends Mock
+    implements ISurveyEntryRepository {}
+
 void main() {
   late MockSurveyRepository mockSurveyRepository;
+  late MockSurveyEntryRepository mockSurveyEntryRepository;
   late SurveysCubit surveysCubit;
   late List<RPSurvey> surveys;
 
   setUp(() {
     mockSurveyRepository = MockSurveyRepository();
-    surveysCubit = SurveysCubit(mockSurveyRepository);
+    mockSurveyEntryRepository = MockSurveyEntryRepository();
+    surveysCubit =
+        SurveysCubit(mockSurveyRepository, mockSurveyEntryRepository);
 
     surveys = [];
     surveys.add(Surveys.who5);
@@ -46,5 +54,18 @@ void main() {
         ];
       },
     );
+  });
+
+  test('Surveys state remains unchanged after saveEntry', () async {
+    final result = RPTaskResult(identifier: 'test_survey');
+    const surveyId = 'test_survey';
+
+    when(() => mockSurveyEntryRepository.save(result, surveyId))
+        .thenAnswer((_) async {});
+
+    await surveysCubit.saveEntry(result, surveyId);
+
+    expect(surveysCubit.state, const SurveysState());
+    verify(() => mockSurveyEntryRepository.save(result, surveyId)).called(1);
   });
 }

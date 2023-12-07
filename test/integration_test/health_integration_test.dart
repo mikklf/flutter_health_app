@@ -1,9 +1,6 @@
 import 'package:clock/clock.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/src/data/data_context/helpers/database_helper.dart';
-import 'package:flutter_health_app/src/data/data_context/interfaces/heart_rate_datacontext.dart';
-import 'package:flutter_health_app/src/data/data_context/interfaces/step_datacontext.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/models/heart_rate.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';

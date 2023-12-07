@@ -45,7 +45,7 @@ class WeatherCubit extends Cubit<WeatherState> {
   /// Called when a new location is received from the background location plugin.
   /// Checks if the lastest entry in the database is older than the minimum interval between inserts.
   /// If it is, it saves the weather data for the given location. Otherwise, it returns does nothing.
-  void onLocationUpdates(LocationDto loc) async {
+  Future<void> onLocationUpdates(LocationDto loc) async {
     var lastest = await _weatherRepository.getLastest();
 
     if (lastest == null) {
@@ -63,7 +63,7 @@ class WeatherCubit extends Cubit<WeatherState> {
   Future<void> _saveWeatherFor(double latitude, double longitude) async {
     var weather = await _weatherProvider.fetchWeather(latitude, longitude);
 
-    _weatherRepository.insert(weather);
+    await _weatherRepository.insert(weather);
 
     emit(state.copyWith(
       weatherData: weather,
