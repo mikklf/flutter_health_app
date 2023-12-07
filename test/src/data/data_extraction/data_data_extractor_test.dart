@@ -1,4 +1,4 @@
-import 'package:flutter_health_app/src/data/data_extraction/data_data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
