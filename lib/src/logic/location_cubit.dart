@@ -25,7 +25,7 @@ class LocationCubit extends Cubit<LocationState> {
   }
 
   /// Loads locations from the database, calculates and emits the home stay percentage.
-  void loadLocations() async {
+  Future<void> loadLocations() async {
     emit(state.copyWith(homeStayPercent: await _calculateHomeStayPercentage()));
   }
 
