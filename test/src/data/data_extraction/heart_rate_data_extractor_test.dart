@@ -4,7 +4,7 @@ import 'package:flutter_health_app/src/data/data_extraction/heart_rate_data_extr
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../../mock_database_helper.dart';
+import '../../../in_memory_database_helper.dart';
 
 void main() {
   late IDatabaseHelper databaseHelper;
@@ -12,7 +12,7 @@ void main() {
   late Database db;
 
   setUp(() async {
-    databaseHelper = MockDatabaseHelper();
+    databaseHelper = InMemoryDatabaseHelper();
     heartRateDataExtractor = HeartRateDataExtractor(databaseHelper);
     db = await databaseHelper.getDatabase();
   });

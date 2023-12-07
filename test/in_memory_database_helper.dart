@@ -13,7 +13,7 @@ void sqfliteTestInit() {
   databaseFactory = databaseFactoryFfi;
 }
 
-class MockDatabaseHelper implements IDatabaseHelper {
+class InMemoryDatabaseHelper implements IDatabaseHelper {
   @override
   Future<Database> getDatabase() async {
     sqfliteTestInit();
