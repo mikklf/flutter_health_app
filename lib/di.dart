@@ -12,14 +12,13 @@ import 'package:flutter_health_app/src/data/data_context/sqlite_step_datacontext
 import 'package:flutter_health_app/src/data/data_context/sqlite_weather_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_survey_entry_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_weight_datacontext.dart';
-import 'package:flutter_health_app/src/data/data_extraction/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/data_extraction_handler.dart';
 import 'package:flutter_health_app/src/data/data_extraction/extractors/heart_rate_data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/extractors/kellner_result_data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/extractors/location_data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/extractors/steps_data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/extractors/weather_data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/extractors/weight_data_extractor.dart';
-import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_sender.dart';
 import 'package:flutter_health_app/src/data/data_extraction/senders/example_csv_sender.dart';
 import 'package:flutter_health_app/src/data/dataproviders/health_provider.dart';
 import 'package:flutter_health_app/src/data/dataproviders/inmemory_survey_provider.dart';
@@ -95,8 +94,6 @@ class ServiceLocator {
     services.registerFactory<IWeatherRepository>(
         () => WeatherRepository(services<IWeatherDataContext>()));
 
-    services.registerFactory<IDataSender>(() => ExampleCsvSender());
-
     var extractors = [
       HeartRateDataExtractor(services<IDatabaseHelper>()),
       LocationDataExtractor(services<IDatabaseHelper>()),
@@ -105,7 +102,7 @@ class ServiceLocator {
       WeightDataExtractor(services<IDatabaseHelper>()),
       KellnerResultDataExtractor(services<IDatabaseHelper>()),
     ];
-    services.registerFactory<DataExtractor>(
-        () => DataExtractor(extractors));
+    services.registerFactory<DataExtractionHandler>(
+        () => DataExtractionHandler(extractors, ExampleCsvSender()));
   }
 }

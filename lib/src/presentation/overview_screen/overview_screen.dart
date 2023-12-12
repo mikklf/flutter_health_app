@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/data/data_extraction/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/data_extraction_handler.dart';
 import 'package:flutter_health_app/src/logic/setup_cubit.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
@@ -51,12 +51,12 @@ class OverviewScreen extends StatelessWidget {
                   onPressed: () {
                     _testSendDataButtonPressed(context);
                   },
-                  child: const Text("Test Preprocessing")),
+                  child: const Text("Extract and send data")),
               ElevatedButton(
                   onPressed: () async {
                     context.read<SetupCubit>().resetSetup();
                   },
-                  child: const Text("Reset setup"))
+                  child: const Text("Show setup screen"))
             ],
           ),
           const Divider(),
@@ -130,12 +130,12 @@ class OverviewScreen extends StatelessWidget {
   /// TESTING SHOULD BE REMOVED!
   void _testSendDataButtonPressed(BuildContext context) async {
     
-    var extractor = services.get<DataExtractor>();
+    var extractor = services.get<DataExtractionHandler>();
 
     var startTime = DateTime(2023, 1, 1);
     var endTime = DateTime.now();
 
-    var result = await extractor.sendExtractedData(startTime, endTime);
+    var result = await extractor.extractAndSendData(startTime, endTime);
 
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

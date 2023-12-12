@@ -1,14 +1,13 @@
-import 'package:flutter_health_app/di.dart';
-
 import 'helpers/data_extractor_helper.dart';
 import 'interfaces/data_extractor.dart';
 import 'interfaces/data_sender.dart';
 
 /// Handles the extraction and transmission of data.
-class DataExtractor {
+class DataExtractionHandler {
   final List<IDataExtractor> _dataExtractors;
+  final IDataSender _dataSender;
 
-  DataExtractor(this._dataExtractors);
+  DataExtractionHandler(this._dataExtractors, this._dataSender);
 
   /// Gets the extracted data from the registered [IDataExtractor]s.
   /// Returns a list of maps where each map represents a row of data.
@@ -22,12 +21,12 @@ class DataExtractor {
     return combinedData;
   }
 
-  /// Sends the extracted data to the registered [IDataSender].
+  /// Extracts and send data between [startTime] and [endTime] using [IDataSender].
   /// Returns true if the data was sent successfully.
-  Future<bool> sendExtractedData(DateTime startTime, DateTime endTime) async {
+  Future<bool> extractAndSendData(DateTime startTime, DateTime endTime) async {
     var data = await getExtractedData(startTime, endTime);
 
-    var isSuccess = await services.get<IDataSender>().sendData(data);
+    var isSuccess = _dataSender.sendData(data);
 
     return isSuccess;
 
