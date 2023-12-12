@@ -27,8 +27,10 @@ def preprocess_csv(file_path):
     for col in ['DepressionScaleScore', 'DepressionSubscaleScore', 'ContentmentSubscaleScore']:
         data[col] = data[col].bfill(limit=7)
 
-    # Drop rows where these columns are still NaN (indicating no record within 7 days)
-    data.dropna(subset=['DepressionScaleScore', 'DepressionSubscaleScore', 'ContentmentSubscaleScore'], inplace=True)
+    # For the remaining missing values, fill them with -1 to indicate missing values
+    data['DepressionScaleScore'].fillna(-1, inplace=True)
+    data['DepressionSubscaleScore'].fillna(-1, inplace=True)
+    data['ContentmentSubscaleScore'].fillna(-1, inplace=True)
 
     # For 'Weight', we will forward-fill the missing values first and then backward-fill the remaining
     data['Weight'] = data['Weight'].ffill()
