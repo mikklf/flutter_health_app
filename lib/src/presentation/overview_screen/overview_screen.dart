@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
 import 'package:flutter_health_app/src/data/data_extraction/data_extractor.dart';
-import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
-import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_sender.dart';
 import 'package:flutter_health_app/src/logic/setup_cubit.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/health_provider.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter_health_app/src/data/data_extraction/extractors/data_extractor.dart';
+import 'package:flutter_health_app/src/data/data_extraction/data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 class MockDataDataExtractor extends Mock implements IDataExtractor {}
 
 void main() {
-  late IDataExtractor dataExtractor;
+  late DataExtractor dataExtractor;
   late IDataExtractor mockExtractor1;
   late IDataExtractor mockExtractor2;
 
@@ -35,7 +35,7 @@ void main() {
                 {'Date': '2022-01-03', 'Data2': 6},
               ]);
 
-      var data = await dataExtractor.getData(startTime, endTime);
+      var data = await dataExtractor.getExtractedData(startTime, endTime);
 
       var expected = [
         {'Date': '2022-01-01', 'Data1': 1, 'Data2': 4},
