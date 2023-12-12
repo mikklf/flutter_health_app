@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_health_app/di.dart';
+import 'package:flutter_health_app/src/data/data_extraction/data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_sender.dart';
 import 'package:flutter_health_app/src/logic/setup_cubit.dart';
@@ -130,15 +131,13 @@ class OverviewScreen extends StatelessWidget {
 
   /// TESTING SHOULD BE REMOVED!
   void _testSendDataButtonPressed(BuildContext context) async {
-    var extractor = services.get<IDataExtractor>();
-    var dataSender = services.get<IDataSender>();
+    
+    var extractor = services.get<DataExtractor>();
 
     var startTime = DateTime(2023, 1, 1);
     var endTime = DateTime.now();
 
-    var data = await extractor.getData(startTime, endTime);
-
-    var result = await dataSender.sendData(data);
+    var result = await extractor.sendExtractedData(startTime, endTime);
 
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

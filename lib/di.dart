@@ -106,7 +106,7 @@ class ServiceLocator {
       WeightDataExtractor(services<IDatabaseHelper>()),
       KellnerResultDataExtractor(services<IDatabaseHelper>()),
     ];
-    services.registerFactory<IDataExtractor>(
+    services.registerFactory<DataExtractor>(
         () => DataExtractor(extractors));
   }
 }
