@@ -1,7 +1,9 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_health_app/survey_objects/surveys.dart';
 import 'package:flutter_health_app/src/data/dataproviders/interfaces/survey_provider.dart';
 import 'package:flutter_health_app/src/data/models/survery_entry.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/survey_repository.dart';
+import 'package:research_package/model.dart';
 
 import '../data_context/interfaces/survey_entry_datacontext.dart';
 
@@ -41,5 +43,11 @@ class SurveyRepository implements ISurveyRepository {
   @override
   Future<List<RPSurvey>> getAll() async {
     return _surveyProvider.getAll();
+  }
+
+  @override
+  Future<void> saveEntry(RPTaskResult result, String surveyId) async {
+    final newSurvey = SurveyEntry(surveyId: surveyId, date: clock.now(), result: result);
+    return _surveyEntryContext.insert(newSurvey.toMap());
   }
 }

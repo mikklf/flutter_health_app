@@ -9,7 +9,8 @@ import 'package:research_package/model.dart';
 
 class MockSurveyProvider extends Mock implements ISurveyProvider {}
 
-class MockSurveyEntryDataContext extends Mock implements ISurveyEntryDataContext {}
+class MockSurveyEntryDataContext extends Mock
+    implements ISurveyEntryDataContext {}
 
 void main() {
   late MockSurveyProvider mockSurveyProvider;
@@ -103,6 +104,20 @@ void main() {
       expect(result.length, 2);
       expect(result, contains(surveys[0]));
       expect(result, contains(surveys[1]));
+    });
+
+    test("saveEntry method should call EntryProvider save method", () async {
+      // Arrange
+      var surveyId = "kellner";
+      var result = RPTaskResult(identifier: "kellner");
+
+      when(() => mockSurveyEntryContext.insert(any())).thenAnswer((_) async {});
+
+      // Act
+      await surveyRepository.saveEntry(result, surveyId);
+
+      // Assert
+      verify(() => mockSurveyEntryContext.insert(any())).called(1);
     });
   });
 }

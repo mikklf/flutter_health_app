@@ -4,14 +4,13 @@ import 'package:flutter_health_app/src/data/repositories/interfaces/survey_repos
 import 'package:flutter_health_app/src/logic/surveys_cubit.dart';
 import 'package:flutter_health_app/survey_objects/surveys.dart';
 import 'package:flutter_health_app/di.dart';
-import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/presentation/survey_screen/survey_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:research_package/model.dart';
 
-class MockSurveyEntryRepository extends Mock
-    implements ISurveyEntryRepository {}
+class MockSurveyRepository extends Mock
+    implements ISurveyRepository {}
 
 class RPTaskResultFake extends Fake implements RPTaskResult {}
 
@@ -21,9 +20,9 @@ void main() {
     ServiceLocator.setupDependencyInjection();
 
     // Replace SurveyRepository with a mock
-    services.unregister<ISurveyEntryRepository>();
+    services.unregister<ISurveyRepository>();
     services
-        .registerSingleton<ISurveyEntryRepository>(MockSurveyEntryRepository());
+        .registerSingleton<ISurveyRepository>(MockSurveyRepository());
 
     // Register fallback value for SurveyEntry
     registerFallbackValue(RPTaskResultFake());
@@ -57,7 +56,7 @@ void main() {
           title: 'survey screen test',
           home: BlocProvider(
             create: (context) =>
-                SurveysCubit(services.get<ISurveyRepository>(), services.get<ISurveyEntryRepository>()),
+                SurveysCubit(services.get<ISurveyRepository>()),
             child: SurveyScreen(survey: Surveys.dummy),
           ));
     }
@@ -66,7 +65,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createWidgetUnderTest());
 
-      when(() => services<ISurveyEntryRepository>().save(any(), any()))
+      when(() => services<ISurveyRepository>().saveEntry(any(), any()))
           .thenAnswer((_) async => {});
 
       // Act
@@ -77,7 +76,7 @@ void main() {
       // Assert
       expect(find.byType(SurveyScreen), findsNothing);
       // Verify that save was called
-      verify(() => services<ISurveyEntryRepository>().save(any(), any()))
+      verify(() => services<ISurveyRepository>().saveEntry(any(), any()))
           .called(1);
     });
   });

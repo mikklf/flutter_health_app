@@ -30,13 +30,11 @@ import 'package:flutter_health_app/src/data/repositories/heart_rate_repository.d
 import 'package:flutter_health_app/src/data/repositories/interfaces/heart_rate_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/location_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/step_repository.dart';
-import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/survey_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/weather_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/interfaces/weight_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/location_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/step_repository.dart';
-import 'package:flutter_health_app/src/data/repositories/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/survey_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/weather_repository.dart';
 import 'package:flutter_health_app/src/data/repositories/weight_repository.dart';
@@ -57,11 +55,6 @@ class ServiceLocator {
           services<ISurveyProvider>(),
           services<ISurveyEntryDataContext>(),
         ));
-
-    services
-        .registerFactory<ISurveyEntryRepository>(() => SurveyEntryRepository(
-              services<ISurveyEntryDataContext>(),
-            ));
 
     services.registerFactory<IStepDataContext>(
         () => StepDataContext(services<IDatabaseHelper>()));

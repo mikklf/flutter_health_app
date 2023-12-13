@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_health_app/src/data/repositories/interfaces/survey_entry_repository.dart';
 import 'package:flutter_health_app/src/logic/surveys_cubit.dart';
 import 'package:flutter_health_app/survey_objects/surveys.dart';
 import 'package:flutter_health_app/src/logic/tab_manager_cubit.dart';
@@ -18,7 +17,6 @@ class SurveyDashboardScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => SurveysCubit(
         services.get<ISurveyRepository>(),
-        services.get<ISurveyEntryRepository>(),
       ),
       child: BlocConsumer<TabManagerCubit, TabManagerState>(
         listenWhen: (previous, current) => current.selectedTab == 1,
