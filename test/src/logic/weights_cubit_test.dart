@@ -18,7 +18,7 @@ void main() {
 
   group('WeightsCubit', () {
     test('initial state is correct', () {
-      expect(weightsCubit.state, const WeightsCubitState());
+      expect(weightsCubit.state, const WeightsState());
     });
 
     group('getLatestWeights', () {
@@ -37,7 +37,7 @@ void main() {
         },
         act: (cubit) => cubit.getLatestWeights(),
         expect: () => [
-          WeightsCubitState(weightList: weightsData),
+          WeightsState(weightList: weightsData),
         ],
       );
 
@@ -50,7 +50,7 @@ void main() {
         },
         act: (cubit) => cubit.getLatestWeights(),
         expect: () => [
-          const WeightsCubitState(weightList: []),
+          const WeightsState(weightList: []),
         ],
       );
     });

@@ -20,7 +20,7 @@ class WeightWidget extends StatelessWidget {
       create: (_) => WeightsCubit(
         services.get<IWeightRepository>(),
       )..getLatestWeights(),
-      child: BlocBuilder<WeightsCubit, WeightsCubitState>(
+      child: BlocBuilder<WeightsCubit, WeightsState>(
         builder: (context, state) {
           return DataCardBoxWidget(
               child: Column(children: [
@@ -32,7 +32,7 @@ class WeightWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, WeightsCubitState state) {
+  Widget _buildHeader(BuildContext context, WeightsState state) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -103,7 +103,7 @@ class WeightWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildChart(BuildContext context, WeightsCubitState state) {
+  Widget _buildChart(BuildContext context, WeightsState state) {
     var chartData = [
       charts.Series<Weight, DateTime>(
         id: 'Data',

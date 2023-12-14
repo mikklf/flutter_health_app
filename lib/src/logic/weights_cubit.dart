@@ -5,13 +5,13 @@ import 'package:flutter_health_app/src/data/repositories/interfaces/weight_repos
 
 part 'weights_state.dart';
 
-class WeightsCubit extends Cubit<WeightsCubitState> {
+class WeightsCubit extends Cubit<WeightsState> {
   final IWeightRepository _weightRepository;
 
   /// The number of entries to return when calling [getLatestWeights]
   final int _numOfEntries = 7;
 
-  WeightsCubit(this._weightRepository) : super(const WeightsCubitState());
+  WeightsCubit(this._weightRepository) : super(const WeightsState());
 
   /// Returns the latest weight entry. Returns empty list if no data is found.
   Future<void> getLatestWeights() async {
