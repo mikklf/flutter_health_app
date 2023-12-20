@@ -12,7 +12,7 @@ import 'package:flutter_health_app/src/data/data_context/sqlite_step_datacontext
 import 'package:flutter_health_app/src/data/data_context/sqlite_weather_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_survey_entry_datacontext.dart';
 import 'package:flutter_health_app/src/data/data_context/sqlite_weight_datacontext.dart';
-import 'package:flutter_health_app/src/data/data_extraction/data_extraction_handler.dart';
+import 'package:flutter_health_app/src/data/data_extraction/data_extraction_controller.dart';
 import 'package:flutter_health_app/src/data/data_extraction/extractors/heart_rate_data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/extractors/kellner_result_data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/extractors/location_data_extractor.dart';
@@ -95,7 +95,7 @@ class ServiceLocator {
       WeightDataExtractor(services<IDatabaseHelper>()),
       KellnerResultDataExtractor(services<IDatabaseHelper>()),
     ];
-    services.registerFactory<DataExtractionHandler>(
-        () => DataExtractionHandler(extractors, ExampleCsvSender()));
+    services.registerFactory<DataExtractionController>(
+        () => DataExtractionController(extractors, ExampleCsvSender()));
   }
 }

@@ -3,11 +3,11 @@ import 'interfaces/data_extractor.dart';
 import 'interfaces/data_sender.dart';
 
 /// Handles the extraction and transmission of data.
-class DataExtractionHandler {
+class DataExtractionController {
   final List<IDataExtractor> _dataExtractors;
   final IDataSender _dataSender;
 
-  DataExtractionHandler(this._dataExtractors, this._dataSender);
+  DataExtractionController(this._dataExtractors, this._dataSender);
 
   /// Gets the extracted data from the registered [IDataExtractor]s.
   /// Returns a list of maps where each map represents a row of data.

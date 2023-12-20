@@ -1,4 +1,4 @@
-import 'package:flutter_health_app/src/data/data_extraction/data_extraction_handler.dart';
+import 'package:flutter_health_app/src/data/data_extraction/data_extraction_controller.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_extractor.dart';
 import 'package:flutter_health_app/src/data/data_extraction/interfaces/data_sender.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,14 +8,14 @@ class MockDataExtractor extends Mock implements IDataExtractor {}
 class MockSender extends Mock implements IDataSender {}
 
 void main() {
-  late DataExtractionHandler dataExtractor;
+  late DataExtractionController dataExtractor;
   late IDataExtractor mockExtractor1;
   late IDataExtractor mockExtractor2;
 
   setUp(() {
     mockExtractor1 = MockDataExtractor();
     mockExtractor2 = MockDataExtractor();
-    dataExtractor = DataExtractionHandler([mockExtractor1, mockExtractor2], MockSender());
+    dataExtractor = DataExtractionController([mockExtractor1, mockExtractor2], MockSender());
   });
 
   group("DataDataExtractor", () {
