@@ -11,7 +11,6 @@ final class SyncState extends Equatable {
 
   /// Returns a copy of [SyncState] with the given fields replaced with the new values.
   SyncState copyWith({
-    DateTime? lastSyncTime,
     bool? isSyncing,
   }) {
     return SyncState(

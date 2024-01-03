@@ -30,7 +30,7 @@ void main() {
   });
 
   group('Surveys integration test', () {
-    test('save and load zero active surveys from persistent', () async {
+    test('save and load zero active surveys from database', () async {
       // Arrange
       await services
           .get<ISurveyRepository>()
@@ -43,7 +43,7 @@ void main() {
       expect(surveysCubit.state.activeSurveys.length, 0);
     });
 
-    test('save and load one active surveys from persistent', () async {
+    test('save and load one active surveys from database', () async {
       // Arrange
       await withClock(Clock.fixed(DateTime(2021, 1, 1, 1, 0, 0)), () async {
         await services

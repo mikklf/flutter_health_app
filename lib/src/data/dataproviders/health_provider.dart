@@ -12,7 +12,7 @@ class HealthProvider implements IHealthProvider {
   late List<HealthDataAccess> permissions;
 
   HealthProvider() {
-    permissions = types.map((e) => HealthDataAccess.READ_WRITE).toList();
+    permissions = types.map((e) => HealthDataAccess.READ).toList();
   }
 
   @override

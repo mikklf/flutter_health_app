@@ -83,7 +83,6 @@ class SetupCubit extends Cubit<SetupState> with WidgetsBindingObserver {
     emit(state.copyWith(isSetupCompleted: true));
   }
 
-  // TESTING SHOULD BE REMOVED!
   resetSetup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('setup_completed', false);

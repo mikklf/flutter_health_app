@@ -64,7 +64,7 @@ class SyncCubit extends Cubit<SyncState> with WidgetsBindingObserver {
     final String? lastSyncTime = prefs.getString('lastSyncHeartRateDateTime');
 
     if (lastSyncTime == null) {
-      await _heartRateRepository.syncHeartRates(DateTime.now().subtract(const Duration(seconds: 10)));
+      await _heartRateRepository.syncHeartRates(clock.now().subtract(const Duration(seconds: 10)));
     } else {
       await _heartRateRepository.syncHeartRates(DateTime.parse(lastSyncTime));
     }
