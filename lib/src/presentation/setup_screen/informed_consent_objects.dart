@@ -11,7 +11,7 @@ RPConsentSection dataGatheringSection = RPConsentSection(
     type: RPConsentSectionType.DataGathering,
     summary: "How we gather your data.",
     content:
-        "We use sensors and manual input to collect your data. This includes steps, weight, location and other metrics.");
+        "We use sensors and manual input to collect your data. This includes steps, heart rate, weight, location and other metrics.");
 
 // Privacy Section
 RPConsentSection privacySection = RPConsentSection(
@@ -32,6 +32,10 @@ RPConsentSection passiveDataCollection = RPConsentSection(
           dataName: "Location",
           dataInformation:
               "Your location to track how much time you spent at home."),
+      RPDataTypeSection(
+          dataName: "Heart Rate",
+          dataInformation: "Your heart rate data as collected by health tracking wearables."
+      )
     ]);
 
 RPConsentSection userDataCollection = RPConsentSection(
@@ -50,7 +54,7 @@ RPConsentSection userDataCollection = RPConsentSection(
 RPCompletionStep completionStep = RPCompletionStep(
     identifier: "completionID",
     title: "Thank You!",
-    text: "We saved your consent document");
+    text: "We saved your consent.");
 
 RPConsentDocument myConsentDocument = RPConsentDocument(
   title: 'Health App Informed Consent',
